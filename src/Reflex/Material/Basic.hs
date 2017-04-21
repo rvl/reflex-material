@@ -31,8 +31,8 @@ data Style
 
 defaultStyle :: Style
 defaultStyle =
-  Style [ "http://fonts.googleapis.com/icon?family=Material+Icons" ]
-        [ "https://fonts.googleapis.com/css?family=Roboto:300,400,500" ]
+  Style [ "//fonts.googleapis.com/icon?family=Material+Icons" ]
+        [ "//fonts.googleapis.com/css?family=Roboto:300,400,500" ]
         [ "node_modules/material-components-web/dist/material-components-web.min.css" ]
 
 
