@@ -21,7 +21,6 @@ module Reflex.Material.Card
   , cardSupportingText_
   , cardActions_
   , cardAction_
-  , cardAction'_
   ) where
 
 import Data.Monoid ((<>))
@@ -92,8 +91,5 @@ cardSupportingText_ t c v =
 cardActions_ :: MonadWidget t m => Text -> CssClass -> m a -> m a
 cardActions_ t c = elClass t (unCssClass $ mdcCardActions_ <> c)
 
-cardAction_ :: MonadWidget t m => CssClass -> Text -> m ()
-cardAction_ t v = cardAction'_ t v >> pure ()
-
-cardAction'_ :: MonadWidget t m => CssClass -> Text -> m (El t, ())
-cardAction'_ t = button'_ (mdcCardAction_ <> t)
+cardAction_ :: MonadWidget t m => CssClass -> Text -> m (Event t ())
+cardAction_ t = mdButton def . text

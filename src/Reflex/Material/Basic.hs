@@ -6,6 +6,7 @@ module Reflex.Material.Basic
   , mobile_
   , stylesheet_
   , script_
+  , mdcScript
   , scriptDo_
   , style_
   , styles_
@@ -32,7 +33,7 @@ defaultStyle :: Style
 defaultStyle =
   Style [ "http://fonts.googleapis.com/icon?family=Material+Icons" ]
         [ "https://fonts.googleapis.com/css?family=Roboto:300,400,500" ]
-        [ "https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" ]
+        [ "node_modules/material-components-web/dist/material-components-web.min.css" ]
 
 
 mobile_ :: DomBuilder t m => m ()
@@ -48,7 +49,7 @@ stylesheet_ l = elAttr "link" ss $ pure ()
       <> "type" =: "text/css"
       <> "href" =: l
 
-script_ :: MonadWidget t m => Text -> m ()
+script_ :: DomBuilder t m => Text -> m ()
 script_ src = elAttr "script" s $ pure ()
   where
     s = "type" =: "text/javascript"
@@ -61,11 +62,12 @@ style_ :: DomBuilder t m => Text -> m ()
 style_ = el "style" . text
 
 styles_ :: DomBuilder t m => Style -> m ()
-styles_ ss =
+styles_ ss = do
   mapM_ stylesheet_ (concat [ styleIcons ss, styleFonts ss, styleCss ss ])
+  mdcScript
 
 img_ :: DomBuilder t m => Img -> CssClass -> m ()
-img_ (Img f w h a) (CssClass c) = 
+img_ (Img f w h a) (CssClass c) =
   elAttr "img" (  "class"  =: c
                <> "src"    =: f
                <> "width"  =: (pack . show $ w)
@@ -83,4 +85,7 @@ main_ :: MonadWidget t m => CssClass -> m a -> m ()
 main_ t child =
   elClass "main" (unCssClass $ mdcTypography_ <> t) $ do
     _ <- child
-    script_ "https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"
+    mdcScript
+
+mdcScript :: DomBuilder t m => m ()
+mdcScript = script_ "node_modules/material-components-web/dist/material-components-web.min.js"

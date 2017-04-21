@@ -15,8 +15,10 @@ import Reflex.Material.Types
 
 import Buttons
 import Cards
+import Checkbox
 import LayoutGrid
 import Lists
+import Textfield
 import Toolbar
 import Typography
 
@@ -34,14 +36,18 @@ nav :: MonadWidget t m => m (Event t (m ()))
 nav = do
   (b1, _) <- btn "Buttons"
   (b2, _) <- btn "Cards"
-  (b3, _) <- btn "Layout Grid"
-  (b4, _) <- btn "List"
-  (b5, _) <- btn "Typography"
+  (b3, _) <- btn "Checkbox"
+  (b4, _) <- btn "Layout Grid"
+  (b5, _) <- btn "List"
+  (b6, _) <- btn "Text Field"
+  (b7, _) <- btn "Typography"
   pure $ leftmost [ buttons    <$ domEvent Click b1
                   , cards      <$ domEvent Click b2
-                  , layoutGrid <$ domEvent Click b3
-                  , lists      <$ domEvent Click b4
-                  , typography <$ domEvent Click b5
+                  , checkboxEx <$ domEvent Click b3
+                  , layoutGrid <$ domEvent Click b4
+                  , lists      <$ domEvent Click b5
+                  , textfield  <$ domEvent Click b6
+                  , typography <$ domEvent Click b7
                   ]
   where
     btn :: MonadWidget t m => Text -> m (El t, ())

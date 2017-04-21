@@ -17,5 +17,6 @@ cards = do
       cardSubTitle_ "h2" mempty "Sub Title"
     cardSupportingText_ "section" mempty "Various text explaining things."
     cardActions_ "section" mempty $ do
-      cardAction_ mempty "Action 1"
-      cardAction_ mempty "Action 2"
+      _ <- cardAction_ mempty "Action 1"
+      _ <- cardAction_ mempty "Action 2"
+      return ()
