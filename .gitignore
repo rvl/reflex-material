@@ -1,1 +1,4 @@
 .stack-work
+/dist/
+/_shake/
+/result*
