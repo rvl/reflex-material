@@ -31,9 +31,9 @@ data Style
 
 defaultStyle :: Style
 defaultStyle =
-  Style [ "//fonts.googleapis.com/icon?family=Material+Icons" ]
-        [ "//fonts.googleapis.com/css?family=Roboto:300,400,500" ]
-        [ "node_modules/material-components-web/dist/material-components-web.min.css" ]
+  Style [ "css/fonts.css" ]
+        [ "css/fonts.css" ]
+        [ "css/material-components-web.min.css" ]
 
 
 mobile_ :: DomBuilder t m => m ()
@@ -88,4 +88,4 @@ main_ t child =
     mdcScript
 
 mdcScript :: DomBuilder t m => m ()
-mdcScript = script_ "node_modules/material-components-web/dist/material-components-web.min.js"
+mdcScript = script_ "js/material-components-web.min.js"

@@ -46,6 +46,7 @@ main = shakeArgs shakeOptions{shakeFiles="dist"} $ do
     copyFile' "static/index.html" out
 
   "docs/out.js" %> \out -> do
+    orderOnly [jsexe </> "out.js"]
     let dst = takeDirectory out
     getDirectoryFiles jsexe ["//*"] >>= mapM_ (\f -> do
       let dst' = dst </> f
@@ -58,16 +59,42 @@ copyAssets dst = do
   need assets
   forM_ assets $ \f -> do
     let dst' = dst </> dropDirectory1 f
+    need [f]
     liftIO $ createDirectoryIfMissing True (takeDirectory dst')
     copyFile' f dst'
 
+libCss = [ "material-components-web/dist/material-components-web.min.css"
+         , "material-design-icons/iconfont/material-icons.css"
+         , "roboto-fontface/css/roboto/roboto-fontface.css"
+         ]
+libJs =  [ "material-components-web/dist/material-components-web.min.js" ]
+libFonts = [ "roboto-fontface/fonts/Roboto"
+           , "material-design-icons/iconfont" ]
+
+copyLib :: FilePath -> [FilePath] -> Action ()
+copyLib dst fs = mapM_ copy fs
+  where copy f = copyFile' f (dst </> takeFileName f)
+
+fontPats = ["//*.ttf", "//*.woff", "//*.woff2", "//*.eot", "//*.svg"]
+
+copyFonts :: FilePath -> FilePath -> [FilePath] -> Action ()
+copyFonts dst src fs = forM_ libFonts $ \font -> do
+  fonts <- getDirectoryFiles (src </> font) fontPats
+  forM_ fonts $ \f -> do
+    copyFile' (src </> font </> f) (dst </> takeFileName f)
+
 copyNodeModules :: FilePath -> Action ()
 copyNodeModules dst = do
+  nodeModules <- getNodeModules
+  liftIO $ forM_ ["css", "js", "fonts"] $
+    \d -> createDirectoryIfMissing True (dst </> d)
+  copyLib (dst </> "css") $ map (nodeModules </>) libCss
+  copyLib (dst </> "js") $ map (nodeModules </>) libJs
+  copyFonts (dst </> "fonts") nodeModules libFonts
+
+getNodeModules :: Action FilePath
+getNodeModules = do
   nodeModules <- getEnvWithDefault "node_modules" "NODE_MODULES"
   exists <- doesDirectoryExist nodeModules
   unless exists $ fail "can't find node_modules"
-  contents <- getDirectoryFiles nodeModules ["//*.min.js", "//*.min.css"]
-  forM_ contents $ \f -> do
-    let dst' = dst </> "node_modules" </> f
-    liftIO $ createDirectoryIfMissing True (takeDirectory dst')
-    copyFile' (nodeModules </> f) dst'
+  return nodeModules
