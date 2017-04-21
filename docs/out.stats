@@ -16,7 +16,7 @@ primitive-0.6.1.0-PBvNfnj6B81wEvI5CBk0H:809
 ref-tf-0.4.0.1-3hM7hnw7bOB1FwMAOCGwpN:1286
 reflex-0.5.0-AvoxeUts7Jf2q0UxCMqPFj:1154587
 reflex-dom-0.4-LrG6o2CPykBJyj87a21yza:775044
-reflex-material-0.0.1.0-DufBBZvDrpEKbT2VwL5JZn:227840
+reflex-material-0.0.1.0-DufBBZvDrpEKbT2VwL5JZn:227262
 text-1.2.2.1-6Pphv4bz3hHEAngNHxPNZe:244
 these-0.7.1-Jw1YCr04InZ1c0BLK9t9qc:2986
 transformers-0.5.2.0-Lvs3wlJMkpyLRFNHJ8pmeB:11531
@@ -196,7 +196,7 @@ reflex-dom-0.4-LrG6o2CPykBJyj87a21yza
     Reflex.Dom.Widget.Input:            97019
 
 reflex-material-0.0.1.0-DufBBZvDrpEKbT2VwL5JZn
-    Reflex.Material.Basic:              40014
+    Reflex.Material.Basic:              39436
     Reflex.Material.Button:             15147
     Reflex.Material.Card:               22233
     Reflex.Material.Checkbox:           24808
@@ -224,5 +224,5 @@ transformers-0.5.2.0-Lvs3wlJMkpyLRFNHJ8pmeB
 
 
 
-packed metadata: 649778
+packed metadata: 649475
 

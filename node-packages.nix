@@ -13,6 +13,24 @@ let
         sha1 = "052d02c81f1af2a361568ae95d232e3efd8b6345";
       };
     };
+    "material-design-icons-3.0.1" = {
+      name = "material-design-icons";
+      packageName = "material-design-icons";
+      version = "3.0.1";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/material-design-icons/-/material-design-icons-3.0.1.tgz";
+        sha1 = "9a71c48747218ebca51e51a66da682038cdcb7bf";
+      };
+    };
+    "roboto-fontface-0.7.0" = {
+      name = "roboto-fontface";
+      packageName = "roboto-fontface";
+      version = "0.7.0";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/roboto-fontface/-/roboto-fontface-0.7.0.tgz";
+        sha1 = "2f36464e5c99353e8427f55f1fca7be1a8a417d9";
+      };
+    };
     "@material/animation-0.1.5" = {
       name = "@material/animation";
       packageName = "@material/animation";
@@ -356,6 +374,8 @@ let
           sources."@material/typography-0.2.1"
         ];
       })
+      sources."material-design-icons-3.0.1"
+      sources."roboto-fontface-0.7.0"
     ];
     buildInputs = globalBuildInputs;
     meta = {
