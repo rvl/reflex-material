@@ -36,6 +36,7 @@ library
                      , containers
                      , ghcjs-dom
                      , data-default
+                     , lens
   default-language:    Haskell2010
   default-extensions:  OverloadedStrings
                      , RecursiveDo
@@ -59,6 +60,7 @@ executable reflex-material-exe
                      , reflex-material
                      , text >= 1.2 && < 1.3
                      , containers
+                     , lens
   default-language:    Haskell2010
   default-extensions:  OverloadedStrings
                      , RecursiveDo

@@ -19,7 +19,7 @@ jsexeFiles = [jsexe </> f | f <- ["all.js", "lib.js", "out.js", "rts.js", "runma
 
 main :: IO ()
 main = shakeArgs shakeOptions{shakeFiles="dist"} $ do
-  want ["ghcjs", "assets", "docs/out.js"]
+  want ["ghcjs", "assets", "docs/out.js", "docs/.nojekyll"]
 
   phony "ghcjs" $ do
     need [jsexe </> "out.js", jsexe </> "index.html"]
@@ -52,6 +52,9 @@ main = shakeArgs shakeOptions{shakeFiles="dist"} $ do
       let dst' = dst </> f
       liftIO $ createDirectoryIfMissing True (takeDirectory dst')
       copyFile' (jsexe </> f) dst')
+
+  -- github pages jekyll filters some things
+  "docs/.nojekyll" %> \out -> writeFile' out ""
 
 copyAssets :: FilePath -> Action ()
 copyAssets dst = do

@@ -1,5 +1,6 @@
 module Reflex.Material.Util
   ( forId
+  , idSuffix
   , addClass
   ) where
 
@@ -17,7 +18,16 @@ forId attrs = case M.lookup "id" attrs of
   Just id -> M.singleton "for" id
   Nothing -> M.empty
 
+-- | Returns a singleton set with id suffixed if id is present in the
+-- original attrs.
+idSuffix :: Text -> Map Text Text -> Map Text Text
+idSuffix suffix attrs = case M.lookup "id" attrs of
+  Just id -> M.singleton "id" (id <> suffix)
+  Nothing -> M.empty
+
+
 addClass :: [Text] -> Map Text Text -> Map Text Text
--- addClass cs m = M.insert "class" (T.unwords (old:cs)) m
---   where old = M.findWithDefault "" "class" m
-addClass cs = M.insertWith (<>) "class" (T.unwords ("":cs))
+addClass cs = M.insertWith append "class" (T.unwords cs)
+  where
+    append "" c = c
+    append p c = p <> " " <> c

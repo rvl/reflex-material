@@ -27,6 +27,8 @@ instance (MdClassText a, MdClassText b) => MdClassText (Either a b) where
   mdText (Left a) = mdText a
   mdText (Right b) = mdText b
 
+----------------------------------------------------------------------------
+
 class MdHasCustom a where
   -- | IMPORTANT: Implementations of this function should use the accompanying
   -- 'addCustom' function to make sure that new values are added on and don't
@@ -98,6 +100,9 @@ instance MdClassText MdActive where
 class MdHasActive a where
   active :: a -> a
 
+instance (Reflex t, MdHasActive a) => MdHasActive (Dynamic t a) where
+  active = fmap active
+
 ------------------------------------------------------------------------------
 data MdDisabled = MdDisabled
   deriving (Eq,Ord,Read,Show,Enum,Bounded)
@@ -107,6 +112,9 @@ instance MdClassText MdDisabled where
 
 class MdHasDisabled a where
   disabled :: a -> a
+
+instance (Reflex t, MdHasDisabled a) => MdHasDisabled (Dynamic t a) where
+  disabled = fmap disabled
 
 ------------------------------------------------------------------------------
 data MdSize
@@ -164,3 +172,8 @@ instance (Reflex t, MdHasDensity a) => MdHasDensity (Dynamic t a) where
 compact, dense :: MdHasDensity a => a -> a
 compact = mdSetDensity MdCompact
 dense = mdSetDensity MdDense
+
+
+----------------------------------------------------------------------------
+tshow :: Show a => a -> Text
+tshow = T.pack . show

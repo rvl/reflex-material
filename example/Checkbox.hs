@@ -21,6 +21,8 @@ checkboxEx = do
       let cfg = def & attributes .~ (cbAttrs "cb1" <$> dynInd <*> dynDis)
       mdCheckboxField False cfg $ text "This is my checkbox"
       clickInd <- mdButton (raised $ dense $ def) $ text "Make indeterminate"
+      -- fixme: Toggle RTL
+      -- fixme: Toggle Align End
       clickDis <- mdButton (def & raised & dense) $ text "Toggle disabled"
     return ()
 
