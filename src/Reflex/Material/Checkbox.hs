@@ -26,32 +26,13 @@ import Reflex.Material.Util
 cbClass :: [Text] -> Text
 cbClass ts = T.intercalate "__" ("mdc-checkbox":ts)
 
-{-
-<div class="mdc-form-field">
-  <div class="mdc-checkbox">
-    <input type="checkbox"
-           id="my-checkbox"
-           class="mdc-checkbox__native-control"/>
-    <div class="mdc-checkbox__background">
-      <svg class="mdc-checkbox__checkmark"
-           viewBox="0 0 24 24">
-        <path class="mdc-checkbox__checkmark__path"
-              fill="none"
-              stroke="white"
-              d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
-      </svg>
-      <div class="mdc-checkbox__mixedmark"></div>
-    </div>
-  </div>
-
-  <label for="my-checkbox">My Checkbox Label</label>
-</div>
--}
-
 mdCheckboxField :: MonadWidget t m => Bool -> CheckboxConfig t -> m () -> m (Checkbox t)
-mdCheckboxField checked config children = divClass "mdc-form-field" $ do
-  cb <- mdCheckbox checked config
-  elDynAttr "label" (mdCheckboxLabelFor config) $ children
+mdCheckboxField checked config children = do
+  (el, cb) <- elAttr' "div" ("class" =: "mdc-form-field") $ do
+    cb <- mdCheckbox checked config
+    elDynAttr "label" (mdCheckboxLabelFor config) $ children
+    return cb
+  attachFormField el
   return cb
 
 mdCheckbox :: MonadWidget t m => Bool -> CheckboxConfig t -> m (Checkbox t)
@@ -60,15 +41,15 @@ mdCheckbox checked config = do
     let config' = mdCheckboxConfig config
     cb <- checkbox checked config'
     divClass (cbClass ["background"]) $ do
-      elAttr "svg" ("class" =: cbClass ["checkmark"] <> "viewBox" =: "0 0 24 24") $
-        elAttr "path" ("class" =: cbClass ["checkmark", "path"] <>
-                       "fill" =: "none" <>
-                       "stroke" =: "white" <>
-                       "d" =: "M1.73,12.91 8.1,19.28 22.79,4.59") blank
+      element "svg" (def & namespace .~ ns & initialAttributes .~ ((AttributeName Nothing "class") =: cbClass ["checkmark"] <> (AttributeName ns "viewBox") =: "0 0 24 24")) $
+        element "path" (def & namespace .~ ns & initialAttributes .~ ((AttributeName Nothing "class") =: cbClass ["checkmark", "path"] <> (AttributeName ns "fill") =: "none" <> (AttributeName ns "stroke") =: "white" <> (AttributeName ns "d") =: "M1.73,12.91 8.1,19.28 22.79,4.59")) blank
       divClass (cbClass ["mixedmark"]) blank
     return cb
   attachCheckbox el
   return cb
+
+ns :: Maybe Namespace
+ns = Just "http://www.w3.org/2000/svg"
 
 mdCheckboxConfig :: Reflex t => CheckboxConfig t -> CheckboxConfig t
 mdCheckboxConfig c@CheckboxConfig{..} = c { _checkboxConfig_attributes = attrs' }

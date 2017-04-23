@@ -3,6 +3,7 @@ module Reflex.Material.Core
   , attachTextfield
   , attachCheckbox
   , attachIconToggle
+  , attachFormField
   ) where
 
 import GHCJS.DOM.Element (toElement)
@@ -38,6 +39,9 @@ attachTextfield = registerAttach (mdcAttachJS "textfield" "MDCTextfield")
 
 attachIconToggle :: MonadWidget t m => El t -> m ()
 attachIconToggle = registerAttach (mdcAttachJS "iconToggle" "MDCIconToggle")
+
+attachFormField :: MonadWidget t m => El t -> m ()
+attachFormField = registerAttach (mdcAttachJS "formField" "MDCFormField")
 
 ----------------------------------------------------------------------------
 -- fixme: the mdc <script> needs to be hacked into index.html

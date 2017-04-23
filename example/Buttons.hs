@@ -27,9 +27,10 @@ buttons = do
     theButtons
 
 theButtons :: MonadWidget t m => m ()
-theButtons = do
+theButtons = divClass "demo-buttons" $ do
   click1 <- mdButton (pure def) $ text "Default"
   mdButton (def & raised) $ text "Raised"
+  mdButton (def & dense) $ text "Dense Default"
   mdButton (def & dense & raised) $ text "Dense Raised"
   mdButton (def & primary) $ text "Default Primary"
   mdButton (def & primary & raised) $ text "Primary Raised"

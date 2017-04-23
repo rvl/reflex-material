@@ -15,6 +15,12 @@ import Data.Monoid ((<>))
 
 import Reflex.Dom
 
+-- Interestiong:
+-- Every component lists the required CSS classes, as well as all of
+-- the optional modifiers, as part of their README.
+-- https://github.com/material-components/material-components-web/blob/master/docs/migrating-from-mdl.md
+
+
 ------------------------------------------------------------------------------
 -- | A type class for converting data types into appropriate MDC
 -- class text.
@@ -177,3 +183,5 @@ dense = mdSetDensity MdDense
 ----------------------------------------------------------------------------
 tshow :: Show a => a -> Text
 tshow = T.pack . show
+
+----------------------------------------------------------------------------

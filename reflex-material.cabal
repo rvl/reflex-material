@@ -24,6 +24,8 @@ library
                      , Reflex.Material.Core
                      , Reflex.Material.Drawer
                      , Reflex.Material.Icon
+                     , Reflex.Material.Fab
+                     , Reflex.Material.FormField
                      , Reflex.Material.LayoutGrid
                      , Reflex.Material.List
                      , Reflex.Material.Textfield
@@ -48,6 +50,7 @@ executable reflex-material-exe
   other-modules:       Buttons
                      , Cards
                      , Checkbox
+                     , Fab
                      , LayoutGrid
                      , Lists
                      , Textfield

@@ -66,6 +66,13 @@ textfield = do
 
   display1_ "Full-Width Textfields"
   rec
+    divTheme dark (constDyn False) $ do
+      let cfg1 = def & attributes .~ attrs & placeholder "Subject"
+      mdTextfield tf cfg1 ""
+      let cfg2 = textAreaConfig (Just "Message") (Just 8) (Just 40) & over attributes (<> attrs)
+      mdTextfieldMulti tf cfg2 ""
+      return ()
+
     (dark, tf, attrs) <- el "div" $ do
       disabledCb <- cbex 20 always "Disabled"
       denseCb    <- cbex 21 always "Dense"
@@ -73,13 +80,6 @@ textfield = do
       return (darkCb
              , ffor denseCb $ \d -> if d then def & fullwidth & dense else def & fullwidth
              , tfAttrs "full-width" <$> disabledCb <*> pure False)
-
-    divTheme dark (constDyn False) $ do
-      let cfg1 = def & attributes .~ attrs & placeholder "Subject"
-      mdTextfield tf cfg1 ""
-      let cfg2 = textAreaConfig (Just "Message") (Just 8) (Just 40) & over attributes (<> attrs)
-      mdTextfieldMulti tf cfg2 ""
-      return ()
 
   return ()
 
