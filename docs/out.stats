@@ -10,13 +10,13 @@ ghcjs-base-0.2.0.0-D8NHjFR0nuJEBIdpJ8312j:16972
 ghcjs-dom-0.2.3.1-L0IRwwiUDix9xezZ47SisT:142838
 ghcjs-prim-0.1.0.0-IFhsWclGfLr1HfhUvIVylA:10704
 integer-gmp:             14239
-main:                    274239
+main:                    332930
 prim-uniq-0.1.0.1-Lbg7Imujn019qkjLCx908j:2786
 primitive-0.6.1.0-PBvNfnj6B81wEvI5CBk0H:809
 ref-tf-0.4.0.1-3hM7hnw7bOB1FwMAOCGwpN:1286
 reflex-0.5.0-AvoxeUts7Jf2q0UxCMqPFj:1161618
-reflex-dom-0.4-LrG6o2CPykBJyj87a21yza:791565
-reflex-material-0.0.1.0-KDyGBGjkJQn4dXp6GIrvcu:298068
+reflex-dom-0.4-LrG6o2CPykBJyj87a21yza:808884
+reflex-material-0.0.1.0-KDyGBGjkJQn4dXp6GIrvcu:323257
 text-1.2.2.1-6Pphv4bz3hHEAngNHxPNZe:244
 these-0.7.1-Jw1YCr04InZ1c0BLK9t9qc:2986
 transformers-0.5.2.0-Lvs3wlJMkpyLRFNHJ8pmeB:11531
@@ -149,13 +149,14 @@ integer-gmp
     GHC.Integer.Type:                   14239
 
 main
-    Buttons:                            26253
+    Buttons:                            28328
     Cards:                              7030
-    Checkbox:                           22361
+    Checkbox:                           22367
+    Fab:                                52116
     LayoutGrid:                         8530
     Lists:                              52602
-    Main:                               83302
-    Textfield:                          65742
+    Main:                               87540
+    Textfield:                          65998
     Toolbar:                            2290
     Typography:                         6129
 
@@ -189,7 +190,7 @@ reflex-0.5.0-AvoxeUts7Jf2q0UxCMqPFj
 
 reflex-dom-0.4-LrG6o2CPykBJyj87a21yza
     Foreign.JavaScript.TH:              7641
-    Reflex.Dom.Builder.Class:           22617
+    Reflex.Dom.Builder.Class:           39936
     Reflex.Dom.Builder.Class.Events:    140961
     Reflex.Dom.Builder.Immediate:       389080
     Reflex.Dom.Internal:                28846
@@ -200,13 +201,14 @@ reflex-material-0.0.1.0-KDyGBGjkJQn4dXp6GIrvcu
     Reflex.Material.Basic:              39308
     Reflex.Material.Button:             15223
     Reflex.Material.Card:               22320
-    Reflex.Material.Checkbox:           24906
-    Reflex.Material.Common:             6625
-    Reflex.Material.Core:               11873
+    Reflex.Material.Checkbox:           27219
+    Reflex.Material.Common:             6753
+    Reflex.Material.Core:               11879
     Reflex.Material.Drawer:             5012
+    Reflex.Material.Fab:                22318
     Reflex.Material.LayoutGrid:         9649
     Reflex.Material.List:               12120
-    Reflex.Material.Textfield:          82911
+    Reflex.Material.Textfield:          83335
     Reflex.Material.Toolbar:            17394
     Reflex.Material.Types:              10239
     Reflex.Material.Typography:         23601
@@ -225,5 +227,5 @@ transformers-0.5.2.0-Lvs3wlJMkpyLRFNHJ8pmeB
 
 
 
-packed metadata: 673087
+packed metadata: 687065
 
