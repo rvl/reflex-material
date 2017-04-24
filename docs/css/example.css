@@ -57,11 +57,11 @@
 
 
 /* Make the demo look a little bit better */
-fieldset {
+fieldset, .demo-buttons {
  margin-bottom: 0.5rem;
 }
 
-fieldset .mdc-fab {
+fieldset .mdc-fab, fieldset .mdc-button, .demo-buttons .mdc-button {
  margin: 16px;
 }
 
