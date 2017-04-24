@@ -20,6 +20,7 @@ import Reflex.Dom
 
 import Reflex.Material.Common
 import Reflex.Material.Core
+import Reflex.Material.Svg
 import Reflex.Material.Types
 import Reflex.Material.Util
 
@@ -41,8 +42,11 @@ mdCheckbox checked config = do
     let config' = mdCheckboxConfig config
     cb <- checkbox checked config'
     divClass (cbClass ["background"]) $ do
-      element "svg" (def & namespace .~ ns & initialAttributes .~ ((AttributeName Nothing "class") =: cbClass ["checkmark"] <> (AttributeName ns "viewBox") =: "0 0 24 24")) $
-        element "path" (def & namespace .~ ns & initialAttributes .~ ((AttributeName Nothing "class") =: cbClass ["checkmark", "path"] <> (AttributeName ns "fill") =: "none" <> (AttributeName ns "stroke") =: "white" <> (AttributeName ns "d") =: "M1.73,12.91 8.1,19.28 22.79,4.59")) blank
+      svgAttr "svg" ("class" =: cbClass ["checkmark"] <> "viewBox" =: "0 0 24 24") $
+        svgAttr "path" ("class" =: cbClass ["checkmark", "path"] <>
+                        "fill" =: "none" <>
+                        "stroke" =: "white" <>
+                        "d" =: "M1.73,12.91 8.1,19.28 22.79,4.59") blank
       divClass (cbClass ["mixedmark"]) blank
     return cb
   attachCheckbox el

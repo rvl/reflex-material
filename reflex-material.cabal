@@ -28,10 +28,12 @@ library
                      , Reflex.Material.FormField
                      , Reflex.Material.LayoutGrid
                      , Reflex.Material.List
+                     , Reflex.Material.Svg
                      , Reflex.Material.Textfield
                      , Reflex.Material.Toolbar
                      , Reflex.Material.Types
                      , Reflex.Material.Typography
+                     , Reflex.Material.Util
   build-depends:       base >= 4.7 && < 5
                      , reflex-dom
                      , text >= 1.2 && < 1.3
