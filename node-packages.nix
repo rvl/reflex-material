@@ -297,7 +297,7 @@ let
     name = "reflex-material";
     packageName = "reflex-material";
     version = "1.0.0";
-    src = ./.;
+    src = builtins.filterSource (path: type: baseNameOf path == "package.json") ./.;
     dependencies = [
       (sources."material-components-web-0.9.1" // {
         dependencies = [

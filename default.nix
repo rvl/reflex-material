@@ -29,8 +29,16 @@ let
 
   drv = haskellPackages.callPackage f {};
 
-  nodePackages = (import ./mdc.nix { pkgs = nixpkgs; }).packages;
+  nodePackages = (import ./mdc.nix { pkgs = nixpkgs; }).package;
+
+  # Provide NODE_MODULES in the nix-shell.
+  # This will be used by the shake build script.
+  env' = pkgs.lib.overrideDerivation drv.env (attrs: {
+    shellHook = attrs.shellHook + ''
+      export NODE_MODULES=${nodePackages}/lib/node_modules/reflex-material/node_modules
+    '';
+  });
 
 in
 
-  if pkgs.lib.inNixShell then drv.env else drv
+  if pkgs.lib.inNixShell then env' else drv
