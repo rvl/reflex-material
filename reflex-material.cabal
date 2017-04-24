@@ -25,6 +25,7 @@ library
                      , Reflex.Material.Drawer
                      , Reflex.Material.Icon
                      , Reflex.Material.Fab
+                     , Reflex.Material.Foreign
                      , Reflex.Material.FormField
                      , Reflex.Material.LayoutGrid
                      , Reflex.Material.List
@@ -41,6 +42,12 @@ library
                      , ghcjs-dom
                      , data-default
                      , lens
+  if impl(ghcjs)
+    hs-source-dirs: src-ghcjs
+    build-depends: ghcjs-base
+  else
+    hs-source-dirs: src-ghc
+
   default-language:    Haskell2010
   default-extensions:  OverloadedStrings
                      , RecursiveDo

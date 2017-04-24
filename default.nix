@@ -14,7 +14,6 @@ let
         libraryHaskellDepends = [ base reflex-dom text ];
         executableHaskellDepends = [ base reflex reflex-dom text ];
         testHaskellDepends = [ base ];
-        homepage = "https://github.com/alasconnect/reflex-material#readme";
         license = stdenv.lib.licenses.bsd3;
       };
 
@@ -25,11 +24,8 @@ let
     sha256 = "00sf3204mlcpgamyqrks5mhdl7b59p52krjgs5j5n0axwi4giy6f";
   }) {};
 
-  haskellPackages = if compiler == "ghcjs"
-                       then tryReflex.ghcjs
-                       else (if compiler == "default"
-                         then pkgs.haskellPackages
-                         else pkgs.haskell.packages.${compiler});
+  # compiler could be ghcjs or ghc
+  haskellPackages = tryReflex.${compiler};
 
   drv = haskellPackages.callPackage f {};
 
