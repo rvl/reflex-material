@@ -14,19 +14,30 @@ import System.Directory (createDirectoryIfMissing)
 jsexe :: FilePath
 jsexe = "dist/build/reflex-material-exe/reflex-material-exe.jsexe"
 
+scripts :: [FilePath]
+scripts = ["all.js", "lib.js", "out.js", "rts.js", "runmain.js"]
+
 jsexeFiles :: [FilePath]
-jsexeFiles = [jsexe </> f | f <- ["all.js", "lib.js", "out.js", "rts.js", "runmain.js"]]
+jsexeFiles = map (jsexe </>) scripts
 
 main :: IO ()
 main = shakeArgs shakeOptions{shakeFiles="dist"} $ do
-  want ["ghcjs", "assets", "docs/out.js", "docs/.nojekyll"]
+  want ["cabalBuild", "assets", "docs/out.js", "docs/.nojekyll"]
 
-  phony "ghcjs" $ do
+  phony "cabalBuild" $
     need [jsexe </> "out.js", jsexe </> "index.html"]
 
   phony "assets" $ do
     copyAssets jsexe
     copyNodeModules jsexe
+
+  phony "assets_for_stack" $ do
+    jsexeStack <- getEnv "JSEXE"
+    case jsexeStack of
+      Just jsexe -> do
+        copyAssets jsexe
+        copyNodeModules jsexe
+      Nothing -> fail "Run this rule from the Makefile"
 
   phony "clean" $ do
     putNormal "Cleaning files in dist"
