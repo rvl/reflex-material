@@ -14,6 +14,9 @@ import System.Directory (createDirectoryIfMissing)
 jsexe :: FilePath
 jsexe = "dist/build/reflex-material-exe/reflex-material-exe.jsexe"
 
+haddocks :: FilePath
+haddocks = "dist/doc/html/reflex-material"
+
 scripts :: [FilePath]
 scripts = ["all.js", "lib.js", "out.js", "rts.js", "runmain.js"]
 
@@ -39,6 +42,8 @@ main = shakeArgs shakeOptions{shakeFiles="dist"} $ do
         copyNodeModules jsexe
       Nothing -> fail "Run this rule from the Makefile"
 
+  phony "haddock" $ need ["docs/doc/index.html"]
+
   phony "clean" $ do
     putNormal "Cleaning files in dist"
     removeFilesAfter "dist" ["//*"]
@@ -48,9 +53,12 @@ main = shakeArgs shakeOptions{shakeFiles="dist"} $ do
     cmd "cabal configure --ghcjs"
 
   jsexeFiles &%> \out -> do
-    sources <- getDirectoryFiles "" ["src//*.hs", "example//*.hs"]
-    need ("dist/setup-config" : sources)
+    needHaskellSources
     cmd "cabal build"
+
+  haddocks </> "index.html" %> \out -> do
+    needHaskellSources
+    cmd "cabal haddock"
 
   jsexe </> "index.html" %> \out -> do
     orderOnly [takeDirectory out </> "out.js"]
@@ -64,8 +72,18 @@ main = shakeArgs shakeOptions{shakeFiles="dist"} $ do
       liftIO $ createDirectoryIfMissing True (takeDirectory dst')
       copyFile' (jsexe </> f) dst')
 
+  "docs/doc/index.html" %> \out -> do
+    orderOnly [haddocks </> "index.html"]
+    docs <- getDirectoryFiles "" [haddocks ++ "//*"]
+    forM_ docs $ \doc -> copyFile' doc (takeDirectory out </> takeFileName doc)
+
   -- github pages jekyll filters some things
   "docs/.nojekyll" %> \out -> writeFile' out ""
+
+needHaskellSources :: Action ()
+needHaskellSources = do
+  sources <- getDirectoryFiles "" ["src//*.hs", "example//*.hs"]
+  need ("dist/setup-config" : sources)
 
 copyAssets :: FilePath -> Action ()
 copyAssets dst = do
