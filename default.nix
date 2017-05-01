@@ -4,15 +4,15 @@ let
 
   inherit (nixpkgs) pkgs;
 
-  f = { mkDerivation, base, reflex, reflex-dom, stdenv, text }:
+  f = { mkDerivation, base, reflex, reflex-dom, stdenv, text, bimap }:
       mkDerivation {
         pname = "reflex-material";
         version = "0.0.1.0";
         src = ./.;
         isLibrary = true;
         isExecutable = true;
-        libraryHaskellDepends = [ base reflex-dom text ];
-        executableHaskellDepends = [ base reflex reflex-dom text ];
+        libraryHaskellDepends = [ base reflex-dom text bimap ];
+        executableHaskellDepends = [ base reflex reflex-dom text bimap ];
         testHaskellDepends = [ base ];
         license = stdenv.lib.licenses.bsd3;
       };

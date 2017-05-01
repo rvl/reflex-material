@@ -1,5 +1,6 @@
 .demo-main {
   padding-left: 16px;
+  width: 100%;
 }
 
 .demo-content {
@@ -76,4 +77,32 @@ fieldset .mdc-fab, fieldset .mdc-button, .demo-buttons .mdc-button {
    bottom: 3rem;
    right: 5rem;
  }
+}
+
+.mdc-select {
+  width: 352px !important;
+}
+
+
+#demo-wrapper {
+  padding: 4px;
+  padding-left: 0;
+}
+
+main.simple-menu {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+main.simple-menu .demo-content {
+  position: relative;
+  flex: 1;
+  margin-top: 16px;
+  background-color: antiquewhite;
+}
+
+.mdc-menu-anchor {
+  position: absolute;
 }

@@ -29,6 +29,8 @@ library
                      , Reflex.Material.FormField
                      , Reflex.Material.LayoutGrid
                      , Reflex.Material.List
+                     , Reflex.Material.Menu
+                     , Reflex.Material.Select
                      , Reflex.Material.Svg
                      , Reflex.Material.Textfield
                      , Reflex.Material.Toolbar
@@ -38,13 +40,14 @@ library
   build-depends:       base >= 4.7 && < 5
                      , reflex-dom
                      , text >= 1.2 && < 1.3
+                     , bimap
                      , containers
-                     , ghcjs-dom
                      , data-default
                      , lens
   if impl(ghcjs)
     hs-source-dirs: src-ghcjs
-    build-depends: ghcjs-base
+    build-depends:   ghcjs-base
+                   , ghcjs-dom
   else
     hs-source-dirs: src-ghc
 
@@ -62,6 +65,7 @@ executable reflex-material-exe
                      , Fab
                      , LayoutGrid
                      , Lists
+                     , Select
                      , Textfield
                      , Toolbar
                      , Typography

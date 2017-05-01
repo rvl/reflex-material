@@ -49,11 +49,15 @@ mdCheckbox checked config = do
                         "d" =: "M1.73,12.91 8.1,19.28 22.79,4.59") blank
       divClass (cbClass ["mixedmark"]) blank
     return cb
-  attachCheckbox el
+  attachCheckbox (Just $ isIndeterminate config) el
   return cb
 
-ns :: Maybe Namespace
-ns = Just "http://www.w3.org/2000/svg"
+-- Reflex-dom CheckboxConfig doesn't have "indeterminate" properly, so
+-- this converts the presence of indeterminate attribute into event
+-- which runs javascript to update checkbox.
+isIndeterminate :: Reflex t => CheckboxConfig t -> Event t Bool
+isIndeterminate config = fmap isind (updated (_checkboxConfig_attributes config))
+  where isind = M.member "indeterminate"
 
 mdCheckboxConfig :: Reflex t => CheckboxConfig t -> CheckboxConfig t
 mdCheckboxConfig c@CheckboxConfig{..} = c { _checkboxConfig_attributes = attrs' }

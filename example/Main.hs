@@ -19,6 +19,8 @@ import Checkbox
 import Fab
 import LayoutGrid
 import Lists
+import SimpleMenu
+import Select
 import Textfield
 import Toolbar
 import Typography
@@ -40,17 +42,21 @@ nav = do
   (b3, _) <- btn "Checkbox"
   (b4, _) <- btn "Layout Grid"
   (b5, _) <- btn "List"
-  (b6, _) <- btn "Text Field"
-  (b7, _) <- btn "Typography"
-  (b8, _) <- btn "Fab"
+  (b10, _) <- btn "Menu (Simple)"
+  (b6, _) <- btn "Select"
+  (b7, _) <- btn "Text Field"
+  (b8, _) <- btn "Typography"
+  (b9, _) <- btn "Fab"
   pure $ leftmost [ buttons    <$ domEvent Click b1
                   , cards      <$ domEvent Click b2
                   , checkboxEx <$ domEvent Click b3
                   , layoutGrid <$ domEvent Click b4
                   , lists      <$ domEvent Click b5
-                  , textfield  <$ domEvent Click b6
-                  , typography <$ domEvent Click b7
-                  , fab        <$ domEvent Click b8
+                  , simpleMenu <$ domEvent Click b10
+                  , selectEx   <$ domEvent Click b6
+                  , textfield  <$ domEvent Click b7
+                  , typography <$ domEvent Click b8
+                  , fab        <$ domEvent Click b9
                   ]
   where
     btn :: MonadWidget t m => Text -> m (El t, ())

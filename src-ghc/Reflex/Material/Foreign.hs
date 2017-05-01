@@ -2,14 +2,26 @@ module Reflex.Material.Foreign where
 
 import Data.Text (Text)
 import Reflex.Dom
--- import qualified Graphics.UI.Gtk.WebKit.Types as GDT
-import qualified GHCJS.DOM.Types as GDT
 
-registerAttach :: MonadWidget t m => (GDT.Element -> IO ()) -> El t -> m ()
-registerAttach _ _ = return ()
+-- stubs for when we can't use javascript ffi
 
-mdcAttachJS :: Text -> Text -> GDT.Element -> IO ()
-mdcAttachJS _ _ _ = return ()
+attachRipple :: MonadWidget t m => El t -> m ()
+attachRipple el = return ()
 
-mdcDetachJS :: GDT.Element -> IO ()
-mdcDetachJS _ = return ()
+attachTextfield :: MonadWidget t m => El t -> m ()
+attachTextfield el = return ()
+
+attachIconToggle :: MonadWidget t m => El t -> m ()
+attachIconToggle el = return ()
+
+attachFormField :: MonadWidget t m => El t -> m ()
+attachFormField el = return ()
+
+attachCheckbox :: MonadWidget t m => Maybe (Event t Bool) -> El t -> m ()
+attachCheckbox _ el = return ()
+
+attachSelect :: MonadWidget t m => Maybe (Event t Int) -> El t -> m (Event t Int)
+attachSelect _ el = return never
+
+attachSimpleMenu :: MonadWidget t m => Event t Bool -> El t -> m (Event t Int)
+attachSimpleMenu _ el = return never
