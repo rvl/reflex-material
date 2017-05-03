@@ -25,7 +25,7 @@ import Control.Lens ((%~), (^.), over)
 import Reflex.Dom
 
 import Reflex.Material.Common
-import Reflex.Material.Core
+import Reflex.Material.Framework (attachTextfield)
 import Reflex.Material.Types
 import Reflex.Material.Util
 

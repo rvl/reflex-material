@@ -17,7 +17,7 @@ import qualified Data.Map as M
 import Reflex.Dom
 
 import Reflex.Material.Common
-import Reflex.Material.Core
+import Reflex.Material.Framework (attachFormField)
 
 mdFormField :: MonadWidget t m
             => Text -- ^ input id for label

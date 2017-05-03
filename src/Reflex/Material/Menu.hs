@@ -15,7 +15,7 @@ import qualified Data.Map as M
 
 import Reflex.Dom
 
-import Reflex.Material.Core
+import Reflex.Material.Framework (attachSimpleMenu)
 
 
 data MdSimpleMenu t k = MdSimpleMenu

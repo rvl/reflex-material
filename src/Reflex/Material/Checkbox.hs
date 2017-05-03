@@ -19,7 +19,7 @@ import qualified Data.Map as M
 import Reflex.Dom
 
 import Reflex.Material.Common
-import Reflex.Material.Core
+import Reflex.Material.Framework (attachFormField, attachCheckbox)
 import Reflex.Material.Svg
 import Reflex.Material.Types
 import Reflex.Material.Util

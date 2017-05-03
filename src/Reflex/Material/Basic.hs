@@ -50,10 +50,10 @@ stylesheet_ l = elAttr "link" ss $ pure ()
       <> "href" =: l
 
 script_ :: DomBuilder t m => Text -> m ()
-script_ src = elAttr "script" s $ pure ()
+script_ src = elAttr "script" s blank
   where
     s = "type" =: "text/javascript"
-     <> "src"  =: src
+      <> "src" =: src
 
 scriptDo_ :: DomBuilder t m => Text -> m ()
 scriptDo_ = el "script" . text

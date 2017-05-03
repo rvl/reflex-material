@@ -28,7 +28,7 @@ import Control.Monad (guard)
 import Reflex.Dom
 
 import Reflex.Material.Common
-import Reflex.Material.Core
+import Reflex.Material.Framework (attachSelect)
 import Reflex.Material.Types
 import Reflex.Material.Util
 

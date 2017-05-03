@@ -12,6 +12,14 @@ import GHCJS.DOM.EventTarget
 import GHCJS.DOM.EventTargetClosures
 import           GHCJS.Foreign.Callback
 
+
+----------------------------------------------------------------------------
+-- Notes on framework integration are here:
+-- https://github.com/material-components/material-components-web/blob/master/docs/architecture.md
+--
+-- fixme: there should probably be a detach/destroy function as well
+----------------------------------------------------------------------------
+
 ----------------------------------------------------------------------------
 newtype MdcRef = MdcRef { unMdcRef :: JSVal }
 ----------------------------------------------------------------------------
@@ -35,14 +43,24 @@ registerAttach attachJS el = registerAttach' attachJS (_element_raw el)
 
 registerAttach' :: MonadWidget t m => (GDT.Element -> IO MdcRef) -> GDT.Element -> m ()
 registerAttach' attachJS el = do
-  pb <- getPostBuild
+  pb <- getMdcLoad
   performEvent_ $ (liftIO . void . attachJS $ el) <$ pb
   -- pd <- getPreDestroy
   -- performEvent_ $ (liftIO . js_mdcDetach $ el) <$ pd
 
-----------------------------------------------------------------------------
--- fixme: the mdc <script> needs to be hacked into index.html
--- otherwise these functions are called before mdc is ready.
+-- | Event which occurs after postBuild and once mdc javascript is loaded.
+getMdcLoad :: MonadWidget t m => m (Event t ())
+getMdcLoad = do
+  pb <- getPostBuild
+  let act cb = liftIO $ do
+        jscb <- asyncCallback1 $ \_ -> liftIO (cb ())
+        js_onLoadMdc jscb
+  performEventAsync (act <$ pb)
+
+-- Runs callback when material-components-web.js has loaded.
+foreign import javascript unsafe
+  "(function(){ if (window.mdc) { $1(window.mdc); } else { var cb = function(evt) { if (evt.target.tagName == 'SCRIPT' && window.mdc) { $1(window.mdc); document.body.removeEventListener('load', cb, true); } }; document.body.addEventListener('load', cb, true); } })()"
+  js_onLoadMdc :: Callback (JSVal -> IO ()) -> IO ()
 
 foreign import javascript unsafe "$r = mdc[$1][$2].attachTo($3); $3.mdcComponent = $r;"
   js_mdcAttach :: Text -> Text -> GDT.Element -> IO JSVal
@@ -71,7 +89,7 @@ attachSelect setValue el = do
     Just set -> performEvent_ $ (setValueMdSelect' el') <$> set
     Nothing -> return ()
 
-  pb <- getPostBuild
+  pb <- getMdcLoad
   let act cb = liftIO $ do
         mdc <- mdcAttach "select" "MDCSelect" el'
         jscb <- asyncCallback1 $ \_ -> liftIO $ do
@@ -86,7 +104,7 @@ attachSimpleMenu eShow el = do
 
   performEvent_ $ (setMenuOpen el' . const True) <$> eShow
 
-  pb <- getPostBuild
+  pb <- getMdcLoad
   let act cb = liftIO $ do
         mdc <- mdcAttach "menu" "MDCSimpleMenu" el'
         jscb <- asyncCallback1 $ \ev -> liftIO $ do

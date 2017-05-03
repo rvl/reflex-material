@@ -16,7 +16,7 @@ import Reflex.Dom
 
 import Reflex.Material.Types
 import Reflex.Material.Common
-import Reflex.Material.Core
+import Reflex.Material.Framework (attachRipple)
 
 ------------------------------------------------------------------------------
 -- | Data structure describing options available for buttons.  The typical way

@@ -2,11 +2,11 @@ name:                reflex-material
 version:             0.0.1.0
 -- synopsis:
 -- description:
-homepage:            https://github.com/alasconnect/reflex-material#readme
+homepage:            https://github.com/rvl/reflex-material#readme
 license:             BSD3
 license-file:        LICENSE
-author:              Brian Jones
-maintainer:          bcj@alasconnect.com
+author:              Brian Jones, Rodney Lorrimar
+maintainer:          bcj@alasconnect.com, dev@rodney.id.au
 copyright:           AlasConnect
 category:            Web
 build-type:          Simple
@@ -21,12 +21,12 @@ library
                      , Reflex.Material.Checkbox
                      , Reflex.Material.Card
                      , Reflex.Material.Common
-                     , Reflex.Material.Core
                      , Reflex.Material.Drawer
                      , Reflex.Material.Icon
                      , Reflex.Material.Fab
                      , Reflex.Material.Foreign
                      , Reflex.Material.FormField
+                     , Reflex.Material.Framework
                      , Reflex.Material.LayoutGrid
                      , Reflex.Material.List
                      , Reflex.Material.Menu
@@ -93,4 +93,4 @@ test-suite reflex-material-test
 
 source-repository head
   type:     git
-  location: https://github.com/alasconnect/reflex-material
+  location: https://github.com/rvl/reflex-material
