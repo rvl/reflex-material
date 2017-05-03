@@ -15,9 +15,9 @@ import           GHCJS.Foreign.Callback
 
 ----------------------------------------------------------------------------
 -- Notes on framework integration are here:
--- https://github.com/material-components/material-components-web/blob/master/docs/architecture.md
---
--- fixme: there should probably be a detach/destroy function as well
+--   https://github.com/material-components/material-components-web/blob/master/docs/architecture.md
+-- This module uses the simple method of integration. Writing an
+-- adapter doesn't seem to be necessary.
 ----------------------------------------------------------------------------
 
 ----------------------------------------------------------------------------
@@ -45,6 +45,7 @@ registerAttach' :: MonadWidget t m => (GDT.Element -> IO MdcRef) -> GDT.Element 
 registerAttach' attachJS el = do
   pb <- getMdcLoad
   performEvent_ $ (liftIO . void . attachJS $ el) <$ pb
+  -- fixme: how to clean up?
   -- pd <- getPreDestroy
   -- performEvent_ $ (liftIO . js_mdcDetach $ el) <$ pd
 
@@ -112,7 +113,6 @@ attachSimpleMenu eShow el = do
         js_setupMenuSelectedListener el' jscb
         js_setupMenuCancelListener el' jscb
   performEventAsync (act <$ pb)
-
 
 foreign import javascript unsafe
   "(function(){ $1['addEventListener']('MDCSelect:change', function() { $2($1['mdcComponent']); }); })()"

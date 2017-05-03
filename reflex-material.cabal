@@ -24,7 +24,6 @@ library
                      , Reflex.Material.Drawer
                      , Reflex.Material.Icon
                      , Reflex.Material.Fab
-                     , Reflex.Material.Foreign
                      , Reflex.Material.FormField
                      , Reflex.Material.Framework
                      , Reflex.Material.LayoutGrid
@@ -36,7 +35,8 @@ library
                      , Reflex.Material.Toolbar
                      , Reflex.Material.Types
                      , Reflex.Material.Typography
-                     , Reflex.Material.Util
+  other-modules:       Reflex.Material.Util
+                     , Reflex.Material.Foreign
   build-depends:       base >= 4.7 && < 5
                      , reflex-dom
                      , text >= 1.2 && < 1.3
