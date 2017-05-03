@@ -17,7 +17,7 @@ primitive-0.6.1.0-PBvNfnj6B81wEvI5CBk0H:809
 ref-tf-0.4.0.1-3hM7hnw7bOB1FwMAOCGwpN:1286
 reflex-0.5.0-AvoxeUts7Jf2q0UxCMqPFj:1171866
 reflex-dom-0.4-LrG6o2CPykBJyj87a21yza:816127
-reflex-material-0.0.1.0-BKZzGZsrynb2CLm0gqMtGE:449831
+reflex-material-0.0.1.0-BKZzGZsrynb2CLm0gqMtGE:454100
 text-1.2.2.1-6Pphv4bz3hHEAngNHxPNZe:3001
 these-0.7.1-Jw1YCr04InZ1c0BLK9t9qc:3002
 transformers-0.5.2.0-Lvs3wlJMkpyLRFNHJ8pmeB:11531
@@ -204,17 +204,17 @@ reflex-dom-0.4-LrG6o2CPykBJyj87a21yza
     Reflex.Dom.Widget.Input:            105826
 
 reflex-material-0.0.1.0-BKZzGZsrynb2CLm0gqMtGE
-    Reflex.Material.Basic:              39659
+    Reflex.Material.Basic:              39577
     Reflex.Material.Button:             15318
     Reflex.Material.Card:               22455
     Reflex.Material.Checkbox:           29733
     Reflex.Material.Common:             6903
     Reflex.Material.Drawer:             5063
     Reflex.Material.Fab:                22447
-    Reflex.Material.Foreign:            37597
+    Reflex.Material.Foreign:            41847
     Reflex.Material.LayoutGrid:         9739
     Reflex.Material.List:               12263
-    Reflex.Material.Menu:               22174
+    Reflex.Material.Menu:               22275
     Reflex.Material.Select:             66404
     Reflex.Material.Svg:                6627
     Reflex.Material.Textfield:          84410
@@ -236,5 +236,5 @@ transformers-0.5.2.0-Lvs3wlJMkpyLRFNHJ8pmeB
 
 
 
-packed metadata: 742376
+packed metadata: 742828
 
