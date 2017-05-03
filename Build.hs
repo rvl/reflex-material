@@ -25,7 +25,9 @@ jsexeFiles = map (jsexe </>) scripts
 
 main :: IO ()
 main = shakeArgs shakeOptions{shakeFiles="dist"} $ do
-  want ["cabalBuild", "assets", "docs/out.js", "docs/.nojekyll"]
+  want ["example", "haddock", "docs/.nojekyll"]
+
+  phony "example" $ need ["cabalBuild", "assets", "docs/out.js"]
 
   phony "cabalBuild" $
     need [jsexe </> "out.js", jsexe </> "index.html"]
