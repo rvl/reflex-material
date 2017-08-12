@@ -1,4 +1,6 @@
 .stack-work
 /dist/
+/dist-ghcjs/
+/docs/
 /_shake/
 /result*

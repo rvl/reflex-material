@@ -21,7 +21,7 @@ https://rvl.github.io/reflex-material/doc/
 
 ### Building with nix
 
-    nix-shell --command ./build.sh
+    nix-shell --run ./build.sh
 
 This will instantiate [reflex-platform](https://github.com/reflex-frp/reflex-platform)
 and download Material Components Web, fonts, and icons, so may take a little while.

@@ -12,10 +12,10 @@ import System.Directory (createDirectoryIfMissing)
 -- npm install
 
 jsexe :: FilePath
-jsexe = "dist/build/reflex-material-exe/reflex-material-exe.jsexe"
+jsexe = ghcjsDist </> "build/reflex-material-exe/reflex-material-exe.jsexe"
 
 haddocks :: FilePath
-haddocks = "dist/doc/html/reflex-material"
+haddocks = ghcjsDist </> "doc/html/reflex-material"
 
 scripts :: [FilePath]
 scripts = ["all.js", "lib.js", "out.js", "rts.js", "runmain.js"]
@@ -23,14 +23,17 @@ scripts = ["all.js", "lib.js", "out.js", "rts.js", "runmain.js"]
 jsexeFiles :: [FilePath]
 jsexeFiles = map (jsexe </>) scripts
 
+ghcjsDist :: FilePath
+ghcjsDist = "dist-ghcjs"
+
 main :: IO ()
-main = shakeArgs shakeOptions{shakeFiles="dist"} $ do
+main = shakeArgs shakeOptions{shakeFiles=ghcjsDist} $ do
   want ["example", "haddock", "docs/.nojekyll"]
 
-  phony "example" $ need ["cabalBuild", "assets", "docs/out.js"]
+  phony "example" $ need ["cabalBuild", "assets", "docs/all.js"]
 
   phony "cabalBuild" $
-    need [jsexe </> "out.js", jsexe </> "index.html"]
+    need [jsexe </> "all.js", jsexe </> "index.html"]
 
   phony "assets" $ do
     copyAssets jsexe
@@ -47,27 +50,27 @@ main = shakeArgs shakeOptions{shakeFiles="dist"} $ do
   phony "haddock" $ need ["docs/doc/index.html"]
 
   phony "clean" $ do
-    putNormal "Cleaning files in dist"
-    removeFilesAfter "dist" ["//*"]
+    putNormal $ "Cleaning files in " ++ ghcjsDist
+    removeFilesAfter ghcjsDist ["//*"]
 
-  "dist/setup-config" %> \out -> do
+  ghcjsDist </> "setup-config" %> \out -> do
     need ["reflex-material.cabal"]
-    cmd "cabal configure --ghcjs"
+    cmd "nix-shell --argstr compiler ghcjs --run" ["cabal configure --ghcjs --builddir=" ++ ghcjsDist]
 
   jsexeFiles &%> \out -> do
     needHaskellSources
-    cmd "cabal build"
+    cmd "cabal build" ["--builddir=" ++ ghcjsDist]
 
   haddocks </> "index.html" %> \out -> do
     needHaskellSources
-    cmd "cabal haddock"
+    cmd "cabal haddock" ["--builddir=" ++ ghcjsDist]
 
   jsexe </> "index.html" %> \out -> do
-    orderOnly [takeDirectory out </> "out.js"]
+    orderOnly [takeDirectory out </> "all.js"]
     copyFile' "static/index.html" out
 
-  "docs/out.js" %> \out -> do
-    orderOnly [jsexe </> "out.js"]
+  "docs/all.js" %> \out -> do
+    orderOnly [jsexe </> "all.js"]
     let dst = takeDirectory out
     getDirectoryFiles jsexe ["//*"] >>= mapM_ (\f -> do
       let dst' = dst </> f
@@ -79,13 +82,25 @@ main = shakeArgs shakeOptions{shakeFiles="dist"} $ do
     docs <- getDirectoryFiles "" [haddocks ++ "//*"]
     forM_ docs $ \doc -> copyFile' doc (takeDirectory out </> takeFileName doc)
 
+  jsexe </> "*.min.js" %> \out -> do
+    let maxi = dropExtension out -<.> "js"
+        externs = maxi <.> "externs"
+    need [maxi]
+    Stdout mini <- cmd "closure-compiler" [maxi] "--compilation_level=ADVANCED_OPTIMIZATIONS" ["--externs=" ++ externs]
+    writeFileChanged out mini
+
+  jsexe </> "*.js.gz" %> \out -> do
+    let js = [dropExtension out]
+    need js
+    cmd "zopfli -i1000" js
+
   -- github pages jekyll filters some things
   "docs/.nojekyll" %> \out -> writeFile' out ""
 
 needHaskellSources :: Action ()
 needHaskellSources = do
   sources <- getDirectoryFiles "" ["src//*.hs", "example//*.hs"]
-  need ("dist/setup-config" : sources)
+  need ((ghcjsDist </> "setup-config") : sources)
 
 copyAssets :: FilePath -> Action ()
 copyAssets dst = do

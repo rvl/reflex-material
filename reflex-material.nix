@@ -1,5 +1,5 @@
 { mkDerivation, base, bimap, containers, data-default, lens, reflex
-, reflex-dom, stdenv, text
+, reflex-dom, stdenv, text, shake
 }:
 mkDerivation {
   pname = "reflex-material";
@@ -12,6 +12,9 @@ mkDerivation {
   ];
   executableHaskellDepends = [
     base containers lens reflex reflex-dom text
+  ];
+  buildDepends = [
+    shake
   ];
   testHaskellDepends = [ base ];
   homepage = "https://github.com/rvl/reflex-material#readme";
