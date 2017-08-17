@@ -7,6 +7,7 @@ module Reflex.Material.List
   , mdcListItemStartDetail_
   , mdcListItemEndDetail_
   , mdcListAvatarList_
+  , mdcListItem_
   , mdcListItemText_
   , mdcListItemTextPrimary_
   , mdcListItemTextSecondary_
@@ -50,7 +51,7 @@ mdcListItemTextSecondary_ :: CssClass
 mdcListItemTextSecondary_ = CssClass "mdc-list-item__text__secondary"
 
 mdcListTwoLine_ :: CssClass
-mdcListTwoLine_ = CssClass "mdc-list-item--two-line"
+mdcListTwoLine_ = CssClass "mdc-list--two-line"
 
 list_ :: MonadWidget t m => Text -> CssClass -> m a -> m a
 list_ t c = elClass t (unCssClass $ mdcList_ <> c)
