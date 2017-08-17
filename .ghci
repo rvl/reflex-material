@@ -1,0 +1,15 @@
+:set prompt "> "
+:set -fwarn-unused-binds -fwarn-unused-imports
+:set -isrc
+:set -isrc-ghc
+:set -iexample
+
+:set -XOverloadedStrings
+:set -XTemplateHaskell
+:set -XDeriveGeneric
+:set -XRecursiveDo
+:set -XScopedTypeVariables
+:set -XRankNTypes
+:set -XExistentialQuantification
+
+:load Main
