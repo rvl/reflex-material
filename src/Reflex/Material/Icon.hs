@@ -13,6 +13,7 @@ import qualified Data.Map as M
 import           Reflex.Dom hiding (fromJSString)
 ------------------------------------------------------------------------------
 import           Reflex.Material.Common
+import           Reflex.Material.Types
 import           Reflex.Material.Util
 ------------------------------------------------------------------------------
 
@@ -62,6 +63,12 @@ mdIcon icon = elAttr "i" ("class" =: "material-icons") $ text icon
 mdIconAttr :: MonadWidget t m => Map Text Text -> Text -> m ()
 mdIconAttr attrs icon = elAttr "i" attrs' $ text icon
   where attrs' =  M.insertWith (<>) "class" " material-icons" attrs
+
+mdIconClass :: DomBuilder t m => Text -> CssClass -> m ()
+mdIconClass i c =
+  elAttr "i" (  "class"       =: ("material-icons " <> unCssClass c)
+             <> "aria-hidden" =: "true"
+             ) $ text i
 
 ----------------------------------------------------------------------------
 

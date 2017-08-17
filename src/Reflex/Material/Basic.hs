@@ -11,7 +11,6 @@ module Reflex.Material.Basic
   , style_
   , styles_
   , img_
-  , icon_
   , main_
   ) where
 
@@ -31,7 +30,7 @@ data Style
 
 defaultStyle :: Style
 defaultStyle =
-  Style [ "css/fonts.css" ]
+  Style [ "css/icons.css" ]
         [ "css/fonts.css" ]
         [ "css/material-components-web.min.css" ]
 
@@ -74,12 +73,6 @@ img_ (Img f w h a) (CssClass c) =
                <> "height" =: (pack . show $ h)
                <> "alt"    =: a
                ) $ pure ()
-
-icon_ :: DomBuilder t m => Text -> CssClass -> m ()
-icon_ i c =
-  elAttr "i" (  "class"       =: ("material-icons " <> unCssClass c)
-             <> "aria-hidden" =: "true"
-             ) $ text i
 
 main_ :: MonadWidget t m => CssClass -> m a -> m ()
 main_ t child =
