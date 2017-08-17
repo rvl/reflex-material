@@ -1,5 +1,6 @@
-{ mkDerivation, base, bimap, containers, data-default, lens, reflex
-, reflex-dom, stdenv, text, shake
+{ mkDerivation, base, bimap, containers, data-default, ghcjs-dom
+, jsaddle, jsaddle-warp, lens, reflex, reflex-dom, reflex-dom-core
+, stdenv, text, wai-app-static, warp, websockets
 }:
 mkDerivation {
   pname = "reflex-material";
@@ -8,13 +9,12 @@ mkDerivation {
   isLibrary = true;
   isExecutable = true;
   libraryHaskellDepends = [
-    base bimap containers data-default lens reflex-dom text
+    base bimap containers data-default ghcjs-dom lens reflex-dom
+    reflex-dom-core text
   ];
   executableHaskellDepends = [
-    base containers lens reflex reflex-dom text
-  ];
-  buildDepends = [
-    shake
+    base containers ghcjs-dom jsaddle jsaddle-warp lens reflex
+    reflex-dom reflex-dom-core text wai-app-static warp websockets
   ];
   testHaskellDepends = [ base ];
   homepage = "https://github.com/rvl/reflex-material#readme";

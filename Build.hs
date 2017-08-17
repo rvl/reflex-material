@@ -12,7 +12,7 @@ import System.Directory (createDirectoryIfMissing)
 -- npm install
 
 jsexe :: FilePath
-jsexe = ghcjsDist </> "build/reflex-material-exe/reflex-material-exe.jsexe"
+jsexe = ghcjsDist </> "build/reflex-material-example/reflex-material-example.jsexe"
 
 haddocks :: FilePath
 haddocks = ghcjsDist </> "doc/html/reflex-material"
@@ -26,11 +26,16 @@ jsexeFiles = map (jsexe </>) scripts
 ghcjsDist :: FilePath
 ghcjsDist = "dist-ghcjs"
 
+vendorFiles :: [FilePath]
+vendorFiles = [ "vendor/css/material-components-web.min.css"
+              , "vendor/js/material-components-web.min.js" ]
+
 main :: IO ()
 main = shakeArgs shakeOptions{shakeFiles=ghcjsDist} $ do
   want ["example", "haddock", "docs/.nojekyll"]
 
   phony "example" $ need ["cabalBuild", "assets", "docs/all.js"]
+  phony "vendorFiles" $ need vendorFiles
 
   phony "cabalBuild" $
     need [jsexe </> "all.js", jsexe </> "index.html"]
@@ -59,6 +64,7 @@ main = shakeArgs shakeOptions{shakeFiles=ghcjsDist} $ do
 
   jsexeFiles &%> \out -> do
     needHaskellSources
+    need vendorFiles
     cmd "cabal build" ["--builddir=" ++ ghcjsDist]
 
   haddocks </> "index.html" %> \out -> do
@@ -76,6 +82,9 @@ main = shakeArgs shakeOptions{shakeFiles=ghcjsDist} $ do
       let dst' = dst </> f
       liftIO $ createDirectoryIfMissing True (takeDirectory dst')
       copyFile' (jsexe </> f) dst')
+
+  vendorFiles &%> \out -> do
+    copyNodeModules "vendor"
 
   "docs/doc/index.html" %> \out -> do
     orderOnly [haddocks </> "index.html"]
