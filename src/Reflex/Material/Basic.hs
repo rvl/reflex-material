@@ -74,11 +74,12 @@ img_ (Img f w h a) (CssClass c) =
                <> "alt"    =: a
                ) $ pure ()
 
-main_ :: MonadWidget t m => CssClass -> m a -> m ()
+main_ :: MonadWidget t m => CssClass -> m a -> m a
 main_ t child =
   elClass "main" (unCssClass $ mdcTypography_ <> t) $ do
-    _ <- child
+    r <- child
     mdcScript
+    pure r
 
 mdcScript :: DomBuilder t m => m ()
 mdcScript = script_ "js/material-components-web.min.js"
