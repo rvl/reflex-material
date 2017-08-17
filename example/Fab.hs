@@ -1,4 +1,4 @@
-module Fab where
+module Fab (fabEx) where
 
 import Data.Monoid ((<>), mempty)
 import Data.Text (Text)
@@ -13,8 +13,8 @@ import Reflex.Material.Common
 import Reflex.Material.Svg
 import Reflex.Material.Typography
 
-fab :: MonadWidget t m => m ()
-fab = do
+fabEx :: MonadWidget t m => m ()
+fabEx = do
   title_ "MDC FAB"
 
   mdFab (constDyn (def & attributes .~ ("id" =: "demo-absolute-fab"))) pencilSvg

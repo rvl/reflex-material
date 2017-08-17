@@ -9,8 +9,8 @@ import Reflex.Material.Button
 import Reflex.Material.Typography
 import Reflex.Material.Common
 
-buttons :: MonadWidget t m => m ()
-buttons = do
+buttonEx :: MonadWidget t m => m ()
+buttonEx = do
   title_ "Buttons"
   el "div" $ do
     display2_ "With javascript"

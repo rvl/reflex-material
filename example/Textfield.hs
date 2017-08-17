@@ -1,4 +1,4 @@
-module Textfield where
+module Textfield (textfieldEx) where
 
 import Data.Monoid ((<>), mempty)
 import Data.Text (Text)
@@ -13,8 +13,8 @@ import Reflex.Material.Textfield
 import Reflex.Material.Typography
 import Reflex.Material.Common
 
-textfield :: MonadWidget t m => m ()
-textfield = do
+textfieldEx :: MonadWidget t m => m ()
+textfieldEx = do
   title_ "TextFields"
   display1_ "Full Functionality JS Component (Floating Label, Validation, Autocomplete)"
 

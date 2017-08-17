@@ -1,7 +1,7 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE FlexibleContexts #-}
 
-module SimpleMenu where
+module SimpleMenu (simpleMenuEx) where
 
 import Data.Monoid ((<>), mempty)
 import Reflex.Dom
@@ -22,8 +22,8 @@ left = ("left" =: "0")
 bottom = ("bottom" =: "0")
 right = ("right" =: "0")
 
-simpleMenu :: MonadWidget t m => m ()
-simpleMenu = do
+simpleMenuEx :: MonadWidget t m => m ()
+simpleMenuEx = do
   elAttr "main" ("class" =: "simple-menu") $ do
     title_ "MDC Simple Menu"
     alignStyle <- el "div" $ do

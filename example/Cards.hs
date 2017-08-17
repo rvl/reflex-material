@@ -8,8 +8,8 @@ import Reflex.Dom
 import Reflex.Material.Card
 import Reflex.Material.Typography
 
-cards :: MonadWidget t m => m ()
-cards = do
+cardEx :: MonadWidget t m => m ()
+cardEx = do
   title_ "Cards"
   card_ "div" mempty $ do
     cardPrimary_ "section" mempty $ do

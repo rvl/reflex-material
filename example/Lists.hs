@@ -1,18 +1,19 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Lists where
+module Lists (listEx) where
 
 import Control.Monad (replicateM_)
 import Data.Monoid ((<>))
 import Reflex.Dom
 
 import Reflex.Material.Basic
+import Reflex.Material.Icon
 import Reflex.Material.List
 import Reflex.Material.Types
 import Reflex.Material.Typography
 
-lists :: MonadWidget t m => m ()
-lists = do
+listEx :: MonadWidget t m => m ()
+listEx = do
   display3_ "List"
   title_ "Default"
   el "div" $ list_ "ul" mempty $
@@ -35,13 +36,13 @@ lists = do
   title_ "Start Detail Icon with Text"
   el "div" $ list_ "ul" mempty $ do
     item_ "li" mempty $ do
-      icon_ "network_wifi" mdcListItemStartDetail_ 
+      mdIconClass "network_wifi" mdcListItemStartDetail_
       text "Network Wifi"
     item_ "li" mempty $ do
-      icon_ "bluetooth" mdcListItemStartDetail_
+      mdIconClass "bluetooth" mdcListItemStartDetail_
       text "Bluetooth"
     item_ "li" mempty $ do
-      icon_ "data_usage" mdcListItemStartDetail_
+      mdIconClass "data_usage" mdcListItemStartDetail_
       text "Data Usage"
 
   title_ "List Avatar"

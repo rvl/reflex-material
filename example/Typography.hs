@@ -1,13 +1,13 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Typography where
+module Typography (typographyEx) where
 
 import Reflex.Dom
 
 import Reflex.Material.Typography
 
-typography :: MonadWidget t m => m ()
-typography = do
+typographyEx :: MonadWidget t m => m ()
+typographyEx = do
   display3_ "Typography"
   display4_ "Display 4"
   display3_ "Display 3"
