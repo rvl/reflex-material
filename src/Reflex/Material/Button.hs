@@ -1,8 +1,10 @@
-{-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE RecordWildCards, FlexibleContexts #-}
 
 module Reflex.Material.Button
   ( mdButton
   , MdButton(..)
+  , mdLink
+  , mdLinkClickEvent
   ) where
 
 import Data.Monoid ((<>))
@@ -13,6 +15,8 @@ import           Data.Maybe
 import Data.Map (Map)
 
 import Reflex.Dom
+import qualified GHCJS.DOM.EventM as DOM
+import qualified GHCJS.DOM.HTMLElement as DOM
 
 import Reflex.Material.Types
 import Reflex.Material.Common
@@ -87,3 +91,18 @@ mdButton bDyn children = do
   where
     mkAttrs :: MdButton -> Map Text Text
     mkAttrs b = "class" =: T.unwords ["mdc-button", mdButtonClass b, "button"]
+
+
+-- | Anchor element with href attribute (for styling).
+mdLink :: MonadWidget t m
+       => Text -- ^ CSS class to apply
+       -> m () -- ^ Contents
+       -> m (Event t ()) -- ^ Click event
+mdLink cls children = do
+  (e, _) <- elAttr' "a" ("class" =: cls <> "href" =: "") children
+  attachRipple e
+  mdLinkClickEvent e
+
+-- | Click event with default action prevented.
+mdLinkClickEvent e = wrapDomEvent (_element_raw e) (elementOnEventName Click)
+                     (DOM.preventDefault >> return ())
