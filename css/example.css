@@ -1,0 +1,163 @@
+.demo-main {
+  padding-left: 16px;
+  width: 100%;
+}
+
+.demo-content {
+  display: flex;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.demo-grid {
+  background-color: #DDDDDD;
+  margin-bottom: 32px;
+}
+
+.demo-cell {
+  box-sizing: border-box;
+  background-color: #666666;
+  height: 200px;
+  padding: 8px;
+  color: white;
+
+  font-size: 1.5em;
+}
+
+.grey-bg {
+  background: rgba(0, 0, 0, .26);
+}
+
+
+
+.mdc-theme--dark {
+  background: #262626;
+  color: white;
+}
+
+.mdc-theme--dark > h2 {
+  margin-top: 0;
+}
+
+/* Example of manually theming a checkbox. Note that this does not take JS-provided animations
+   into account. */
+.mdc-theme--dark .mdc-checkbox__native-control:checked:not(:disabled) ~ .mdc-checkbox__background,
+.mdc-theme--dark .mdc-checkbox__native-control:indeterminate:not(:disabled) ~ .mdc-checkbox__background {
+  background-color: #E91E63;
+  border-color: #E91E63;
+}
+.mdc-theme--dark .mdc-checkbox__background::before {
+  background-color: #E91E63;
+}
+.mdc-theme--dark .mdc-checkbox__checkmark__path {
+  stroke: #262626 !important;
+}
+.mdc-theme--dark .mdc-checkbox__mixedmark {
+  background-color: #262626;
+}
+
+
+/* Make the demo look a little bit better */
+fieldset, .demo-buttons {
+ margin-bottom: 0.5rem;
+}
+
+fieldset .mdc-fab, fieldset .mdc-button, .demo-buttons .mdc-button {
+ margin: 16px;
+}
+
+#demo-absolute-fab {
+ position: absolute;
+ bottom: 1rem;
+ right: 1rem;
+}
+
+@media(min-width: 1024px) {
+ #demo-absolute-fab {
+   bottom: 3rem;
+   right: 5rem;
+ }
+}
+
+.mdc-select {
+  width: 352px !important;
+}
+
+
+#demo-wrapper {
+  padding: 4px;
+  padding-left: 0;
+}
+
+main.simple-menu {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+main.simple-menu .demo-content {
+  position: relative;
+  flex: 1;
+  margin-top: 16px;
+  background-color: antiquewhite;
+}
+
+.mdc-menu-anchor {
+  position: absolute;
+}
+
+.demo-todo {
+  opacity: 0.3;
+}
+
+/** styles from demos.scss */
+.catalog-title {
+  font-family: "Roboto Mono", monospace;
+}
+
+.catalog-logo,
+.catalog-back {
+  padding-right: 24px;
+  color: #eee;
+  text-decoration: none;
+}
+
+.hero {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  height: 360px;
+  min-height: 360px;
+  background-color: rgba(0, 0, 0, .05);
+}
+
+.catalog-list {
+  padding-left: 28px;
+}
+.catalog-list-icon {
+  margin-right: 24px;
+}
+
+ul.catalog-list a {
+  text-decoration: none;
+  color: #212121;
+}
+
+.catalog-component-list-content {
+  padding-left: 24px;
+  order: 2;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+}
+
+.catalog-component-list-title {
+  order: 1;
+}
+
+.catalog-component-list-description {
+  color: #999;
+  order: 2;
+}
