@@ -24,6 +24,7 @@ import Elevation
 import Fab
 import LayoutGrid
 import Lists
+import Ripple
 import SimpleMenu
 import Select
 import Textfield
@@ -57,7 +58,7 @@ examples = [ ("Button", "Raised and flat buttons", "button", Just buttonEx)
            , ("Linear progress", "Fills from 0% to 100%, represented by bars", "progress_activity", Nothing)
            , ("List", "Item layouts in lists", "list", Just listEx)
            , ("Radio buttons", "Single selection controls", "radio_button", Nothing)
-           , ("Ripple", "Touch ripple", "ripple", Nothing)
+           , ("Ripple", "Touch ripple", "ripple", Just rippleEx)
            , ("Select", "Popover selection menus", "menu", Just selectEx)
            , ("Simple Menu", "Pop over menus", "menu", Just simpleMenuEx)
            , ("Slider", "Range Controls", "slider", Nothing)
