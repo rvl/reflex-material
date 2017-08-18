@@ -15,7 +15,7 @@ jsexe :: FilePath
 jsexe = ghcjsDist </> "build/reflex-material-example/reflex-material-example.jsexe"
 
 haddocks :: FilePath
-haddocks = ghcjsDist </> "doc/html/reflex-material"
+haddocks = "dist/doc/html/reflex-material"
 
 scripts :: [FilePath]
 scripts = ["all.js", "lib.js", "out.js", "rts.js", "runmain.js"]
@@ -67,9 +67,14 @@ main = shakeArgs shakeOptions{shakeFiles=ghcjsDist} $ do
     need vendorFiles
     cmd "cabal build" ["--builddir=" ++ ghcjsDist]
 
+  "dist/setup-config" %> \out -> do
+    need ["reflex-material.cabal"]
+    cmd "nix-shell --run" ["cabal configure"]
+
   haddocks </> "index.html" %> \out -> do
     needHaskellSources
-    cmd "cabal haddock" ["--builddir=" ++ ghcjsDist]
+    need ["dist/setup-config"]
+    cmd "cabal haddock"
 
   jsexe </> "index.html" %> \out -> do
     orderOnly [takeDirectory out </> "all.js"]
@@ -82,6 +87,7 @@ main = shakeArgs shakeOptions{shakeFiles=ghcjsDist} $ do
       let dst' = dst </> f
       liftIO $ createDirectoryIfMissing True (takeDirectory dst')
       copyFile' (jsexe </> f) dst')
+    copyAssets "docs" -- fixme: reorganise build
 
   vendorFiles &%> \out -> do
     copyNodeModules "vendor"
