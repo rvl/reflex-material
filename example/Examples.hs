@@ -20,6 +20,7 @@ import Reflex.Material.Types
 import Buttons
 import Cards
 import Checkbox
+import Elevation
 import Fab
 import LayoutGrid
 import Lists
@@ -28,7 +29,7 @@ import Select
 import Textfield
 import Toolbar
 import Typography
-
+import Styles
 
 head_ :: DomBuilder t m => m ()
 head_ = do
@@ -36,36 +37,37 @@ head_ = do
   mobile_
   styles_ defaultStyle
   mdcScript
+  el "style" (text exampleCss)
   stylesheet_ "css/example.css"
 
 examples :: forall t m. MonadWidget t m => [(Text, Text, Text, Maybe (m ()))]
-examples = [ ("Button", "Raised and flat buttons", "button", (Just buttonEx))
-           , ("Card", "Various card layout styles", "card", (Just cardEx))
-           , ("Checkbox", "Multi-selection controls", "selection_control", (Just checkboxEx))
+examples = [ ("Button", "Raised and flat buttons", "button", Just buttonEx)
+           , ("Card", "Various card layout styles", "card", Just cardEx)
+           , ("Checkbox", "Multi-selection controls", "selection_control", Just checkboxEx)
            , ("Dialog", "Secondary text", "dialog", Nothing)
            , ("Drawer", "Temporary", "side_navigation", Nothing)
            , ("Drawer", "Persistent", "side_navigation", Nothing)
            , ("Drawer", "Permanent drawer above toolbar", "side_navigation", Nothing)
            , ("Drawer", "Permanent drawer below toolbar", "side_navigation", Nothing)
-           , ("Elevation", "Shadow for different elevations", "shadow", Nothing)
+           , ("Elevation", "Shadow for different elevations", "shadow", Just elevationEx)
            , ("Floating action button", "The primary action in an application", "button", (Just fabEx))
-           , ("Grid list", "2D grid layouts", "card", (Just layoutGridEx))
+           , ("Grid list", "2D grid layouts", "card", Nothing)
            , ("Icon toggle", "Toggling icon states", "component", Nothing)
-           , ("Layout grid", "Grid and gutter support", "card", Nothing)
+           , ("Layout grid", "Grid and gutter support", "card", Just layoutGridEx)
            , ("Linear progress", "Fills from 0% to 100%, represented by bars", "progress_activity", Nothing)
-           , ("List", "Item layouts in lists", "list", (Just listEx))
+           , ("List", "Item layouts in lists", "list", Just listEx)
            , ("Radio buttons", "Single selection controls", "radio_button", Nothing)
            , ("Ripple", "Touch ripple", "ripple", Nothing)
-           , ("Select", "Popover selection menus", "menu", (Just selectEx))
-           , ("Simple Menu", "Pop over menus", "menu", (Just simpleMenuEx))
+           , ("Select", "Popover selection menus", "menu", Just selectEx)
+           , ("Simple Menu", "Pop over menus", "menu", Just simpleMenuEx)
            , ("Slider", "Range Controls", "slider", Nothing)
            , ("Snackbar", "Transient messages", "toast", Nothing)
            , ("Switch", "On off switches", "switch", Nothing)
            , ("Tabs", "Tabs with support for icon and text labels", "tabs", Nothing)
-           , ("Text field", "Single and multiline text fields", "text_field", (Just textfieldEx))
+           , ("Text field", "Single and multiline text fields", "text_field", Just textfieldEx)
            , ("Theme", "Using primary and accent colors", "theme", Nothing)
            , ("Toolbar", "Header and footers", "toolbar", Nothing)
-           , ("Typography", "Type hierarchy", "typography", (Just typographyEx))
+           , ("Typography", "Type hierarchy", "typography", Just typographyEx)
           ]
 
 nav :: MonadWidget t m => m (Event t (m ()))

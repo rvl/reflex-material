@@ -21,6 +21,7 @@ module Reflex.Material.Card
   , cardSupportingText_
   , cardActions_
   , cardAction_
+  , mdcElevation
   ) where
 
 import Data.Monoid ((<>))
@@ -29,6 +30,7 @@ import Reflex.Dom
 
 import Reflex.Material.Button
 import Reflex.Material.Types
+import Reflex.Material.Common (tshow)
 
 mdcCard_ :: CssClass
 mdcCard_ = CssClass "mdc-card"
@@ -93,3 +95,7 @@ cardActions_ t c = elClass t (unCssClass $ mdcCardActions_ <> c)
 
 cardAction_ :: MonadWidget t m => CssClass -> Text -> m (Event t ())
 cardAction_ t = mdButton def . text
+
+-- | CSS Class name for adding drop shadows.
+mdcElevation :: Int -> Text
+mdcElevation n = "mdc-elevation--z" <> tshow n

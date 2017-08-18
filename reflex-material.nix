@@ -1,4 +1,4 @@
-{ mkDerivation, base, bimap, containers, data-default, ghcjs-dom
+{ mkDerivation, base, bimap, clay, containers, data-default, ghcjs-dom
 , jsaddle, jsaddle-warp, lens, reflex, reflex-dom, reflex-dom-core
 , stdenv, text, wai-app-static, warp, websockets
 }:
@@ -13,7 +13,7 @@ mkDerivation {
     reflex-dom-core text
   ];
   executableHaskellDepends = [
-    base containers ghcjs-dom jsaddle jsaddle-warp lens reflex
+    base clay containers ghcjs-dom jsaddle jsaddle-warp lens reflex
     reflex-dom reflex-dom-core text wai-app-static warp websockets
   ];
   testHaskellDepends = [ base ];
