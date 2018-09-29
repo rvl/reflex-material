@@ -60,7 +60,7 @@ getMdcLoad = do
 
 -- Runs callback when material-components-web.js has loaded.
 foreign import javascript unsafe
-  "(function(){ if (window.mdc) { $1(window.mdc); } else { var cb = function(evt) { if (evt.target.tagName == 'SCRIPT' && window.mdc) { $1(window.mdc); document.body.removeEventListener('load', cb, true); } }; document.body.addEventListener('load', cb, true); } })()"
+  "(function(){ if (window.mdc) { $1(window.mdc); } else { var cb = function(evt) { if (evt.target.tagName == 'SCRIPT' && window.mdc) { $1(window.mdc); document.removeEventListener('load', cb, true); } }; document.addEventListener('load', cb, true); } })()"
   js_onLoadMdc :: Callback (JSVal -> IO ()) -> IO ()
 
 foreign import javascript unsafe "$r = mdc[$1][$2].attachTo($3); $3.mdcComponent = $r;"
