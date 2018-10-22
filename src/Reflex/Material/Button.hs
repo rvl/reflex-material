@@ -83,11 +83,11 @@ mdButtonClass MdButton{..} = T.unwords ("mdc-button":cs) <> custom
 mdButton :: MonadWidget t m
          => Dynamic t MdButton
          -> m ()
-         -> m (Event t ())
+         -> m (El t, Event t ())
 mdButton bDyn children = do
   (e, _) <- elDynAttr' "button" (mkAttrs <$> bDyn) children
   attachRipple e
-  return $ domEvent Click e
+  return (e, domEvent Click e)
   where
     mkAttrs :: MdButton -> Map Text Text
     mkAttrs b = "class" =: T.unwords ["mdc-button", mdButtonClass b, "button"]
