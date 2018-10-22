@@ -35,8 +35,8 @@ selectEx = do
         dynText (ffor (value dd) $ \v -> "Currently selected: \"" <> v <> "\"")
 
       (eVeg, eClear) <- el "div" $ do
-        b1 <- mdButton def (text "Eat More Vegetables")
-        b2 <- mdButton def (text "Clear")
+        b1 <- snd <$> mdButton def (text "Eat More Vegetables")
+        b2 <- snd <$> mdButton def (text "Clear")
         return (fmap (const "vegetables") b1, fmap (const "") b2)
 
       dynDark <- cbex "dark" "Dark"

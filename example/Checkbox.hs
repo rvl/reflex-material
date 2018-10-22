@@ -1,5 +1,6 @@
 module Checkbox where
 
+import Control.Applicative (liftA)
 import Data.Monoid ((<>), mempty)
 import Reflex.Dom
 import Data.Map (Map)
@@ -20,10 +21,10 @@ checkboxEx = do
       dynDis <- toggle False clickDis
       let cfg = def & attributes .~ (cbAttrs "cb1" <$> dynInd <*> dynDis)
       mdCheckboxField False cfg $ text "This is my checkbox"
-      clickInd <- mdButton (raised $ dense $ def) $ text "Make indeterminate"
+      clickInd <- liftA snd $ mdButton (raised $ dense $ def) $ text "Make indeterminate"
       -- fixme: Toggle RTL
       -- fixme: Toggle Align End
-      clickDis <- mdButton (def & raised & dense) $ text "Toggle disabled"
+      clickDis <- liftA snd $ mdButton (def & raised & dense) $ text "Toggle disabled"
     return ()
 
   divClass "mdc-theme--dark" $ do
@@ -32,7 +33,7 @@ checkboxEx = do
       disabled <- toggle False click
       let cfg = def & attributes .~ (cbAttrs "cb2" False <$> disabled)
       mdCheckboxField False cfg $ text "This is my checkbox"
-      click <- mdButton (pure def) $ text "Toggle disabled"
+      click <- liftA snd $ mdButton (pure def) $ text "Toggle disabled"
     return ()
 
 -- fixme: indeterminate attribute setting doesn't work in HTML
