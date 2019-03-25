@@ -43,7 +43,7 @@ simpleMenuEx = do
 
       eMenu <- divClass "demo-content" $ do
          mdMenuAnchor alignStyle $ do
-           eToggle <- snd <$> mdButton def (text "Toggle")
+           eToggle <- mdButton def (text "Toggle")
 
            eMenu <- mdSimpleMenu (True <$ eToggle) $
              elAttr "ul" ("class" =: "mdc-simple-menu__items mdc-list" <>

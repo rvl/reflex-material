@@ -2,6 +2,7 @@
 
 module Reflex.Material.Button
   ( mdButton
+  , mdButton'
   , MdButton(..)
   , mdLink
   , mdLinkClickEvent
@@ -79,12 +80,12 @@ mdButtonClass MdButton{..} = T.unwords ("mdc-button":cs) <> custom
 
 ----------------------------------------------------------------------------
 
--- | Buttons are for clicking
-mdButton :: MonadWidget t m
-         => Dynamic t MdButton
-         -> m ()
-         -> m (El t, Event t ())
-mdButton bDyn children = do
+-- | Create a button, return the element and its click event.
+mdButton' :: MonadWidget t m
+         => Dynamic t MdButton -- ^ Button attributes.
+         -> m () -- ^ Contents of button.
+         -> m (El t, Event t ()) -- ^ Button element and click event
+mdButton' bDyn children = do
   (e, _) <- elDynAttr' "button" (mkAttrs <$> bDyn) children
   attachRipple e
   return (e, domEvent Click e)
@@ -92,6 +93,12 @@ mdButton bDyn children = do
     mkAttrs :: MdButton -> Map Text Text
     mkAttrs b = "class" =: T.unwords ["mdc-button", mdButtonClass b, "button"]
 
+-- | Buttons are for clicking.
+mdButton :: MonadWidget t m
+         => Dynamic t MdButton --
+         -> m () -- ^ Contents of button
+         -> m (Event t ()) -- ^ Click event
+mdButton bDyn children = snd <$> mdButton' bDyn children
 
 -- | Anchor element with href attribute (for styling).
 mdLink :: MonadWidget t m
