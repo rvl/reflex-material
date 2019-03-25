@@ -15,7 +15,7 @@ jsexe :: FilePath
 jsexe = ghcjsDist </> "build/reflex-material-example/reflex-material-example.jsexe"
 
 haddocks :: FilePath
-haddocks = "dist/doc/html/reflex-material"
+haddocks = ghcDist </> "doc/html/reflex-material"
 
 scripts :: [FilePath]
 scripts = ["all.js", "lib.js", "out.js", "rts.js", "runmain.js"]
@@ -25,6 +25,13 @@ jsexeFiles = map (jsexe </>) scripts
 
 ghcjsDist :: FilePath
 ghcjsDist = "dist-ghcjs"
+
+ghcDist :: FilePath
+ghcDist = "dist"
+
+-- | A file that indicates cabal configure has been run.
+configuredMarker :: FilePath -> FilePath
+configuredMarker distDir = distDir </> "setup-config"
 
 vendorFiles :: [FilePath]
 vendorFiles = [ "vendor/css/material-components-web.min.css"
@@ -58,23 +65,23 @@ main = shakeArgs shakeOptions{shakeFiles=ghcjsDist} $ do
     putNormal $ "Cleaning files in " ++ ghcjsDist
     removeFilesAfter ghcjsDist ["//*"]
 
-  ghcjsDist </> "setup-config" %> \out -> do
+  configuredMarker ghcjsDist %> \out -> do
     need ["reflex-material.cabal"]
-    cmd "nix-shell --argstr compiler ghcjs --run" ["cabal configure --ghcjs --builddir=" ++ ghcjsDist]
+    cmd "nix-shell default.nix -A shells.ghcjs --run" ["cabal configure --ghcjs --builddir=" ++ ghcjsDist]
 
   jsexeFiles &%> \out -> do
     needHaskellSources
     need vendorFiles
     cmd "cabal build" ["--builddir=" ++ ghcjsDist]
 
-  "dist/setup-config" %> \out -> do
+  configuredMarker ghcDist %> \out -> do
     need ["reflex-material.cabal"]
-    cmd "nix-shell --run" ["cabal configure"]
+    cmd "nix-shell default.nix -A shells.ghc --run" ["cabal configure --builddir=" ++ ghcDist]
 
   haddocks </> "index.html" %> \out -> do
     needHaskellSources
-    need ["dist/setup-config"]
-    cmd "cabal haddock"
+    need [configuredMarker ghcDist]
+    cmd "nix-shell default.nix -A shells.ghc --run" ["cabal haddock --builddir=" ++ ghcDist]
 
   jsexe </> "index.html" %> \out -> do
     orderOnly [takeDirectory out </> "all.js"]
@@ -115,7 +122,7 @@ main = shakeArgs shakeOptions{shakeFiles=ghcjsDist} $ do
 needHaskellSources :: Action ()
 needHaskellSources = do
   sources <- getDirectoryFiles "" ["src//*.hs", "example//*.hs"]
-  need ((ghcjsDist </> "setup-config") : sources)
+  need (configuredMarker ghcjsDist : sources)
 
 copyAssets :: FilePath -> Action ()
 copyAssets dst = do

@@ -2,10 +2,9 @@
 
 with pkgs;
 
-stdenv.mkDerivation {
-  name = "flatris";
-  src = ./.;
-  buildInputs = [
+mkShell {
+  name = "reflex-material-tools";
+  nativeBuildInputs = [
     haskellPackages.shake
     closurecompiler
     zopfli

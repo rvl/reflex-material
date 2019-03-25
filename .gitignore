@@ -1,7 +1,11 @@
 .stack-work
+/dist-newstyle/
+/dist-newstyle-ghcjs/
 /dist/
 /dist-ghcjs/
 /vendor/
 /docs/
 /_shake/
 /result*
+/cabal.project.local
+/.ghc.environment*

@@ -3,7 +3,7 @@
 
 set -e
 
-nix-build mdc.nix -A package -o material-design-components
+nix-build -A nodePackages -o material-design-components
 export NODE_MODULES=./material-design-components/lib/node_modules/reflex-material/node_modules
 
 mkdir -p _shake

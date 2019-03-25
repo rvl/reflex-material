@@ -72,7 +72,9 @@ executable reflex-material-example
                      , LayoutGrid
                      , Lists
                      , Radio
+                     , Ripple
                      , Select
+                     , SimpleMenu
                      , Styles
                      , Textfield
                      , Toolbar
@@ -90,11 +92,6 @@ executable reflex-material-example
                      , reflex-dom-core
                      , reflex-material
                      , jsaddle
-                     , jsaddle-warp
-                     , warp
-                     , wai
-                     , wai-app-static
-                     , websockets
   default-language:    Haskell2010
   default-extensions:  OverloadedStrings
                      , RecursiveDo
@@ -102,6 +99,14 @@ executable reflex-material-example
   if impl(ghcjs)
     ghc-options:       -dedupe
     cpp-options:       -DGHCJS_BROWSER
+  else
+    other-modules:     Util.DevServer
+    build-depends:     jsaddle-warp
+                     , warp
+                     , wai
+                     , wai-app-static
+                     , websockets
+
 
 source-repository head
   type:     git

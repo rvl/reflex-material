@@ -2,6 +2,7 @@
 , ghcjs-dom, jsaddle, jsaddle-warp, lens, reflex, reflex-dom
 , reflex-dom-core, stdenv, text, wai, wai-app-static, warp
 , websockets
+, ghc, lib
 }:
 mkDerivation {
   pname = "reflex-material";
@@ -14,9 +15,9 @@ mkDerivation {
     reflex-dom-core text
   ];
   executableHaskellDepends = [
-    base clay containers ghcjs-dom jsaddle jsaddle-warp lens reflex
-    reflex-dom reflex-dom-core text wai wai-app-static warp websockets
-  ];
+    base clay containers ghcjs-dom jsaddle  lens reflex
+    reflex-dom reflex-dom-core text
+  ] ++ lib.optionals (!(ghc.isGhcjs or false)) [ jsaddle-warp wai wai-app-static warp websockets ];
   homepage = "https://github.com/rvl/reflex-material#readme";
   license = stdenv.lib.licenses.bsd3;
 }

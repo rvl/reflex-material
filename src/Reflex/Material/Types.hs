@@ -12,9 +12,11 @@ import Data.Map (Map, singleton)
 
 newtype CssClass = CssClass { unCssClass :: Text }
 
+instance Semigroup CssClass where
+  (CssClass a) <> (CssClass b) = CssClass (a <> " " <> b)
+
 instance Monoid CssClass where
   mempty = CssClass ""
-  mappend (CssClass a) (CssClass b) = CssClass (a <> " " <> b)
 
 classAttr :: CssClass -> Map Text Text
 classAttr c = singleton "class" (unCssClass c)
