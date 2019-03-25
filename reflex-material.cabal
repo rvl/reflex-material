@@ -70,11 +70,14 @@ executable reflex-material-example
                      , Fab
                      , LayoutGrid
                      , Lists
+                     , Ripple
                      , Select
+                     , SimpleMenu
                      , Styles
                      , Textfield
                      , Toolbar
                      , Typography
+                     , Util.DevServer
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   build-depends:       base >= 4.8 && < 5
                      , containers
