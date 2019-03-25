@@ -1,7 +1,6 @@
 :set prompt "> "
 :set -fwarn-unused-binds -fwarn-unused-imports
 :set -isrc
-:set -isrc-ghc
 :set -iexample
 
 :set -XOverloadedStrings

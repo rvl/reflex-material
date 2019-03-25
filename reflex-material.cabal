@@ -37,11 +37,11 @@ library
                      , Reflex.Material.Types
                      , Reflex.Material.Typography
   other-modules:       Reflex.Material.Util
-                     , Reflex.Material.Foreign
   build-depends:       base >= 4.7 && < 5
                      , reflex-dom
                      , reflex-dom-core
                      , ghcjs-dom
+                     , jsaddle
                      , text >= 1.2 && < 1.3
                      , bimap
                      , containers
@@ -50,10 +50,7 @@ library
   if impl(ghcjs)
     ghc-options:       -dedupe
     cpp-options:       -DGHCJS_BROWSER
-    hs-source-dirs:    src-ghcjs
     build-depends:     ghcjs-base
-  else
-    hs-source-dirs:    src-ghc
 
   default-language:    Haskell2010
   default-extensions:  OverloadedStrings
