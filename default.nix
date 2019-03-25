@@ -16,7 +16,13 @@ let
     withHoogle = true;
   };
 
-  nodePackages = (import ./mdc.nix { inherit pkgs; }).package;
+  nodePackages = (import ./mdc.nix { inherit pkgs; }).package.override {
+    src = pkgs.lib.cleanSourceWith {
+      src = ./.;
+      filter = name: _: baseNameOf name == "package.json";
+    };
+  };
+
   addNodeModules = shellDrv: shellDrv.overrideAttrs (oldAttrs: {
     # Provide NODE_MODULES in the nix-shell.
     # This will be used by the shake build script.
