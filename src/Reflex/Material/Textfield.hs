@@ -104,7 +104,7 @@ tfClass name = mdTextfieldClass <> "--" <> name
 
 ----------------------------------------------------------------------------
 
-mdTextfield :: MonadWidget t m
+mdTextfield :: DomBuilder t m
             => Dynamic t MdTextfield
             -> TextInputConfig t
             -> Text
@@ -119,7 +119,7 @@ mdTextfield md config label = do
   attachTextfield el
   return i
 
-mdTextfieldContainer :: MonadWidget t m => Bool -> Dynamic t MdTextfield -> m a -> m (El t, a)
+mdTextfieldContainer :: DomBuilder t m => Bool -> Dynamic t MdTextfield -> m a -> m (El t, a)
 mdTextfieldContainer multi dynConfig = elDynAttr' "div" (clsAttr <$> dynConfig)
   where
     -- note that the mdc --upgraded style needs to be preserved
@@ -147,7 +147,7 @@ helpTextPersistent c = c { _mdHelpText_persistent = True }
 helpTextValidationMsg :: MdHelpTextConfig -> MdHelpTextConfig
 helpTextValidationMsg c = c { _mdHelpText_validationMsg = True }
 
-mdTextfieldHelpText :: MonadWidget t m
+mdTextfieldHelpText :: DomBuilder t m
                     => TextInputConfig t
                     -> Dynamic t MdHelpTextConfig
                     -> m a -> m a
@@ -162,7 +162,7 @@ mdTextfieldHelpText input config = elDynAttr "p" (update <$> input ^. attributes
     htClass s = htClass "" <> "--" <> s
 
 
-mdTextfieldHelpTextOld :: MonadWidget t m
+mdTextfieldHelpTextOld :: DomBuilder t m
                        => TextInputConfig t
                        -> Dynamic t Bool
                        -> Dynamic t Bool
@@ -196,7 +196,7 @@ mwhen p a = if p then a else mempty
 tfPlaceholder :: Map Text Text -> Text
 tfPlaceholder = M.findWithDefault "" "placeholder"
 
-mdTextfieldMulti :: MonadWidget t m
+mdTextfieldMulti :: DomBuilder t m
                  => Dynamic t MdTextfield
                  -> TextAreaConfig t
                  -> Text

@@ -74,26 +74,26 @@ mdcCardMediaItem2x_ = mdcCardMediaItem "--2x"
 mdcCardMediaItem3x_ :: CssClass
 mdcCardMediaItem3x_ = mdcCardMediaItem "--3x"
 
-card_ :: MonadWidget t m => Text -> CssClass -> m a -> m a
+card_ :: DomBuilder t m => Text -> CssClass -> m a -> m a
 card_ t c = elClass t (unCssClass $ mdcCard_ <> c)
 
-cardPrimary_ :: MonadWidget t m => Text -> CssClass -> m a -> m a
+cardPrimary_ :: DomBuilder t m => Text -> CssClass -> m a -> m a
 cardPrimary_ t c = elClass t (unCssClass $ mdcCardPrimary_ <> c)
 
-cardTitle_ :: MonadWidget t m => Text -> CssClass -> Text -> m ()
+cardTitle_ :: DomBuilder t m => Text -> CssClass -> Text -> m ()
 cardTitle_ t c v = elClass t (unCssClass $ mdcCardTitle_ <> c) $ text v
 
-cardSubTitle_ :: MonadWidget t m => Text -> CssClass -> Text -> m ()
+cardSubTitle_ :: DomBuilder t m => Text -> CssClass -> Text -> m ()
 cardSubTitle_ t c v = elClass t (unCssClass $ mdcCardSubTitle_ <> c) $ text v
 
-cardSupportingText_ :: MonadWidget t m => Text -> CssClass -> Text -> m ()
+cardSupportingText_ :: DomBuilder t m => Text -> CssClass -> Text -> m ()
 cardSupportingText_ t c v =
   elClass t (unCssClass $ mdcCardSupportingText_ <> c) $ text v
 
-cardActions_ :: MonadWidget t m => Text -> CssClass -> m a -> m a
+cardActions_ :: DomBuilder t m => Text -> CssClass -> m a -> m a
 cardActions_ t c = elClass t (unCssClass $ mdcCardActions_ <> c)
 
-cardAction_ :: MonadWidget t m => CssClass -> Text -> m (Event t ())
+cardAction_ :: DomBuilder t m => CssClass -> Text -> m (Event t ())
 cardAction_ t = mdButton def . text
 
 -- | CSS Class name for adding drop shadows.

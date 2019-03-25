@@ -22,7 +22,7 @@ left = ("left" =: "0")
 bottom = ("bottom" =: "0")
 right = ("right" =: "0")
 
-simpleMenuEx :: MonadWidget t m => m ()
+simpleMenuEx :: DomBuilder t m => m ()
 simpleMenuEx = do
   elAttr "main" ("class" =: "simple-menu") $ do
     title_ "MDC Simple Menu"
@@ -65,14 +65,14 @@ simpleMenuEx = do
            return eMenu
     return ()
 
-mdMenuAnchor :: MonadWidget t m => Dynamic t (Map Text Text) -> m a -> m a
+mdMenuAnchor :: DomBuilder t m => Dynamic t (Map Text Text) -> m a -> m a
 mdMenuAnchor dynStyle = elDynAttr "div" (attrs <$> dynStyle)
   where
     attrs st = "class" =: "mdc-menu-anchor" <> "style" =: styles st
     styles st = T.intercalate "; " [k <> ": " <> v | (k, v) <- M.toList st]
 
 -- | Helper function to create a radio button
-radioBtn :: (Eq a, Show a, MonadWidget t m) => Text -> Text -> a -> Dynamic t (Map Text Text)-> m (Event t a)
+radioBtn :: (Eq a, Show a, DomBuilder t m) => Text -> Text -> a -> Dynamic t (Map Text Text)-> m (Event t a)
 radioBtn label group rid dynAttrs = do
   el "br" blank
   ev <- elDynAttr "label" dynAttrs $ do
@@ -82,7 +82,7 @@ radioBtn label group rid dynAttrs = do
   return $ rid <$ ev
 
 
-cbex :: MonadWidget t m => Text -> Text -> m (Dynamic t Bool)
+cbex :: DomBuilder t m => Text -> Text -> m (Dynamic t Bool)
 cbex i t = _checkbox_value <$> el "div" field
   where
     field = mdCheckboxField False (def & attributes .~ attrs) (text t)

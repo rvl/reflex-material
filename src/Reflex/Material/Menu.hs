@@ -29,7 +29,7 @@ data MdSimpleMenuConfig t k = MdSimpleMenuConfig
   , _mdSimpleMenuConfig_attributes :: Dynamic t (Map Text Text)
   }
 
-mdSimpleMenu :: MonadWidget t m => Event t Bool -> m a -> m (Event t Int)
+mdSimpleMenu :: DomBuilder t m => Event t Bool -> m a -> m (Event t Int)
 mdSimpleMenu eOpen items = do
   (el, _) <- elAttr' "div" attrs items
   attachSimpleMenu eOpen el
@@ -39,7 +39,7 @@ mdSimpleMenu eOpen items = do
             "style" =: "position: absolute;"
 
 
-mdMenuItem :: MonadWidget t m => Text -> m (Event t ())
+mdMenuItem :: DomBuilder t m => Text -> m (Event t ())
 mdMenuItem label = do
   (el, _) <- elAttr' "li" attrs $ text label
   return $ () <$ domEvent Click el
@@ -47,5 +47,5 @@ mdMenuItem label = do
                 "role" =: "menuitem" <>
                 "tabindex" =: "0"
 
-mdMenuDivider :: MonadWidget t m => m ()
+mdMenuDivider :: DomBuilder t m => m ()
 mdMenuDivider = elAttr "li" ("class" =: "mdc-list-divider" <> "role" =: "separator") blank

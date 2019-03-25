@@ -76,7 +76,7 @@ mdFabClass MdFab{..} = T.unwords ("mdc-fab":cs) <> custom
          ]
     custom = fromMaybe "" _mdFab_custom
 
-mdFab :: MonadWidget t m
+mdFab :: DomBuilder t m
       => Dynamic t MdFab
       -> m ()
       -> m (Event t ())
@@ -86,7 +86,7 @@ mdFab fabDyn contents = do
   attachRipple e
   return $ domEvent Click e
 
-mdFabIcon :: MonadWidget t m
+mdFabIcon :: DomBuilder t m
           => Dynamic t MdFab
           -> Text
           -> Text

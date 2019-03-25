@@ -8,7 +8,7 @@ import Reflex.Dom
 import Reflex.Material.Card
 import Reflex.Material.Typography
 
-cardEx :: MonadWidget t m => m ()
+cardEx :: DomBuilder t m => m ()
 cardEx = do
   title_ "Cards"
   card_ "div" mempty $ do

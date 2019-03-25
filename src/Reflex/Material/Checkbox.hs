@@ -27,7 +27,7 @@ import Reflex.Material.Util
 cbClass :: [Text] -> Text
 cbClass ts = T.intercalate "__" ("mdc-checkbox":ts)
 
-mdCheckboxField :: MonadWidget t m => Bool -> CheckboxConfig t -> m () -> m (Checkbox t)
+mdCheckboxField :: DomBuilder t m => Bool -> CheckboxConfig t -> m () -> m (Checkbox t)
 mdCheckboxField checked config children = do
   (el, cb) <- elAttr' "div" ("class" =: "mdc-form-field") $ do
     cb <- mdCheckbox checked config
@@ -36,7 +36,7 @@ mdCheckboxField checked config children = do
   attachFormField el
   return cb
 
-mdCheckbox :: MonadWidget t m => Bool -> CheckboxConfig t -> m (Checkbox t)
+mdCheckbox :: DomBuilder t m => Bool -> CheckboxConfig t -> m (Checkbox t)
 mdCheckbox checked config = do
   (el, cb) <- elAttr' "div" ("class" =: cbClass []) $ do
     let config' = mdCheckboxConfig config

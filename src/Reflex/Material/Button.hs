@@ -81,7 +81,7 @@ mdButtonClass MdButton{..} = T.unwords ("mdc-button":cs) <> custom
 ----------------------------------------------------------------------------
 
 -- | Create a button, return the element and its click event.
-mdButton' :: MonadWidget t m
+mdButton' :: DomBuilder t m
          => Dynamic t MdButton -- ^ Button attributes.
          -> m () -- ^ Contents of button.
          -> m (El t, Event t ()) -- ^ Button element and click event
@@ -94,14 +94,14 @@ mdButton' bDyn children = do
     mkAttrs b = "class" =: T.unwords ["mdc-button", mdButtonClass b, "button"]
 
 -- | Buttons are for clicking.
-mdButton :: MonadWidget t m
+mdButton :: DomBuilder t m
          => Dynamic t MdButton --
          -> m () -- ^ Contents of button
          -> m (Event t ()) -- ^ Click event
 mdButton bDyn children = snd <$> mdButton' bDyn children
 
 -- | Anchor element with href attribute (for styling).
-mdLink :: MonadWidget t m
+mdLink :: DomBuilder t m
        => Text -- ^ CSS class to apply
        -> m () -- ^ Contents
        -> m (Event t ()) -- ^ Click event

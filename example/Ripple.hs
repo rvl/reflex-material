@@ -7,7 +7,7 @@ import Reflex.Dom
 
 import Reflex.Material.Framework (attachRipple)
 
-exampleSection :: MonadWidget t m => m () -> m ([El t]) -> m ()
+exampleSection :: DomBuilder t m => m () -> m ([El t]) -> m ()
 exampleSection title content = elClass "section" "example" $ do
   el "div" $ do
     el "h2" title
@@ -16,7 +16,7 @@ exampleSection title content = elClass "section" "example" $ do
     el "h2" (title >> text " - CSS Only")
     void content
 
-rippleEx :: MonadWidget t m => m ()
+rippleEx :: DomBuilder t m => m ()
 rippleEx = divClass "ripple-ex" $ do
   (h, _) <- elClass' "section" "hero mdc-ripple-surface" blank
   attachRipple h

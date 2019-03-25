@@ -43,7 +43,7 @@ mdIconToggleAttrs MdIconToggle{..} = T.unwords $ catMaybes
     ]
 
 mdIconToggle
-    :: MonadWidget t m
+    :: DomBuilder t m
     => Text -> Text
     -> Dynamic t MdIconToggle
     -> m (Event t ())
@@ -57,10 +57,10 @@ mdIconToggle iconOn iconOff iDyn = do
 
 ----------------------------------------------------------------------------
 
-mdIcon :: MonadWidget t m => Text -> m ()
+mdIcon :: DomBuilder t m => Text -> m ()
 mdIcon icon = elAttr "i" ("class" =: "material-icons") $ text icon
 
-mdIconAttr :: MonadWidget t m => Map Text Text -> Text -> m ()
+mdIconAttr :: DomBuilder t m => Map Text Text -> Text -> m ()
 mdIconAttr attrs icon = elAttr "i" attrs' $ text icon
   where attrs' =  M.insertWith (<>) "class" " material-icons" attrs
 
@@ -72,11 +72,11 @@ mdIconClass i c =
 
 ----------------------------------------------------------------------------
 
-faIcon :: MonadWidget t m => Text -> m ()
+faIcon :: DomBuilder t m => Text -> m ()
 faIcon icon = elAttr "i" (faIconClass icon M.empty) blank
 
 faIconDynAttr
-    :: MonadWidget t m
+    :: DomBuilder t m
     => Text
     -> Dynamic t (Map Text Text)
     -> m (Event t ())

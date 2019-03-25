@@ -74,7 +74,7 @@ img_ (Img f w h a) (CssClass c) =
                <> "alt"    =: a
                ) $ pure ()
 
-main_ :: MonadWidget t m => CssClass -> m a -> m a
+main_ :: DomBuilder t m => CssClass -> m a -> m a
 main_ t child =
   elClass "main" (unCssClass $ mdcTypography_ <> t) $ do
     r <- child

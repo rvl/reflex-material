@@ -12,7 +12,7 @@ import Reflex.Material.List
 import Reflex.Material.Types
 import Reflex.Material.Typography
 
-listEx :: MonadWidget t m => m ()
+listEx :: DomBuilder t m => m ()
 listEx = do
   display3_ "List"
   title_ "Default"

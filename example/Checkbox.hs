@@ -10,7 +10,7 @@ import Reflex.Material.Checkbox
 import Reflex.Material.Typography
 import Reflex.Material.Common
 
-checkboxEx :: MonadWidget t m => m ()
+checkboxEx :: DomBuilder t m => m ()
 checkboxEx = do
   title_ "MDC Checkbox"
   el "div" $ do
