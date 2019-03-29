@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedStrings, RecordWildCards #-}
-
 -- | Form Field
 -- https://github.com/material-components/material-components-web/blob/master/packages/mdc-form-field
 
@@ -19,17 +17,17 @@ import Reflex.Dom
 import Reflex.Material.Common
 import Reflex.Material.Framework (attachFormField)
 
-mdFormField :: DomBuilder t m
+mdFormField :: MaterialWidget t m
             => Text -- ^ input id for label
             -> Text -- ^ label text
             -> m a  -- ^ contents
             -> m a
 mdFormField = mdFormFieldBase False
 
-mdFormFieldAlignEnd :: DomBuilder t m => Text -> Text -> m a -> m a
+mdFormFieldAlignEnd :: MaterialWidget t m => Text -> Text -> m a -> m a
 mdFormFieldAlignEnd = mdFormFieldBase True
 
-mdFormFieldBase :: DomBuilder t m => Bool -> Text -> Text -> m a -> m a
+mdFormFieldBase :: MaterialWidget t m => Bool -> Text -> Text -> m a -> m a
 mdFormFieldBase end forId label children = do
   (el, a) <- elAttr' "div" (mdFormFieldAttrs end) $ do
     a <- children

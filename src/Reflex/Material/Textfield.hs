@@ -1,4 +1,5 @@
 {-# LANGUAGE RecordWildCards, ScopedTypeVariables, TupleSections #-}
+{-# LANGUAGE TypeFamilies #-}
 
 module Reflex.Material.Textfield
   ( mdTextfield
@@ -104,7 +105,7 @@ tfClass name = mdTextfieldClass <> "--" <> name
 
 ----------------------------------------------------------------------------
 
-mdTextfield :: DomBuilder t m
+mdTextfield :: (MaterialWidget t m, PostBuild t m)
             => Dynamic t MdTextfield
             -> TextInputConfig t
             -> Text
@@ -119,7 +120,9 @@ mdTextfield md config label = do
   attachTextfield el
   return i
 
-mdTextfieldContainer :: DomBuilder t m => Bool -> Dynamic t MdTextfield -> m a -> m (El t, a)
+mdTextfieldContainer
+  :: (DomBuilder t m, DomBuilderSpace m ~ GhcjsDomSpace, PostBuild t m)
+  => Bool -> Dynamic t MdTextfield -> m a -> m (El t, a)
 mdTextfieldContainer multi dynConfig = elDynAttr' "div" (clsAttr <$> dynConfig)
   where
     -- note that the mdc --upgraded style needs to be preserved
@@ -147,10 +150,11 @@ helpTextPersistent c = c { _mdHelpText_persistent = True }
 helpTextValidationMsg :: MdHelpTextConfig -> MdHelpTextConfig
 helpTextValidationMsg c = c { _mdHelpText_validationMsg = True }
 
-mdTextfieldHelpText :: DomBuilder t m
-                    => TextInputConfig t
-                    -> Dynamic t MdHelpTextConfig
-                    -> m a -> m a
+mdTextfieldHelpText
+  :: (DomBuilder t m, DomBuilderSpace m ~ GhcjsDomSpace, PostBuild t m)
+  => TextInputConfig t
+  -> Dynamic t MdHelpTextConfig
+  -> m a -> m a
 mdTextfieldHelpText input config = elDynAttr "p" (update <$> input ^. attributes <*> config)
   where
     update attrs MdHelpTextConfig{..} =
@@ -162,13 +166,14 @@ mdTextfieldHelpText input config = elDynAttr "p" (update <$> input ^. attributes
     htClass s = htClass "" <> "--" <> s
 
 
-mdTextfieldHelpTextOld :: DomBuilder t m
-                       => TextInputConfig t
-                       -> Dynamic t Bool
-                       -> Dynamic t Bool
-                       -> Dynamic t Bool
-                       -> m a
-                       -> m a
+mdTextfieldHelpTextOld
+  :: (DomBuilder t m, DomBuilderSpace m ~ GhcjsDomSpace, PostBuild t m)
+  => TextInputConfig t
+  -> Dynamic t Bool
+  -> Dynamic t Bool
+  -> Dynamic t Bool
+  -> m a
+  -> m a
 mdTextfieldHelpTextOld config shown persistent validation contents = elDynAttr "p" dynAttrs contents
   where
     dynAttrs = update <$> _textInputConfig_attributes config <*> shown <*> persistent <*> validation
@@ -196,11 +201,12 @@ mwhen p a = if p then a else mempty
 tfPlaceholder :: Map Text Text -> Text
 tfPlaceholder = M.findWithDefault "" "placeholder"
 
-mdTextfieldMulti :: DomBuilder t m
-                 => Dynamic t MdTextfield
-                 -> TextAreaConfig t
-                 -> Text
-                 -> m (TextArea t)
+mdTextfieldMulti
+  :: (MaterialWidget t m, PostBuild t m)
+  => Dynamic t MdTextfield
+  -> TextAreaConfig t
+  -> Text
+  -> m (TextArea t)
 mdTextfieldMulti md config label = do
   (el, i) <- mdTextfieldContainer True md $ do
     i <- textArea (mdTextAreaConfig config)

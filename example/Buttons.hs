@@ -9,7 +9,7 @@ import Reflex.Material.Button
 import Reflex.Material.Typography
 import Reflex.Material.Common
 
-buttonEx :: DomBuilder t m => m ()
+buttonEx :: MaterialWidget t m => m ()
 buttonEx = do
   title_ "Buttons"
   el "div" $ do
@@ -26,7 +26,7 @@ buttonEx = do
     display1_ "Dark theme"
     theButtons
 
-theButtons :: DomBuilder t m => m ()
+theButtons :: MaterialWidget t m => m ()
 theButtons = divClass "demo-buttons" $ do
   click1 <- mdButton (pure def) $ text "Default"
   mdButton (def & raised) $ text "Raised"

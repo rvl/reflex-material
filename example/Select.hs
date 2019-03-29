@@ -6,6 +6,7 @@ import Data.Map (Map)
 import Data.Text (Text)
 import qualified Data.Text as T
 import qualified Data.Map as M
+import Control.Monad.Fix (MonadFix)
 
 import Reflex.Material.Select
 import Reflex.Material.Checkbox
@@ -22,7 +23,7 @@ options = M.fromList [ ("grains", "Bread, Cereal, Rice, and Pasta")
                      , ("fats", "Fats, Oils, and Sweets")
                      ]
 
-selectEx :: DomBuilder t m => m ()
+selectEx :: (MaterialWidget t m, MonadFix m, MonadHold t m, PostBuild t m) => m ()
 selectEx = do
   title_ "MDC select"
   el "div" $ do
@@ -65,7 +66,7 @@ sectionAttrs dark rtl disabled = dark' <> rtl' <> disabled' <> "id" =: "demo-wra
         rtl' = if rtl then "dir" =: "rtl" else mempty
         disabled' = if disabled then "disabled" =: "disabled" else mempty
 
-cbex :: DomBuilder t m => Text -> Text -> m (Dynamic t Bool)
+cbex :: (MaterialWidget t m, PostBuild t m) => Text -> Text -> m (Dynamic t Bool)
 cbex i t = _checkbox_value <$> el "div" field
   where
     field = mdCheckboxField False (def & attributes .~ attrs) (text t)

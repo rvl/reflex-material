@@ -4,12 +4,13 @@ module Toolbar (toolbar) where
 
 import Data.Text (Text)
 import Reflex.Dom
+import Control.Monad.Fix (MonadFix)
 
 import Reflex.Material.Toolbar
 import Reflex.Material.Icon
 
-toolbar :: DomBuilder t m => Dynamic t (Maybe Text) -> m (Event t ())
-toolbar = toolbar_ Fixed AlignStart Nothing . (>>= switchPromptly never) . dyn . fmap toolbarContent
+toolbar :: (DomBuilder t m, MonadFix m, MonadHold t m, PostBuild t m) => Dynamic t (Maybe Text) -> m (Event t ())
+toolbar = toolbar_ Fixed AlignStart Nothing . (>>= switchHoldPromptly never) . dyn . fmap toolbarContent
 
 toolbarContent :: DomBuilder t m => Maybe Text -> m (Event t ())
 toolbarContent Nothing = do

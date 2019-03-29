@@ -56,6 +56,9 @@ library
   default-extensions:  OverloadedStrings
                      , RecursiveDo
                      , ScopedTypeVariables
+                     , TypeFamilies
+                     , FlexibleContexts
+                     , RecordWildCards
 
 executable reflex-material-example
   hs-source-dirs:      example
@@ -93,6 +96,8 @@ executable reflex-material-example
   default-extensions:  OverloadedStrings
                      , RecursiveDo
                      , ScopedTypeVariables
+                     , TypeFamilies
+                     , FlexibleContexts
   if impl(ghcjs)
     ghc-options:       -dedupe
     cpp-options:       -DGHCJS_BROWSER

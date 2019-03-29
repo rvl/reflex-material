@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedStrings, RecordWildCards #-}
-
 -- | Checkbox
 -- https://github.com/material-components/material-components-web/tree/master/packages/mdc-checkbox
 
@@ -27,7 +25,7 @@ import Reflex.Material.Util
 cbClass :: [Text] -> Text
 cbClass ts = T.intercalate "__" ("mdc-checkbox":ts)
 
-mdCheckboxField :: DomBuilder t m => Bool -> CheckboxConfig t -> m () -> m (Checkbox t)
+mdCheckboxField :: MaterialWidget t m => Bool -> CheckboxConfig t -> m () -> m (Checkbox t)
 mdCheckboxField checked config children = do
   (el, cb) <- elAttr' "div" ("class" =: "mdc-form-field") $ do
     cb <- mdCheckbox checked config
@@ -36,9 +34,9 @@ mdCheckboxField checked config children = do
   attachFormField el
   return cb
 
-mdCheckbox :: DomBuilder t m => Bool -> CheckboxConfig t -> m (Checkbox t)
+mdCheckbox :: (MaterialWidget t m, SvgWidget t m) => Bool -> CheckboxConfig t -> m (Checkbox t)
 mdCheckbox checked config = do
-  (el, cb) <- elAttr' "div" ("class" =: cbClass []) $ do
+  (elm, cb) <- elAttr' "div" ("class" =: cbClass []) $ do
     let config' = mdCheckboxConfig config
     cb <- checkbox checked config'
     divClass (cbClass ["background"]) $ do
@@ -49,7 +47,7 @@ mdCheckbox checked config = do
                         "d" =: "M1.73,12.91 8.1,19.28 22.79,4.59") blank
       divClass (cbClass ["mixedmark"]) blank
     return cb
-  attachCheckbox (Just $ isIndeterminate config) el
+  attachCheckbox (Just $ isIndeterminate config) elm
   return cb
 
 -- Reflex-dom CheckboxConfig doesn't have "indeterminate" properly, so
@@ -65,4 +63,4 @@ mdCheckboxConfig c@CheckboxConfig{..} = c { _checkboxConfig_attributes = attrs' 
     attrs' = addClass [cbClass ["native-control"]] <$> _checkboxConfig_attributes
 
 mdCheckboxLabelFor :: Reflex t => CheckboxConfig t ->  Dynamic t (Map Text Text)
-mdCheckboxLabelFor c@CheckboxConfig{..} = forId <$> _checkboxConfig_attributes
+mdCheckboxLabelFor CheckboxConfig{..} = forId <$> _checkboxConfig_attributes

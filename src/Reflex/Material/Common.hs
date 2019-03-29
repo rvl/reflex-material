@@ -1,3 +1,5 @@
+{-# LANGUAGE ConstraintKinds #-}
+
 module Reflex.Material.Common
   -- ( MdClassText(..)
   -- , MdHasCustom(..)
@@ -9,13 +11,23 @@ where
 
 import Data.Text (Text)
 import qualified Data.Text as T
-import Data.Map (Map)
-import qualified Data.Map as M
-import Data.Monoid ((<>))
 
 import Reflex.Dom
+import GHCJS.DOM.Types (MonadJSM)
 
--- Interestiong:
+-- | Type constraints for adding material elements.
+type MaterialWidget t m =
+  ( DomBuilder t m
+  , DomBuilderSpace m ~ GhcjsDomSpace
+  , PerformEvent t m
+  , MonadJSM m
+  , MonadJSM (Performable m)
+  , PostBuild t m
+  , TriggerEvent t m
+  , MonadHold t m
+  )
+
+-- Interesting:
 -- Every component lists the required CSS classes, as well as all of
 -- the optional modifiers, as part of their README.
 -- https://github.com/material-components/material-components-web/blob/master/docs/migrating-from-mdl.md

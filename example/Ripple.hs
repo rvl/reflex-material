@@ -5,9 +5,10 @@ import Control.Monad (void, mapM_)
 
 import Reflex.Dom
 
+import Reflex.Material.Common (MaterialWidget)
 import Reflex.Material.Framework (attachRipple)
 
-exampleSection :: DomBuilder t m => m () -> m ([El t]) -> m ()
+exampleSection :: MaterialWidget t m => m () -> m ([El t]) -> m ()
 exampleSection title content = elClass "section" "example" $ do
   el "div" $ do
     el "h2" title
@@ -16,7 +17,7 @@ exampleSection title content = elClass "section" "example" $ do
     el "h2" (title >> text " - CSS Only")
     void content
 
-rippleEx :: DomBuilder t m => m ()
+rippleEx :: MaterialWidget t m => m ()
 rippleEx = divClass "ripple-ex" $ do
   (h, _) <- elClass' "section" "hero mdc-ripple-surface" blank
   attachRipple h
@@ -38,5 +39,3 @@ rippleEx = divClass "ripple-ex" $ do
 
   let ex4 = els (elAttr' "button" ("type" =: "button" <> "class" =: "mdc-ripple-surface mdc-elevation--z2 demo-surface") (text "button"))
   exampleSection (text "Applied to " >> el "code" (text "button") >> text " element") ex4
-
-  el "p" $ text "Note that this example must be compiled with ghcjs for ripples and other javascript effects to work."

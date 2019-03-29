@@ -5,6 +5,7 @@ import Data.Text (Text)
 import Data.Map (Map)
 import qualified Data.Text as T
 import Control.Lens (over)
+import Control.Monad.Fix (MonadFix)
 
 import Reflex.Dom
 
@@ -13,7 +14,7 @@ import Reflex.Material.Textfield
 import Reflex.Material.Typography
 import Reflex.Material.Common
 
-textfieldEx :: DomBuilder t m => m ()
+textfieldEx :: (MaterialWidget t m, MonadFix m, MonadHold t m, PostBuild t m) => m ()
 textfieldEx = do
   title_ "TextFields"
   display1_ "Full Functionality JS Component (Floating Label, Validation, Autocomplete)"
@@ -83,14 +84,14 @@ textfieldEx = do
 
   return ()
 
-divTheme :: DomBuilder t m => Dynamic t Bool -> Dynamic t Bool -> m a -> m a
+divTheme :: (MaterialWidget t m, PostBuild t m) => Dynamic t Bool -> Dynamic t Bool -> m a -> m a
 divTheme dark rtl = elDynAttr "div" (attrs <$> dark <*> rtl)
   where
     attrs d r = cls d <> dir r
     cls d = if d then "class" =: "mdc-theme--dark" else mempty
     dir r = if r then "dir" =: "rtl" else mempty
 
-cbex :: DomBuilder t m => Int -> Dynamic t Bool -> Text -> m (Dynamic t Bool)
+cbex :: (MaterialWidget t m, PostBuild t m) => Int -> Dynamic t Bool -> Text -> m (Dynamic t Bool)
 cbex i e t = _checkbox_value <$> el "div" field
   where
     field = mdCheckboxField False (def & attributes .~ (attrs <$> e)) (text t)

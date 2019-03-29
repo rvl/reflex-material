@@ -6,11 +6,12 @@ import Control.Monad (forM_)
 import Data.Text (Text)
 import Data.Monoid ((<>))
 import Reflex.Dom
+import Control.Monad.Fix (MonadFix)
 
 import Reflex.Material.Common (tshow)
 import Reflex.Material.Card (mdcElevation)
 
-elevationEx :: DomBuilder t m => m ()
+elevationEx :: (DomBuilder t m, MonadHold t m, MonadFix m, PostBuild t m) => m ()
 elevationEx = divClass "elevation-ex" $ do
   elClass "section" "hero" $ do
     demoSurface 0 $ text "FLAT 0dp"

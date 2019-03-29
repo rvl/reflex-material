@@ -1,4 +1,5 @@
 {-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE TypeFamilies #-}
 
 module Reflex.Material.Icon where
 
@@ -43,7 +44,7 @@ mdIconToggleAttrs MdIconToggle{..} = T.unwords $ catMaybes
     ]
 
 mdIconToggle
-    :: DomBuilder t m
+    :: (DomBuilder t m, PostBuild t m)
     => Text -> Text
     -> Dynamic t MdIconToggle
     -> m (Event t ())
@@ -76,7 +77,7 @@ faIcon :: DomBuilder t m => Text -> m ()
 faIcon icon = elAttr "i" (faIconClass icon M.empty) blank
 
 faIconDynAttr
-    :: DomBuilder t m
+    :: (DomBuilder t m, DomBuilderSpace m ~ GhcjsDomSpace, PostBuild t m)
     => Text
     -> Dynamic t (Map Text Text)
     -> m (Event t ())

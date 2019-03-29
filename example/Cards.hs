@@ -7,8 +7,9 @@ import Reflex.Dom
 
 import Reflex.Material.Card
 import Reflex.Material.Typography
+import Reflex.Material.Common (MaterialWidget)
 
-cardEx :: DomBuilder t m => m ()
+cardEx :: (MaterialWidget t m, PostBuild t m) => m ()
 cardEx = do
   title_ "Cards"
   card_ "div" mempty $ do

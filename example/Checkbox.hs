@@ -4,13 +4,14 @@ import Data.Monoid ((<>), mempty)
 import Reflex.Dom
 import Data.Map (Map)
 import Data.Text (Text)
+import Control.Monad.Fix (MonadFix(..))
 
 import Reflex.Material.Button
 import Reflex.Material.Checkbox
 import Reflex.Material.Typography
 import Reflex.Material.Common
 
-checkboxEx :: DomBuilder t m => m ()
+checkboxEx :: (MaterialWidget t m, PostBuild t m, MonadHold t m, MonadFix m) => m ()
 checkboxEx = do
   title_ "MDC Checkbox"
   el "div" $ do

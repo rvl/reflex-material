@@ -37,7 +37,11 @@ mdSimpleMenu items = elAttr "div" ("class" =: "mdc-simple-menu mdc-select__menu"
   elAttr "ul" ("class" =: "mdc-list mdc-simple-menu__items") items
 
 -- mdSelect :: forall k t m. (DomBuilder t m, MonadFix m, MonadHold t m, PostBuild t m, Ord k) => k -> Dynamic t (Map k Text) -> DropdownConfig t k -> m (Dropdown t k)
-mdSelect :: (DomBuilder t m, Ord k) => k -> Dynamic t (Map k Text) -> DropdownConfig t k -> m (Dropdown t k)
+mdSelect ::
+  ( MaterialWidget t m
+  , MonadFix m
+  , Ord k)
+  => k -> Dynamic t (Map k Text) -> DropdownConfig t k -> m (Dropdown t k)
 mdSelect k0 options (DropdownConfig setK attrs) = do
   optionsWithAddedKeys <- fmap (zipDynWith Map.union options) $ foldDyn Map.union (k0 =: "") $ fmap (=: "") setK
   defaultKey <- holdDyn k0 setK
@@ -56,7 +60,11 @@ mdSelect k0 options (DropdownConfig setK attrs) = do
   dValue <- fmap (zipDynWith readKey ixKeys) $ holdDyn (Just k0) $ leftmost [eChange, fmap Just setK]
   return $ Dropdown dValue (attachPromptlyDynWith readKey ixKeys eChange)
 
-mdSelectElem :: (DomBuilder t m, Ord k) => Dynamic t (Map (Int, k) Text) -> Event t Int -> m (El t, Event t Int)
+mdSelectElem
+  :: ( MaterialWidget t m, MonadFix m, Ord k)
+  => Dynamic t (Map (Int, k) Text)
+  -> Event t Int
+  -> m (El t, Event t Int)
 mdSelectElem indexedOptions setValue = do
   (eRaw, _) <- elDynAttr' "div" (constDyn ("class" =: "mdc-select" <> "role" =: "listbox" <> "tabindex" =: "0")) $ do
     elAttr "span" ("class" =: "mdc-select__selected-text") $ text ""

@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module Reflex.Material.Card
   ( mdcCard_
   , mdcCardPrimary_
@@ -30,7 +28,7 @@ import Reflex.Dom
 
 import Reflex.Material.Button
 import Reflex.Material.Types
-import Reflex.Material.Common (tshow)
+import Reflex.Material.Common (MaterialWidget, tshow)
 
 mdcCard_ :: CssClass
 mdcCard_ = CssClass "mdc-card"
@@ -93,8 +91,8 @@ cardSupportingText_ t c v =
 cardActions_ :: DomBuilder t m => Text -> CssClass -> m a -> m a
 cardActions_ t c = elClass t (unCssClass $ mdcCardActions_ <> c)
 
-cardAction_ :: DomBuilder t m => CssClass -> Text -> m (Event t ())
-cardAction_ t = mdButton def . text
+cardAction_ :: (MaterialWidget t m, PostBuild t m) => CssClass -> Text -> m (Event t ())
+cardAction_ cls = mdButton def . text
 
 -- | CSS Class name for adding drop shadows.
 mdcElevation :: Int -> Text

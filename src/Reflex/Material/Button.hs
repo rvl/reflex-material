@@ -1,5 +1,3 @@
-{-# LANGUAGE RecordWildCards, FlexibleContexts #-}
-
 module Reflex.Material.Button
   ( mdButton
   , mdButton'
@@ -14,12 +12,12 @@ import qualified Data.Text as T
 import           Data.Default
 import           Data.Maybe
 import Data.Map (Map)
+import Control.Monad (void)
 
 import Reflex.Dom
 import qualified GHCJS.DOM.EventM as DOM
-import qualified GHCJS.DOM.HTMLElement as DOM
+import           GHCJS.DOM.Types (MonadJSM(..))
 
-import Reflex.Material.Types
 import Reflex.Material.Common
 import Reflex.Material.Framework (attachRipple)
 
@@ -67,7 +65,7 @@ instance MdHasCustom MdButton where
 -- | Helper function mostly intended for internal use.  Exported for
 -- completeness.
 mdButtonClass :: MdButton -> Text
-mdButtonClass MdButton{..} = T.unwords ("mdc-button":cs) <> custom
+mdButtonClass MdButton{..} = T.unwords ("mdc-button":cs) <> customCls
   where
     cs = map ("mdc-button--" <>) $ catMaybes
          [ mdText <$> _mdButton_role
@@ -76,12 +74,12 @@ mdButtonClass MdButton{..} = T.unwords ("mdc-button":cs) <> custom
          , mdText <$> _mdButton_size
          , mdText <$> _mdButton_density
          ]
-    custom = fromMaybe "" _mdButton_custom
+    customCls = fromMaybe "" _mdButton_custom
 
 ----------------------------------------------------------------------------
 
 -- | Create a button, return the element and its click event.
-mdButton' :: DomBuilder t m
+mdButton' :: (MaterialWidget t m, PostBuild t m)
          => Dynamic t MdButton -- ^ Button attributes.
          -> m () -- ^ Contents of button.
          -> m (El t, Event t ()) -- ^ Button element and click event
@@ -94,14 +92,14 @@ mdButton' bDyn children = do
     mkAttrs b = "class" =: T.unwords ["mdc-button", mdButtonClass b, "button"]
 
 -- | Buttons are for clicking.
-mdButton :: DomBuilder t m
+mdButton :: (MaterialWidget t m, PostBuild t m)
          => Dynamic t MdButton --
          -> m () -- ^ Contents of button
          -> m (Event t ()) -- ^ Click event
 mdButton bDyn children = snd <$> mdButton' bDyn children
 
 -- | Anchor element with href attribute (for styling).
-mdLink :: DomBuilder t m
+mdLink :: (MaterialWidget t m, PostBuild t m, TriggerEvent t m)
        => Text -- ^ CSS class to apply
        -> m () -- ^ Contents
        -> m (Event t ()) -- ^ Click event
@@ -111,5 +109,10 @@ mdLink cls children = do
   mdLinkClickEvent e
 
 -- | Click event with default action prevented.
-mdLinkClickEvent e = wrapDomEvent (_element_raw e) (elementOnEventName Click)
-                     (DOM.preventDefault >> return ())
+mdLinkClickEvent
+  :: ( DomBuilder t m, DomBuilderSpace m ~ GhcjsDomSpace
+     , TriggerEvent t m, MonadJSM m)
+  => Element e GhcjsDomSpace t -> m (Event t ())
+mdLinkClickEvent e = wrapDomEvent (_element_raw e)
+                     (elementOnEventName Click)
+                     (void DOM.preventDefault)

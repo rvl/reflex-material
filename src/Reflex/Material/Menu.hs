@@ -15,6 +15,7 @@ import qualified Data.Map as M
 
 import Reflex.Dom
 
+import Reflex.Material.Common (MaterialWidget)
 import Reflex.Material.Framework (attachSimpleMenu)
 
 
@@ -29,7 +30,7 @@ data MdSimpleMenuConfig t k = MdSimpleMenuConfig
   , _mdSimpleMenuConfig_attributes :: Dynamic t (Map Text Text)
   }
 
-mdSimpleMenu :: DomBuilder t m => Event t Bool -> m a -> m (Event t Int)
+mdSimpleMenu :: MaterialWidget t m => Event t Bool -> m a -> m (Event t Int)
 mdSimpleMenu eOpen items = do
   (el, _) <- elAttr' "div" attrs items
   attachSimpleMenu eOpen el

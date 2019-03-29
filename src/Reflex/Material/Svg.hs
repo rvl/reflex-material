@@ -1,3 +1,5 @@
+{-# LANGUAGE GADTs #-}
+{-# LANGUAGE ConstraintKinds #-}
 {-|
 Convenience functions for generating SVG from reflex.
 Copied out of reflex-dom-contrib.
@@ -12,29 +14,31 @@ import Data.Text (Text)
 import Reflex.Dom
 ------------------------------------------------------------------------------
 
+type SvgWidget t m = (DomBuilder t m, DomBuilderSpace m ~ GhcjsDomSpace, PostBuild t m)
+
 {-# INLINABLE svgDynAttr' #-}
-svgDynAttr' :: forall t m a. DomBuilder t m => Text -> Dynamic t (Map Text Text) -> m a -> m (El t, a)
+svgDynAttr' :: forall t m a. SvgWidget t m => Text -> Dynamic t (Map Text Text) -> m a -> m (El t, a)
 svgDynAttr' = elDynAttrNS' (Just "http://www.w3.org/2000/svg")
 
 {-# INLINABLE svgDynAttr #-}
-svgDynAttr :: forall t m a. DomBuilder t m => Text -> Dynamic t (Map Text Text) -> m a -> m a
+svgDynAttr :: forall t m a. SvgWidget t m => Text -> Dynamic t (Map Text Text) -> m a -> m a
 svgDynAttr elementTag attrs child = snd <$> svgDynAttr' elementTag attrs child
 
 {-# INLINABLE svgAttr' #-}
-svgAttr' :: forall t m a. DomBuilder t m => Text -> Map Text Text -> m a -> m (El t, a)
+svgAttr' :: forall t m a. SvgWidget t m => Text -> Map Text Text -> m a -> m (El t, a)
 svgAttr' elementTag attrs child = svgDynAttr' elementTag (constDyn attrs) child
 
 {-# INLINABLE svgAttr #-}
-svgAttr :: forall t m a. DomBuilder t m => Text -> Map Text Text -> m a -> m a
+svgAttr :: forall t m a. SvgWidget t m => Text -> Map Text Text -> m a -> m a
 svgAttr elementTag attrs child = svgDynAttr elementTag (constDyn attrs) child
 
 {-# INLINABLE svg' #-}
-svg' :: forall t m a. DomBuilder t m => Text -> m a -> m (El t, a)
+svg' :: forall t m a. SvgWidget t m => Text -> m a -> m (El t, a)
 svg' elementTag child = svgAttr' elementTag (Map.empty :: Map Text Text) child
 
 {-# INLINABLE svg #-}
-svg :: forall t m a. DomBuilder t m => Text -> m a -> m a
+svg :: forall t m a. SvgWidget t m => Text -> m a -> m a
 svg elementTag child = svgAttr elementTag Map.empty child
 
-svgClass :: forall t m a. DomBuilder t m => Text -> Text -> m a -> m a
+svgClass :: forall t m a. SvgWidget t m => Text -> Text -> m a -> m a
 svgClass elementTag c child = svgAttr elementTag ("class" =: c) child
