@@ -66,7 +66,7 @@ sectionAttrs dark rtl disabled = dark' <> rtl' <> disabled' <> "id" =: "demo-wra
         rtl' = if rtl then "dir" =: "rtl" else mempty
         disabled' = if disabled then "disabled" =: "disabled" else mempty
 
-cbex :: (MaterialWidget t m, PostBuild t m) => Text -> Text -> m (Dynamic t Bool)
+cbex :: MaterialWidget t m => Text -> Text -> m (Dynamic t Bool)
 cbex i t = _checkbox_value <$> el "div" field
   where
     field = mdCheckboxField False (def & attributes .~ attrs) (text t)

@@ -84,7 +84,7 @@ mdSelectOptionText disabled key label = elAttr "li" attrs $ text label
 mdSelectMultiple :: DomBuilder t m => Int -> m a -> m a
 mdSelectMultiple size options = elAttr "select" attrs options
   where attrs = "multiple" =: "" <>
-                "size" =: (T.pack $ show size) <>
+                "size" =: tshow size <>
                 "class" =: "mdc-multi-select mdc-list"
 
 mdOptGroup :: DomBuilder t m => Text -> m a -> m a

@@ -128,10 +128,9 @@ attachCheckbox :: MaterialWidget t m
                -> Element EventResult (DomBuilderSpace m) t
                -> m ()
 attachCheckbox eIndeterminate elm = do
-  let elm' = _element_raw elm
   registerAttach (mdcAttach "checkbox" "MDCCheckbox") elm
   case eIndeterminate of
-    Just set -> performEvent_ $ liftJSM . setIndeterminate elm' <$> set
+    Just set -> performEvent_ $ liftJSM . setIndeterminate (_element_raw elm) <$> set
     Nothing -> return ()
   return ()
 
