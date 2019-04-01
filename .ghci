@@ -1,14 +1,9 @@
 :set prompt "> "
 :set -fwarn-unused-binds -fwarn-unused-imports
-:set -isrc
-:set -iexample
+:set -isrc:example
 
-:set -XOverloadedStrings
-:set -XTemplateHaskell
-:set -XDeriveGeneric
-:set -XRecursiveDo
-:set -XScopedTypeVariables
-:set -XRankNTypes
-:set -XExistentialQuantification
+:set -XOverloadedStrings -XTemplateHaskell -XDeriveGeneric -XRecursiveDo
+:set -XScopedTypeVariables -XRankNTypes -XExistentialQuantification
+:set -XTypeFamilies -XFlexibleContexts -XRecordWildCards
 
 :load Main
