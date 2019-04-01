@@ -2,7 +2,7 @@ import Development.Shake
 import Development.Shake.Command
 import Development.Shake.FilePath
 import Development.Shake.Util
-import Control.Monad (forM_, unless)
+import Control.Monad (forM_, unless, when)
 import System.Directory (createDirectoryIfMissing)
 
 -- before running this, need to either
@@ -139,12 +139,19 @@ libCss = [ "material-components-web/dist/material-components-web.min.css"
          , "roboto-fontface/css/roboto/roboto-fontface.css"
          ]
 libJs =  [ "material-components-web/dist/material-components-web.min.js" ]
-libFonts = [ "roboto-fontface/fonts/Roboto"
+libFonts = [ "roboto-fontface/fonts/roboto"
+           , "roboto-fontface/fonts/roboto-condensed"
            , "material-design-icons/iconfont" ]
 
 copyLib :: FilePath -> [FilePath] -> Action ()
-copyLib dst fs = mapM_ copy fs
-  where copy f = copyFile' f (dst </> takeFileName f)
+copyLib dst fs = mapM_ copyWithMap fs
+  where
+    copyWithMap f = do
+      copy f
+      let sourceMap = f <> ".map"
+      exists <- doesFileExist sourceMap
+      when exists $ copy sourceMap
+    copy f = copyFile' f (dst </> takeFileName f)
 
 fontPats = ["//*.ttf", "//*.woff", "//*.woff2", "//*.eot", "//*.svg"]
 
