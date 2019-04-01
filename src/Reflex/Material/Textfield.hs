@@ -3,12 +3,12 @@
 
 module Reflex.Material.Textfield
   ( mdTextfield
-  , mdTextfieldMulti
-  , mdTextfieldHelpText
+  , mdTextFieldMulti
+  , mdTextFieldHelperText
   , MdTextfield(..)
   , MdFullwidth(..)
   , MdHasFullwidth(..)
-  , MdHelpTextConfig(..)
+  , MdHelperTextConfig(..)
   , helpTextValidationMsg
   , helpTextPersistent
   , placeholder
@@ -26,7 +26,7 @@ import Control.Lens ((%~), (^.), over)
 import Reflex.Dom
 
 import Reflex.Material.Common
-import Reflex.Material.Framework (attachTextfield)
+import Reflex.Material.Framework (attachTextfield, attachLineRipple, attachFloatingLabel)
 import Reflex.Material.Types
 import Reflex.Material.Util
 
@@ -90,7 +90,7 @@ mdTextfieldAttrs MdTextfield{..} = T.unwords $ catMaybes
 ----------------------------------------------------------------------------
 
 mdTextfieldClass :: Text
-mdTextfieldClass = "mdc-textfield"
+mdTextfieldClass = "mdc-text-field"
 
 -- | Internal parts of the component are usually labeled with these
 -- css classes, but it doesn't seem to be consistent.
@@ -105,84 +105,79 @@ tfClass name = mdTextfieldClass <> "--" <> name
 
 ----------------------------------------------------------------------------
 
+mdLineRipple :: MaterialWidget t m => m ()
+mdLineRipple = do
+  (elm, _) <- elClass' "div" "mdc-line-ripple" blank
+  attachLineRipple elm
+
+mdFloatingLabel :: MaterialWidget t m => Text -> Dynamic t (Map Text Text) -> m ()
+mdFloatingLabel label attr = do
+  let labelAttr = addClass ["mdc-floating-label"] . forId <$> attr
+  (elm, _) <- elDynAttr' "label" labelAttr $ text label
+  attachFloatingLabel elm
+
 mdTextfield :: (MaterialWidget t m, PostBuild t m)
             => Dynamic t MdTextfield
             -> TextInputConfig t
             -> Text
             -> m (TextInput t)
 mdTextfield md config label = do
-  (el, i) <- mdTextfieldContainer False md $ do
+  (el, i) <- mdTextFieldContainer False md $ do
     i <- textInput (mdTextInputConfig config)
-    let attr = _textInputConfig_attributes config
-    let attr' = addClass [tfPart ["label"]] . forId <$> attr
-    elDynAttr "label" attr' $ text label
+    mdFloatingLabel label (config ^. attributes)
+    mdLineRipple
     return i
   attachTextfield el
   return i
 
-mdTextfieldContainer
+mdTextFieldContainer
   :: (DomBuilder t m, DomBuilderSpace m ~ GhcjsDomSpace, PostBuild t m)
   => Bool -> Dynamic t MdTextfield -> m a -> m (El t, a)
-mdTextfieldContainer multi dynConfig = elDynAttr' "div" (clsAttr <$> dynConfig)
+mdTextFieldContainer multi dynConfig = elDynAttr' "div" (clsAttr <$> dynConfig)
   where
     -- note that the mdc --upgraded style needs to be preserved
     clsAttr MdTextfield{..} = "class" =: cls [ Just ""
                                              , Just "upgraded"
-                                             , mwhen multi (Just "multiline")
+                                             , optional multi (Just "textarea")
                                              , mdText <$> _mdTextfield_density
                                              , mdText <$> _mdTextfield_fullwidth
                                              ]
     cls = T.unwords . map tfClass . catMaybes
 
 
-data MdHelpTextConfig = MdHelpTextConfig
-    { _mdHelpText_shown         :: Bool
-    , _mdHelpText_persistent    :: Bool
-    , _mdHelpText_validationMsg :: Bool
+data MdHelperTextConfig = MdHelperTextConfig
+    { _mdHelperText_shown         :: Bool
+    , _mdHelperText_persistent    :: Bool
+    , _mdHelperText_validationMsg :: Bool
     } deriving (Eq,Show)
 
-instance Default MdHelpTextConfig where
-  def = MdHelpTextConfig True False False
+instance Default MdHelperTextConfig where
+  def = MdHelperTextConfig True False False
 
-helpTextPersistent :: MdHelpTextConfig -> MdHelpTextConfig
-helpTextPersistent c = c { _mdHelpText_persistent = True }
+helpTextPersistent :: MdHelperTextConfig -> MdHelperTextConfig
+helpTextPersistent c = c { _mdHelperText_persistent = True }
 
-helpTextValidationMsg :: MdHelpTextConfig -> MdHelpTextConfig
-helpTextValidationMsg c = c { _mdHelpText_validationMsg = True }
+helpTextValidationMsg :: MdHelperTextConfig -> MdHelperTextConfig
+helpTextValidationMsg c = c { _mdHelperText_validationMsg = True }
 
-mdTextfieldHelpText
+mdTextFieldHelperLine :: DomBuilder t m => m a -> m a
+mdTextFieldHelperLine = elClass "div" (mdTextfieldClass <> "-helper-line")
+mdTextFieldHelperText
   :: (DomBuilder t m, DomBuilderSpace m ~ GhcjsDomSpace, PostBuild t m)
   => TextInputConfig t
-  -> Dynamic t MdHelpTextConfig
+  -> Dynamic t MdHelperTextConfig
   -> m a -> m a
-mdTextfieldHelpText input config = elDynAttr "p" (update <$> input ^. attributes <*> config)
+mdTextFieldHelperText input config = mdTextFieldHelperLine .
+  elDynAttr "div" (update <$> input ^. attributes <*> config)
   where
-    update attrs MdHelpTextConfig{..} =
+    update attrs MdHelperTextConfig{..} =
       idSuffix "-helptext" attrs <>
-      "class" =: T.unwords (cls _mdHelpText_persistent _mdHelpText_validationMsg) <>
-      mwhen (not _mdHelpText_shown) ("style" =: "display: none;" <> "aria-hidden" =: "true")
-    cls p v = map htClass ("" : mwhen p ["persistent"] ++ mwhen v ["validation-msg"])
-    htClass "" = mdTextfieldClass <> "-helptext"
+      "class" =: T.unwords (cls _mdHelperText_persistent _mdHelperText_validationMsg) <>
+      optional (not _mdHelperText_shown) ("style" =: "display: none;" <> "aria-hidden" =: "true")
+    cls p v = map htClass ("" : optional p ["persistent"] ++ optional v ["validation-msg"])
+    htClass "" = mdTextfieldClass <> "-helper-text"
     htClass s = htClass "" <> "--" <> s
-
-
-mdTextfieldHelpTextOld
-  :: (DomBuilder t m, DomBuilderSpace m ~ GhcjsDomSpace, PostBuild t m)
-  => TextInputConfig t
-  -> Dynamic t Bool
-  -> Dynamic t Bool
-  -> Dynamic t Bool
-  -> m a
-  -> m a
-mdTextfieldHelpTextOld config shown persistent validation contents = elDynAttr "p" dynAttrs contents
-  where
-    dynAttrs = update <$> _textInputConfig_attributes config <*> shown <*> persistent <*> validation
-    update attrs s p v = idSuffix "-helptext" attrs <>
-                            "class" =: T.unwords (cls p v) <>
-                            mwhen (not s) ("style" =: "display: none;" <> "aria-hidden" =: "true")
-    cls p v = map htClass ("" : mwhen p ["persistent"] ++ mwhen v ["validation-msg"])
-    htClass "" = mdTextfieldClass <> "-helptext"
-    htClass s = htClass "" <> "--" <> s
+    -- fixme: need to instantiate javascript?
 
 mdTextInputConfig :: Reflex t => TextInputConfig t -> TextInputConfig t
 mdTextInputConfig c@TextInputConfig{..} =
@@ -195,24 +190,23 @@ mdTextFieldInputAttrs attrs = addClass [tfPart ["input"]] attrs
 mdTextAreaConfig :: Reflex t => TextAreaConfig t -> TextAreaConfig t
 mdTextAreaConfig = over attributes (fmap mdTextFieldInputAttrs)
 
-mwhen :: Monoid a => Bool -> a -> a
-mwhen p a = if p then a else mempty
+optional :: Monoid a => Bool -> a -> a
+optional p a = if p then a else mempty
 
 tfPlaceholder :: Map Text Text -> Text
 tfPlaceholder = M.findWithDefault "" "placeholder"
 
-mdTextfieldMulti
+mdTextFieldMulti
   :: (MaterialWidget t m, PostBuild t m)
   => Dynamic t MdTextfield
   -> TextAreaConfig t
   -> Text
   -> m (TextArea t)
-mdTextfieldMulti md config label = do
-  (el, i) <- mdTextfieldContainer True md $ do
+mdTextFieldMulti md config label = do
+  (el, i) <- mdTextFieldContainer True md $ do
     i <- textArea (mdTextAreaConfig config)
-    let attr = config ^. attributes
-    let attr' = addClass [tfPart ["label"]] . forId <$> attr
-    elDynAttr "label" attr' $ text label
+    mdFloatingLabel label (config ^. attributes(
+    mdLineRipple
     return i
   attachTextfield el
   return i

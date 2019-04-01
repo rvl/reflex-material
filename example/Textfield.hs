@@ -24,7 +24,7 @@ textfieldEx = do
     divTheme dark rtl $ do
       let config = def & attributes .~ attrs
       mdTextfield tf config "Email Address"
-      mdTextfieldHelpText config helper $
+      mdTextFieldHelperText config helper $
         text "Help Text (possibly validation message)"
 
     (dark, rtl, tf, attrs, helper) <- el "div" $ do
@@ -39,7 +39,7 @@ textfieldEx = do
 
       return (dark, rtl, tfConfig <$> dense,
               tfAttrs "my-textfield" <$> disabled <*> required,
-              MdHelpTextConfig <$> helper <*> helperP <*> helperV)
+              MdHelperTextConfig <$> helper <*> helperP <*> helperV)
 
   display1_ "Password field with validation"
   el "div" $ do
@@ -50,13 +50,13 @@ textfieldEx = do
     ti <- mdTextfield def pwConfig "Choose password"
     let err = ffor (_textInput_value ti) $ \v ->
           if T.length v < 8 then "Must be at least 8 characters long" else ""
-    mdTextfieldHelpText pwConfig (constDyn (def & helpTextValidationMsg)) $ dynText err
+    mdTextFieldHelperText pwConfig (constDyn (def & helpTextValidationMsg)) $ dynText err
 
   display1_ "Multi-line Textfields"
   rec
     divTheme dark rtl $ do
       let cfg = textAreaConfig Nothing (Just 8) (Just 40) & over attributes (<> attrs)
-      mdTextfieldMulti def cfg "Multi-line label"
+      mdTextFieldMulti def cfg "Multi-line label"
 
     (dark, rtl, attrs) <- el "div" $ do
       disabled <- cbex 10 always "Disabled"
@@ -71,7 +71,7 @@ textfieldEx = do
       let cfg1 = def & attributes .~ attrs & placeholder "Subject"
       mdTextfield tf cfg1 ""
       let cfg2 = textAreaConfig (Just "Message") (Just 8) (Just 40) & over attributes (<> attrs)
-      mdTextfieldMulti tf cfg2 ""
+      mdTextFieldMulti tf cfg2 ""
       return ()
 
     (dark, tf, attrs) <- el "div" $ do

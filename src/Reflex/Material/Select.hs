@@ -23,20 +23,22 @@ import Data.Default
 import Control.Monad.Fix
 import qualified Text.Read as T
 import Data.Maybe (fromMaybe)
-import Control.Monad (guard)
+import Control.Monad (guard, void)
 
 import Reflex.Dom
 
 import Reflex.Material.Common
-import Reflex.Material.Framework (attachSelect)
+import Reflex.Material.Framework (attachSelect, attachMenuSurface)
 import Reflex.Material.Types
 import Reflex.Material.Util
 
-mdSimpleMenu :: DomBuilder t m => m a -> m a
-mdSimpleMenu items = elAttr "div" ("class" =: "mdc-simple-menu mdc-select__menu") $
-  elAttr "ul" ("class" =: "mdc-list mdc-simple-menu__items") items
+mdSimpleMenu :: MaterialWidget t m => m a -> m a
+mdSimpleMenu items = do
+  (elm, a) <- elClass' "div" "mdc-select__menu mdc-menu mdc-menu-surface" $
+    elClass "ul" "mdc-list" items
+  attachMenuSurface elm
+  pure a
 
--- mdSelect :: forall k t m. (DomBuilder t m, MonadFix m, MonadHold t m, PostBuild t m, Ord k) => k -> Dynamic t (Map k Text) -> DropdownConfig t k -> m (Dropdown t k)
 mdSelect ::
   ( MaterialWidget t m
   , MonadFix m
@@ -60,6 +62,7 @@ mdSelect k0 options (DropdownConfig setK attrs) = do
   dValue <- fmap (zipDynWith readKey ixKeys) $ holdDyn (Just k0) $ leftmost [eChange, fmap Just setK]
   return $ Dropdown dValue (attachPromptlyDynWith readKey ixKeys eChange)
 
+-- implements MDC Enhanced Select
 mdSelectElem
   :: ( MaterialWidget t m, MonadFix m, Ord k)
   => Dynamic t (Map (Int, k) Text)
@@ -67,10 +70,15 @@ mdSelectElem
   -> m (El t, Event t Int)
 mdSelectElem indexedOptions setValue = do
   (eRaw, _) <- elDynAttr' "div" (constDyn ("class" =: "mdc-select" <> "role" =: "listbox" <> "tabindex" =: "0")) $ do
-    elAttr "span" ("class" =: "mdc-select__selected-text") $ text ""
-    mdSimpleMenu $ listWithKey indexedOptions $ \(ix, k) v -> do
-      elAttr "li" ("class" =: "mdc-list-item" <> "role" =: "option" <> "tabindex" =: "0") $ dynText v
-      return ()
+    elAttr "input" ("type" =: "hidden" <> "name" =: "enhanced-select") $ blank
+    elClass "i" "mdc-select__dropdown-icon" blank
+    elClass "div" "mdc-select__selected-text" blank
+    mdSimpleMenu $ listWithKey indexedOptions $ \(ix, k) v ->
+      let attrs = "class" =: "mdc-list-item" <> "data-value" =: tshow ix <>
+                  "role" =: "option" <> "tabindex" =: "0"
+      in void $ elAttr "li" attrs $ dynText v
+  elClass "span" "mdc-floating-label" $ text "the label goes here"
+  elClass "div" "mdc-line-ripple" blank
   eSelectChange <- attachSelect (Just setValue) eRaw
   return (eRaw, eSelectChange)
 

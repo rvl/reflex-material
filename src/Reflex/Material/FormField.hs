@@ -33,7 +33,7 @@ mdFormFieldBase end forId label children = do
     a <- children
     elAttr "label" ("for" =: forId) $ text label
     return a
-  attachFormField el
+  attachFormField el Nothing
   return a
 
 mdFormFieldAttrs :: Bool -> Map Text Text

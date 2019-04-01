@@ -3,6 +3,7 @@
 
 module Reflex.Material.Checkbox
   ( mdCheckbox
+  , mdCheckbox'
   , mdCheckboxField
   , CheckboxConfig(..)
   , Checkbox(..)
@@ -25,30 +26,35 @@ import Reflex.Material.Util
 cbClass :: [Text] -> Text
 cbClass ts = T.intercalate "__" ("mdc-checkbox":ts)
 
+-- | Creates a MDC Checkbox and label within a MDC Form Field,
 mdCheckboxField :: MaterialWidget t m => Bool -> CheckboxConfig t -> m () -> m (Checkbox t)
 mdCheckboxField checked config children = do
-  (el, cb) <- elAttr' "div" ("class" =: "mdc-form-field") $ do
-    cb <- mdCheckbox checked config
-    elDynAttr "label" (mdCheckboxLabelFor config) $ children
-    return cb
-  attachFormField el
+  (ff, (elm, cb)) <- elAttr' "div" ("class" =: "mdc-form-field") $ do
+    c <- mdCheckbox' checked config
+    elDynAttr "label" (mdCheckboxLabelFor config) children
+    return c
+  attachFormField ff (Just elm)
   return cb
 
+-- | Creates a MDC Checkbox on its own
 mdCheckbox :: (MaterialWidget t m, SvgWidget t m) => Bool -> CheckboxConfig t -> m (Checkbox t)
-mdCheckbox checked config = do
+mdCheckbox checked config = snd <$> mdCheckbox' checked config
+
+mdCheckbox' :: (MaterialWidget t m, SvgWidget t m) => Bool -> CheckboxConfig t -> m (El t, Checkbox t)
+mdCheckbox' checked config = do
   (elm, cb) <- elAttr' "div" ("class" =: cbClass []) $ do
     let config' = mdCheckboxConfig config
     cb <- checkbox checked config'
     divClass (cbClass ["background"]) $ do
       svgAttr "svg" ("class" =: cbClass ["checkmark"] <> "viewBox" =: "0 0 24 24") $
-        svgAttr "path" ("class" =: cbClass ["checkmark", "path"] <>
+        svgAttr "path" ("class" =: cbClass ["checkmark-path"] <>
                         "fill" =: "none" <>
                         "stroke" =: "white" <>
                         "d" =: "M1.73,12.91 8.1,19.28 22.79,4.59") blank
       divClass (cbClass ["mixedmark"]) blank
     return cb
   attachCheckbox (Just $ isIndeterminate config) elm
-  return cb
+  return (elm, cb)
 
 -- Reflex-dom CheckboxConfig doesn't have "indeterminate" properly, so
 -- this converts the presence of indeterminate attribute into event

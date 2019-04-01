@@ -45,10 +45,10 @@ mdcListItemText_ :: CssClass
 mdcListItemText_ = CssClass "mdc-list-item__text"
 
 mdcListItemTextPrimary_ :: CssClass
-mdcListItemTextPrimary_ = CssClass "mdc-list-item__text__primary"
+mdcListItemTextPrimary_ = CssClass "mdc-list-item__primary-text"
 
 mdcListItemTextSecondary_ :: CssClass
-mdcListItemTextSecondary_ = CssClass "mdc-list-item__text__secondary"
+mdcListItemTextSecondary_ = CssClass "mdc-list-item__secondary-text"
 
 mdcListTwoLine_ :: CssClass
 mdcListTwoLine_ = CssClass "mdc-list--two-line"
