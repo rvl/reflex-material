@@ -32,6 +32,12 @@ let
       src = ./.;
       filter = name: _: baseNameOf name == "package.json";
     };
+  } // {
+    regenerate = pkgs.writeScript "node-packages-regenerate.sh" ''
+      exec ${pkgs.nodePackages.node2nix}/bin/node2nix \
+          --input package.json --output node-packages.nix \
+          --composition mdc.nix --node-env node-env.nix
+    '';
   };
 
   addNodeModules = shellDrv: shellDrv.overrideAttrs (oldAttrs: {
