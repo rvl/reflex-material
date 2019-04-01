@@ -4,373 +4,400 @@
 
 let
   sources = {
-    "@material/animation-0.1.5" = {
+    "@material/animation-1.0.0" = {
       name = "_at_material_slash_animation";
       packageName = "@material/animation";
-      version = "0.1.5";
+      version = "1.0.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@material/animation/-/animation-0.1.5.tgz";
-        sha1 = "79c45ccdcde8a286a4c3d7955873b2079e4e5c32";
+        url = "https://registry.npmjs.org/@material/animation/-/animation-1.0.0.tgz";
+        sha512 = "Ed5/vggn6ZhSJ87yn3ZS1d826VJNFz73jHF2bSsgRtHDoB8KCuOwQMfdgAgDa4lKDF6CDIPCKBZPKrs2ubehdw==";
       };
     };
-    "@material/animation-0.2.3" = {
-      name = "_at_material_slash_animation";
-      packageName = "@material/animation";
-      version = "0.2.3";
-      src = fetchurl {
-        url = "https://registry.npmjs.org/@material/animation/-/animation-0.2.3.tgz";
-        sha1 = "25f24962cd649e76459a16ab234b7846a7a7f419";
-      };
-    };
-    "@material/animation-0.3.1" = {
-      name = "_at_material_slash_animation";
-      packageName = "@material/animation";
-      version = "0.3.1";
-      src = fetchurl {
-        url = "https://registry.npmjs.org/@material/animation/-/animation-0.3.1.tgz";
-        sha1 = "229de6927d0590d6d6b20157d778d264ef02229a";
-      };
-    };
-    "@material/animation-0.4.1" = {
-      name = "_at_material_slash_animation";
-      packageName = "@material/animation";
-      version = "0.4.1";
-      src = fetchurl {
-        url = "https://registry.npmjs.org/@material/animation/-/animation-0.4.1.tgz";
-        sha1 = "bf8b50aedad4cffce8a5b428fdca8f1abbaf176e";
-      };
-    };
-    "@material/auto-init-0.1.4" = {
+    "@material/auto-init-1.0.0" = {
       name = "_at_material_slash_auto-init";
       packageName = "@material/auto-init";
-      version = "0.1.4";
+      version = "1.0.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@material/auto-init/-/auto-init-0.1.4.tgz";
-        sha512 = "pyq6hTVrYo/Z/yU3vCAaIpo7C9As/Inj49kt7tRPLsCQ5MDhhMTjCZFmqldDss88XQ1QR2gjNoSh7lNkwRlu7A==";
+        url = "https://registry.npmjs.org/@material/auto-init/-/auto-init-1.0.0.tgz";
+        sha512 = "xlWEjjyQquXMi9xz3RH7HW/5dsLGkVYQnm1WCYw2a6JIpIlipkkLEzBNc//agiQongIBbLndL07gO7WQeSohNA==";
       };
     };
-    "@material/base-0.1.3" = {
+    "@material/base-1.0.0" = {
       name = "_at_material_slash_base";
       packageName = "@material/base";
-      version = "0.1.3";
+      version = "1.0.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@material/base/-/base-0.1.3.tgz";
-        sha1 = "f58f60f5164df4d0eaec70730908b02255f76dcd";
+        url = "https://registry.npmjs.org/@material/base/-/base-1.0.0.tgz";
+        sha512 = "5dxFp46x5FA+Epg6YHLzN+5zRt9S2wR84UdvVAEJ1egea94m9UHUg7y9tAnNSN16aexRSywmzyLwPr+i8PGEYA==";
       };
     };
-    "@material/base-0.2.6" = {
-      name = "_at_material_slash_base";
-      packageName = "@material/base";
-      version = "0.2.6";
-      src = fetchurl {
-        url = "https://registry.npmjs.org/@material/base/-/base-0.2.6.tgz";
-        sha1 = "3003f3df2c06d172151d4160b8c8b2e6c65e7c01";
-      };
-    };
-    "@material/button-0.3.11" = {
+    "@material/button-1.1.0" = {
       name = "_at_material_slash_button";
       packageName = "@material/button";
-      version = "0.3.11";
+      version = "1.1.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@material/button/-/button-0.3.11.tgz";
-        sha1 = "17ab4cd5d55389e3da3496b1c1626dce4f6a7839";
+        url = "https://registry.npmjs.org/@material/button/-/button-1.1.0.tgz";
+        sha512 = "P1oZyyC1ELRe26vdnmax+fO3BWNmftDqHDDlQbJ+gfYMDQsNQtZNJU16ZbnVHsnzEXOpFj729imbmuLfnz8Nbg==";
       };
     };
-    "@material/card-0.1.8" = {
+    "@material/card-1.1.0" = {
       name = "_at_material_slash_card";
       packageName = "@material/card";
-      version = "0.1.8";
+      version = "1.1.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@material/card/-/card-0.1.8.tgz";
-        sha1 = "e13a63b256c45a5bada40e33d786ba766d5c73ca";
+        url = "https://registry.npmjs.org/@material/card/-/card-1.1.0.tgz";
+        sha512 = "ZuzMwnFZx0qMTiQK/QHoEClsOQ8TbfIpYm1N5gVvnGgbLF6xxoLD2zZFS9/l3eJxrDOxsrqqgxxfjGlJB5dFRg==";
       };
     };
-    "@material/checkbox-0.3.7" = {
+    "@material/checkbox-1.1.0" = {
       name = "_at_material_slash_checkbox";
       packageName = "@material/checkbox";
-      version = "0.3.7";
+      version = "1.1.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@material/checkbox/-/checkbox-0.3.7.tgz";
-        sha1 = "512cb48641f0c9d69af644550e4edefae7294aac";
+        url = "https://registry.npmjs.org/@material/checkbox/-/checkbox-1.1.0.tgz";
+        sha512 = "jCrkG8VkN63uH+YRhu7RWIsrYGw2Gu89OEPe+sqGYWsr+BbOuzBBqxrM09rUkXykCyi8gAbxpWZPVGCmcDHtJQ==";
       };
     };
-    "@material/dialog-0.2.4" = {
+    "@material/chips-1.1.0" = {
+      name = "_at_material_slash_chips";
+      packageName = "@material/chips";
+      version = "1.1.0";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/@material/chips/-/chips-1.1.0.tgz";
+        sha512 = "+cIscrfKBFhXMaOHgNWx46U7zctXX6toMMG9lxY+uqH9ALo/NeScdZp/kc0C3z0shvRzXjZfvl5rM28rKjnizw==";
+      };
+    };
+    "@material/dialog-1.1.0" = {
       name = "_at_material_slash_dialog";
       packageName = "@material/dialog";
-      version = "0.2.4";
+      version = "1.1.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@material/dialog/-/dialog-0.2.4.tgz";
-        sha1 = "873863388f4deedb246d108d8cea7650d318e580";
+        url = "https://registry.npmjs.org/@material/dialog/-/dialog-1.1.0.tgz";
+        sha512 = "XbFTTdzzRhjClLMDFxz8SR/mwwCBpQL6N7Z7UzX7SgD51UJmd19SsXPItFquRKk3mkNuoFBBcR4KJ6julAW+Fg==";
       };
     };
-    "@material/drawer-0.3.1" = {
+    "@material/dom-1.1.0" = {
+      name = "_at_material_slash_dom";
+      packageName = "@material/dom";
+      version = "1.1.0";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/@material/dom/-/dom-1.1.0.tgz";
+        sha512 = "+HWW38ZaM2UBPu4+7QCusLDSf4tFT31rsEXHkTkxYSg/QpDivfPx6YDz4OmYtafmhPR1d1YjqB3MYysUHdodyw==";
+      };
+    };
+    "@material/drawer-1.1.0" = {
       name = "_at_material_slash_drawer";
       packageName = "@material/drawer";
-      version = "0.3.1";
+      version = "1.1.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@material/drawer/-/drawer-0.3.1.tgz";
-        sha1 = "ae3137e34ecf87f7d8a58e2bc11e88d06e667e80";
+        url = "https://registry.npmjs.org/@material/drawer/-/drawer-1.1.0.tgz";
+        sha512 = "IKQejVv9oSf1sUoAZ7BdV8fhTVDfMfZXfAOQBpw6QyfQujGkNVZatOsvbRcOFPu3naNZFS7brbHRiBH2ArgMQQ==";
       };
     };
-    "@material/elevation-0.1.13" = {
+    "@material/elevation-1.1.0" = {
       name = "_at_material_slash_elevation";
       packageName = "@material/elevation";
-      version = "0.1.13";
+      version = "1.1.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@material/elevation/-/elevation-0.1.13.tgz";
-        sha1 = "a38885f3caf4398ca6a7468c308887d70bd4605b";
+        url = "https://registry.npmjs.org/@material/elevation/-/elevation-1.1.0.tgz";
+        sha512 = "m4eATJvDhWK1BT+yA1iHz5mhAk8cV9olC4mjVzm4PTAqhDH2yya4WzjN1HPVHE/a65ObyZ7V4qopxu9MRocm3A==";
       };
     };
-    "@material/fab-0.3.16" = {
+    "@material/fab-1.1.0" = {
       name = "_at_material_slash_fab";
       packageName = "@material/fab";
-      version = "0.3.16";
+      version = "1.1.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@material/fab/-/fab-0.3.16.tgz";
-        sha512 = "xiLEi6L7Ethhr/MJYfW/d6yMSNt7wBHswhZ+GOPBb/MQ7ODT6mSPknoNx9pE2IlQNdEY27+spijTcEpERzzJZg==";
+        url = "https://registry.npmjs.org/@material/fab/-/fab-1.1.0.tgz";
+        sha512 = "oCvo/4TFri+agTkGvEd5lREuwowInYw6OBbwNmGxpWQs4QGlMGHRS9/h8sfMYNZxs2TrwNUCwf/DK0WZEvniLQ==";
       };
     };
-    "@material/form-field-0.2.17" = {
+    "@material/feature-targeting-0.44.1" = {
+      name = "_at_material_slash_feature-targeting";
+      packageName = "@material/feature-targeting";
+      version = "0.44.1";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/@material/feature-targeting/-/feature-targeting-0.44.1.tgz";
+        sha512 = "90cc7njn4aHbH9UxY8qgZth1W5JgOgcEdWdubH1t7sFkwqFxS5g3zgxSBt46TygFBVIXNZNq35Xmg80wgqO7Pg==";
+      };
+    };
+    "@material/floating-label-1.1.0" = {
+      name = "_at_material_slash_floating-label";
+      packageName = "@material/floating-label";
+      version = "1.1.0";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/@material/floating-label/-/floating-label-1.1.0.tgz";
+        sha512 = "7q7V+9o9XesgMnK11up9z+BcRFwtLIAIqVTCL3liKRARNHuzw9FGrGMKhTJUKvLZ3z0bM1+FmmVlA3q9FJWehQ==";
+      };
+    };
+    "@material/form-field-1.1.0" = {
       name = "_at_material_slash_form-field";
       packageName = "@material/form-field";
-      version = "0.2.17";
+      version = "1.1.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@material/form-field/-/form-field-0.2.17.tgz";
-        sha1 = "7e2a268495160712c0d96d44530820098a5dca55";
+        url = "https://registry.npmjs.org/@material/form-field/-/form-field-1.1.0.tgz";
+        sha512 = "/m382G90rctenVAbPwTzAVtQGm9Bjnnvde03WPijFE6kirczi6pJWns+cFtN///e5nUc5fhBwNdpEnJmoUYvQg==";
       };
     };
-    "@material/grid-list-0.2.13" = {
+    "@material/grid-list-1.1.0" = {
       name = "_at_material_slash_grid-list";
       packageName = "@material/grid-list";
-      version = "0.2.13";
+      version = "1.1.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@material/grid-list/-/grid-list-0.2.13.tgz";
-        sha1 = "04ce198d23c710c67316f1ec5f0409829fd6bead";
+        url = "https://registry.npmjs.org/@material/grid-list/-/grid-list-1.1.0.tgz";
+        sha512 = "YukGKO4EzJca5DktfcNKCcrE6B3j/0CznCS0yfAoYagGZxsmmxa1wY4BcObuocIP31/xksRMUCieRbWpKzBhBQ==";
       };
     };
-    "@material/icon-toggle-0.1.22" = {
-      name = "_at_material_slash_icon-toggle";
-      packageName = "@material/icon-toggle";
-      version = "0.1.22";
+    "@material/icon-button-1.1.0" = {
+      name = "_at_material_slash_icon-button";
+      packageName = "@material/icon-button";
+      version = "1.1.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@material/icon-toggle/-/icon-toggle-0.1.22.tgz";
-        sha1 = "c6c449851f6b9ed29ff3799ee55a3410809b890f";
+        url = "https://registry.npmjs.org/@material/icon-button/-/icon-button-1.1.0.tgz";
+        sha512 = "3HYOfFhlgpY32HyNt1thQJfTycjy0Cfd4B4IZmt2irfaETdj6JuP0wKs9kdEx1VHTbfWFkJHENArz0lPW+6r2A==";
       };
     };
-    "@material/layout-grid-0.1.2" = {
+    "@material/image-list-1.1.0" = {
+      name = "_at_material_slash_image-list";
+      packageName = "@material/image-list";
+      version = "1.1.0";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/@material/image-list/-/image-list-1.1.0.tgz";
+        sha512 = "X4ZlrzMbtZ80kkZQQHTR6CJEgBbCuQ3bYcJiXeTYS5jvl7frtiqf7CPkkrAZ4ftaaS/qiJgWMZUz3U5YaaAAsQ==";
+      };
+    };
+    "@material/layout-grid-0.41.0" = {
       name = "_at_material_slash_layout-grid";
       packageName = "@material/layout-grid";
-      version = "0.1.2";
+      version = "0.41.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@material/layout-grid/-/layout-grid-0.1.2.tgz";
-        sha1 = "c19d69e3a8ff9f0949528e1c7fe2ab4fda492c7b";
+        url = "https://registry.npmjs.org/@material/layout-grid/-/layout-grid-0.41.0.tgz";
+        sha512 = "Sa5RNoTGgfIojqJ9E94p7/k11V6q/tGk7HwKi4AQNAPjxield0zcl3G/SbsSb8YSHoK+D+7OXDN+n11x6EqF7g==";
       };
     };
-    "@material/list-0.2.20" = {
+    "@material/line-ripple-1.1.0" = {
+      name = "_at_material_slash_line-ripple";
+      packageName = "@material/line-ripple";
+      version = "1.1.0";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/@material/line-ripple/-/line-ripple-1.1.0.tgz";
+        sha512 = "XqCxDNfgkh9zq0IVlTEFVjmQV8hx8m4vxLFM5qwHDDqcKPlX/Lfc8M43fmm9uE1CaJBC6whMGPvOt/dIla+RUg==";
+      };
+    };
+    "@material/linear-progress-1.1.0" = {
+      name = "_at_material_slash_linear-progress";
+      packageName = "@material/linear-progress";
+      version = "1.1.0";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/@material/linear-progress/-/linear-progress-1.1.0.tgz";
+        sha512 = "MIK0cD/o1rTLREtAfTK3v60h7A0/wAu8/3v9dPTMlAPe+Y5gOarAizYWM3r/bp88sGO4gU8nPK0X9/daD28pNw==";
+      };
+    };
+    "@material/list-1.1.0" = {
       name = "_at_material_slash_list";
       packageName = "@material/list";
-      version = "0.2.20";
+      version = "1.1.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@material/list/-/list-0.2.20.tgz";
-        sha1 = "5ed4b31be3b19c1ac5c2f45b8bd8885bb5737434";
+        url = "https://registry.npmjs.org/@material/list/-/list-1.1.0.tgz";
+        sha512 = "+NqVwqhRX08kjDatwZRO/LiiOw9gl7eq2Ogi8hrWkXqYn9ARfUq3K74MeTIit9f7BGPobs86dXBaQ/mjI5HSXg==";
       };
     };
-    "@material/menu-0.2.7" = {
+    "@material/menu-1.1.0" = {
       name = "_at_material_slash_menu";
       packageName = "@material/menu";
-      version = "0.2.7";
+      version = "1.1.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@material/menu/-/menu-0.2.7.tgz";
-        sha1 = "8e7c43b28d77160efd97eed17b6b2dd37b320aab";
+        url = "https://registry.npmjs.org/@material/menu/-/menu-1.1.0.tgz";
+        sha512 = "oEubeu4h5EWeaOWbDwstmWkzBSq/2qVtu476CLmaAI5joUilXaPBKpryv4F+ZRIDlVQjs5Ey7uBotxDwDELPQA==";
       };
     };
-    "@material/menu-0.4.8" = {
-      name = "_at_material_slash_menu";
-      packageName = "@material/menu";
-      version = "0.4.8";
+    "@material/menu-surface-1.1.0" = {
+      name = "_at_material_slash_menu-surface";
+      packageName = "@material/menu-surface";
+      version = "1.1.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@material/menu/-/menu-0.4.8.tgz";
-        sha1 = "603b4005d96970e15474f9d2823f4c7ca0f5287b";
+        url = "https://registry.npmjs.org/@material/menu-surface/-/menu-surface-1.1.0.tgz";
+        sha512 = "FjCA6TBgeY+mwNcjfeq5/3TCSyhtXxHrT/xQrz1LyrztuHI4Qu7bTb496pXlfPsZHQuwmo9PqW+pwP78noDf9A==";
       };
     };
-    "@material/radio-0.2.15" = {
+    "@material/notched-outline-1.1.0" = {
+      name = "_at_material_slash_notched-outline";
+      packageName = "@material/notched-outline";
+      version = "1.1.0";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/@material/notched-outline/-/notched-outline-1.1.0.tgz";
+        sha512 = "J/MCe3an5lTxzYZPzHxblbVZu51OKeum4BU9PeV9WJW+IBGBAnQmT2uf53rqAzhEchIpv39MYmJLPMJghVxWAg==";
+      };
+    };
+    "@material/radio-1.1.0" = {
       name = "_at_material_slash_radio";
       packageName = "@material/radio";
-      version = "0.2.15";
+      version = "1.1.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@material/radio/-/radio-0.2.15.tgz";
-        sha1 = "3598f79cbe1c413c2b54ac32b0db12955f93636b";
+        url = "https://registry.npmjs.org/@material/radio/-/radio-1.1.0.tgz";
+        sha512 = "ySocik+l1fInopaA8hDfByJahv1UywUNtUcG7+hLLOhxQx4XVpUJUIjU/dlvVDYJB0QZQatm2asKi2cYVPlIsQ==";
       };
     };
-    "@material/ripple-0.5.1" = {
+    "@material/ripple-1.1.0" = {
       name = "_at_material_slash_ripple";
       packageName = "@material/ripple";
-      version = "0.5.1";
+      version = "1.1.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@material/ripple/-/ripple-0.5.1.tgz";
-        sha1 = "b361f10d30fd4e6e1db9c5234a0dac32dfe35ce6";
+        url = "https://registry.npmjs.org/@material/ripple/-/ripple-1.1.0.tgz";
+        sha512 = "mkfDBZAmxjpRG7V9TrfOmLxt1g/wvGHCXtYPgvH7W8ozjf53edqxLOFENEdvHbie27y9nyixzXn0gzU0HnxSeA==";
       };
     };
-    "@material/ripple-0.6.2" = {
-      name = "_at_material_slash_ripple";
-      packageName = "@material/ripple";
-      version = "0.6.2";
-      src = fetchurl {
-        url = "https://registry.npmjs.org/@material/ripple/-/ripple-0.6.2.tgz";
-        sha1 = "a8556db7c141d35f5582c5990be8690bef9dee59";
-      };
-    };
-    "@material/ripple-0.7.0" = {
-      name = "_at_material_slash_ripple";
-      packageName = "@material/ripple";
-      version = "0.7.0";
-      src = fetchurl {
-        url = "https://registry.npmjs.org/@material/ripple/-/ripple-0.7.0.tgz";
-        sha1 = "ea784a6c54f8d493d3df21440dcfaba706fb0caa";
-      };
-    };
-    "@material/ripple-0.8.8" = {
-      name = "_at_material_slash_ripple";
-      packageName = "@material/ripple";
-      version = "0.8.8";
-      src = fetchurl {
-        url = "https://registry.npmjs.org/@material/ripple/-/ripple-0.8.8.tgz";
-        sha1 = "22b89ed9e63883f17fa4f00d12370e32e0c459b7";
-      };
-    };
-    "@material/rtl-0.1.8" = {
+    "@material/rtl-0.42.0" = {
       name = "_at_material_slash_rtl";
       packageName = "@material/rtl";
-      version = "0.1.8";
+      version = "0.42.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@material/rtl/-/rtl-0.1.8.tgz";
-        sha512 = "NzBobwxvhJg+dch99pVO+Z9HL1DM+esuIy5WYXgM7trfOVh8n9DkVo5vD/NKnDy6F5wCaRnJOI5T19Tev6c9Zw==";
+        url = "https://registry.npmjs.org/@material/rtl/-/rtl-0.42.0.tgz";
+        sha512 = "VrnrKJzhmspsN8WXHuxxBZ69yM5IwhCUqWr1t1eNfw3ZEvEj7i1g3P31HGowKThIN1dc1Wh4LE14rCISWCtv5w==";
       };
     };
-    "@material/select-0.3.18" = {
+    "@material/select-1.1.0" = {
       name = "_at_material_slash_select";
       packageName = "@material/select";
-      version = "0.3.18";
+      version = "1.1.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@material/select/-/select-0.3.18.tgz";
-        sha1 = "6301de3c77ae749edeedb97dd236b55b30c0a332";
+        url = "https://registry.npmjs.org/@material/select/-/select-1.1.0.tgz";
+        sha512 = "sl5dt+sepqfo4HC82085q9sSCaXoK1swmeQ54Yp8KWlit9CtfV4/QZT83NwF9eEbQF3NmtCdh9T2ueaX//uihg==";
       };
     };
-    "@material/selection-control-0.1.3" = {
-      name = "_at_material_slash_selection-control";
-      packageName = "@material/selection-control";
-      version = "0.1.3";
+    "@material/shape-1.0.0" = {
+      name = "_at_material_slash_shape";
+      packageName = "@material/shape";
+      version = "1.0.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@material/selection-control/-/selection-control-0.1.3.tgz";
-        sha1 = "4fb7ed1fd7ee2296a32c156cf2c1eb892bfe44c6";
+        url = "https://registry.npmjs.org/@material/shape/-/shape-1.0.0.tgz";
+        sha512 = "zfXEacPQZmH+ujVtaFyfAsYiF46j1QCcFzJeZVouG4pznrbA7XD6614Ywg0wbyWX5iB6hD52ld/IN+R/6oxKqA==";
       };
     };
-    "@material/snackbar-0.1.11" = {
+    "@material/slider-1.1.0" = {
+      name = "_at_material_slash_slider";
+      packageName = "@material/slider";
+      version = "1.1.0";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/@material/slider/-/slider-1.1.0.tgz";
+        sha512 = "JV/Phpt38LUVb2sQCr2pBsf0faw0E5LI7ag3dNF3hDq1f3F9Vcu+a8oNADi2M+TNlyelltAMKnc9guARwhDLKw==";
+      };
+    };
+    "@material/snackbar-1.1.0" = {
       name = "_at_material_slash_snackbar";
       packageName = "@material/snackbar";
-      version = "0.1.11";
+      version = "1.1.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@material/snackbar/-/snackbar-0.1.11.tgz";
-        sha1 = "065fa03bfe259232276b2b715c9532242ae2341a";
+        url = "https://registry.npmjs.org/@material/snackbar/-/snackbar-1.1.0.tgz";
+        sha512 = "gPTvAg/Djzz2FHVruGNvdvOkNoeZPctc1hasksBmJPHhQ0nQtc3JsRPfNTLAy32k8aF2+JlrEa1YGMAnltkuPA==";
       };
     };
-    "@material/switch-0.1.15" = {
+    "@material/switch-1.1.0" = {
       name = "_at_material_slash_switch";
       packageName = "@material/switch";
-      version = "0.1.15";
+      version = "1.1.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@material/switch/-/switch-0.1.15.tgz";
-        sha1 = "6f2b1f1ef7c3dc96e32a68a3101498b562914619";
+        url = "https://registry.npmjs.org/@material/switch/-/switch-1.1.0.tgz";
+        sha512 = "hwgPzMgZksmJB/hOHQqrT7SZ6TpYaBtkW6BDhCojluBzaMDfDZxeXbNAhAYCO+tJI9p+CndPF+InsocCQDAJXA==";
       };
     };
-    "@material/textfield-0.2.11" = {
+    "@material/tab-1.1.0" = {
+      name = "_at_material_slash_tab";
+      packageName = "@material/tab";
+      version = "1.1.0";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/@material/tab/-/tab-1.1.0.tgz";
+        sha512 = "62uttUJURFM36AmXNSrH5ewxJJv632pryEXllpBB1WCHYv6QqRwgfQ6dTjE5xdgSa4k+1X2BJCgmD/0ghc233A==";
+      };
+    };
+    "@material/tab-bar-1.1.0" = {
+      name = "_at_material_slash_tab-bar";
+      packageName = "@material/tab-bar";
+      version = "1.1.0";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/@material/tab-bar/-/tab-bar-1.1.0.tgz";
+        sha512 = "uhtIRiyOvBVMZ5Wf6QctPfI/amXfWR9sXjHpYj+So6GPRNgmeQFkRJ1yyxU3KthBoyzfLvj57sgWEsBlSkiJzw==";
+      };
+    };
+    "@material/tab-indicator-1.1.0" = {
+      name = "_at_material_slash_tab-indicator";
+      packageName = "@material/tab-indicator";
+      version = "1.1.0";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/@material/tab-indicator/-/tab-indicator-1.1.0.tgz";
+        sha512 = "wbZMFCfQo62einr/Ju9PDAeFpRR/Ori5oV2lcsF1uSQXeLxougarwcbk0egWnEtY4Wa6dPgM5P6wQQsYnIeUIQ==";
+      };
+    };
+    "@material/tab-scroller-1.1.0" = {
+      name = "_at_material_slash_tab-scroller";
+      packageName = "@material/tab-scroller";
+      version = "1.1.0";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/@material/tab-scroller/-/tab-scroller-1.1.0.tgz";
+        sha512 = "o5AuG8kwZaghuZ4kvYXIsp2tp3plHoGArF5wM7UgERk+8vMeMRmanagnpYvFwrtGgsta8EQa9sKVZ90dMIDZvg==";
+      };
+    };
+    "@material/textfield-1.1.0" = {
       name = "_at_material_slash_textfield";
       packageName = "@material/textfield";
-      version = "0.2.11";
+      version = "1.1.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@material/textfield/-/textfield-0.2.11.tgz";
-        sha512 = "k82nLd9H0QFLHYL6f/KKL0DnJakKXSCVm0G7zqU3t+7TaHqgIzHwHvLsSULtsCaIkKjlxXHTBeZmLv7DegH1Zg==";
+        url = "https://registry.npmjs.org/@material/textfield/-/textfield-1.1.0.tgz";
+        sha512 = "3+vFrWGVrGxvP4ICsniS8Sn9HHRaBz+/EZgpPnsYRcE0LcE2ABjUlwZQzeHV1h1qc0XmulmLUon8WFGvTxISkA==";
       };
     };
-    "@material/theme-0.1.7" = {
+    "@material/theme-1.1.0" = {
       name = "_at_material_slash_theme";
       packageName = "@material/theme";
-      version = "0.1.7";
+      version = "1.1.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@material/theme/-/theme-0.1.7.tgz";
-        sha1 = "d94a7c5099feae9dc318c639802327c7ae82e872";
+        url = "https://registry.npmjs.org/@material/theme/-/theme-1.1.0.tgz";
+        sha512 = "YYUV9Rhbx4r/EMb/zoOYJUWjhXChNaLlH1rqt3vpNVyxRcxGqoVMGp5u1XALBCFiD9dACPKLIkKyRYa928nmPQ==";
       };
     };
-    "@material/theme-0.2.0" = {
-      name = "_at_material_slash_theme";
-      packageName = "@material/theme";
-      version = "0.2.0";
-      src = fetchurl {
-        url = "https://registry.npmjs.org/@material/theme/-/theme-0.2.0.tgz";
-        sha512 = "JImkTjEPt6LxjU3eTeZQSZVZfCs8ooCC8nYk736bB3IRMYSJCsX5EZ+ZoEehtqRpS++VLQID3raWdGUy2kNJzA==";
-      };
-    };
-    "@material/theme-0.4.0" = {
-      name = "_at_material_slash_theme";
-      packageName = "@material/theme";
-      version = "0.4.0";
-      src = fetchurl {
-        url = "https://registry.npmjs.org/@material/theme/-/theme-0.4.0.tgz";
-        sha1 = "0aef1a0279b65c15990584fb8b8eca095c734641";
-      };
-    };
-    "@material/toolbar-0.2.2" = {
+    "@material/toolbar-1.1.0" = {
       name = "_at_material_slash_toolbar";
       packageName = "@material/toolbar";
-      version = "0.2.2";
+      version = "1.1.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@material/toolbar/-/toolbar-0.2.2.tgz";
-        sha1 = "1d87d6ba4e5d6cd0010031c151d9f29b5ec949ed";
+        url = "https://registry.npmjs.org/@material/toolbar/-/toolbar-1.1.0.tgz";
+        sha512 = "NrO3Z1YH6AGbLjS91BT4BTaUL1ghXHB0Wrre+rT1mmQ7VXtr+AaTSshu9xc7z3wcVuPotR41OOdZqSCDWjzBrg==";
       };
     };
-    "@material/typography-0.1.1" = {
+    "@material/top-app-bar-1.1.0" = {
+      name = "_at_material_slash_top-app-bar";
+      packageName = "@material/top-app-bar";
+      version = "1.1.0";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/@material/top-app-bar/-/top-app-bar-1.1.0.tgz";
+        sha512 = "fxVKFolNzPG4+LqH8GUxDKfjRZtQNDYX8sGD6c2pKbk1tigyiAGBO/Py31RQQkbAdCKPdmnanGJK2gewaUdw4g==";
+      };
+    };
+    "@material/typography-1.0.0" = {
       name = "_at_material_slash_typography";
       packageName = "@material/typography";
-      version = "0.1.1";
+      version = "1.0.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@material/typography/-/typography-0.1.1.tgz";
-        sha1 = "fb2e3437bd3284d39e9fb91485767ade6b2bd0c1";
+        url = "https://registry.npmjs.org/@material/typography/-/typography-1.0.0.tgz";
+        sha512 = "Oeqbjci1cC7jTE8/n3dwnkqKe9ZeWiaE+rgMtRYtRFw1HvAw14SpGA5EEAS/Li2Hu2KZ50FYCe3HYqShfxtChA==";
       };
     };
-    "@material/typography-0.2.3" = {
-      name = "_at_material_slash_typography";
-      packageName = "@material/typography";
-      version = "0.2.3";
-      src = fetchurl {
-        url = "https://registry.npmjs.org/@material/typography/-/typography-0.2.3.tgz";
-        sha1 = "cddf4178098c9c7b4c2e78a33049376b4d6aeb53";
-      };
-    };
-    "@material/typography-0.3.0" = {
-      name = "_at_material_slash_typography";
-      packageName = "@material/typography";
-      version = "0.3.0";
-      src = fetchurl {
-        url = "https://registry.npmjs.org/@material/typography/-/typography-0.3.0.tgz";
-        sha1 = "f828c2d3215bfd66c58072709b4260c64125390a";
-      };
-    };
-    "focus-trap-2.4.6" = {
+    "focus-trap-4.0.2" = {
       name = "focus-trap";
       packageName = "focus-trap";
-      version = "2.4.6";
+      version = "4.0.2";
       src = fetchurl {
-        url = "https://registry.npmjs.org/focus-trap/-/focus-trap-2.4.6.tgz";
-        sha512 = "vWZTPtBU6pBoyWZDRZJHkXsyP2ZCZBHE3DRVXnSVdQKH/mcDtu9S5Kz8CUDyIqpfZfLEyI9rjKJLnc4Y40BRBg==";
+        url = "https://registry.npmjs.org/focus-trap/-/focus-trap-4.0.2.tgz";
+        sha512 = "HtLjfAK7Hp2qbBtLS6wEznID1mPT+48ZnP2nkHzgjpL4kroYHg0CdqJ5cTXk+UO5znAxF5fRUkhdyfgrhh8Lzw==";
       };
     };
-    "material-components-web-0.9.1" = {
+    "material-components-web-1.1.0" = {
       name = "material-components-web";
       packageName = "material-components-web";
-      version = "0.9.1";
+      version = "1.1.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/material-components-web/-/material-components-web-0.9.1.tgz";
-        sha1 = "052d02c81f1af2a361568ae95d232e3efd8b6345";
+        url = "https://registry.npmjs.org/material-components-web/-/material-components-web-1.1.0.tgz";
+        sha512 = "bTivBr0oZUfw9N32G/PVZ4RRzH8ge7V8CXlGblVB4WE1HJQU5FVgp7cN1z5vYQhEGOCtyT0VlHjzWvOWKMDxFg==";
       };
     };
     "material-design-icons-3.0.1" = {
@@ -382,22 +409,40 @@ let
         sha1 = "9a71c48747218ebca51e51a66da682038cdcb7bf";
       };
     };
-    "roboto-fontface-0.7.1" = {
+    "roboto-fontface-0.10.0" = {
       name = "roboto-fontface";
       packageName = "roboto-fontface";
-      version = "0.7.1";
+      version = "0.10.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/roboto-fontface/-/roboto-fontface-0.7.1.tgz";
-        sha512 = "nMrOlRrGc1lHfIgW1kpw7IYh0EZ98YZtNA5aSKbVBL4y+1DfqASRkB2qB4/5f1yM4gn7sPtMjLgXngUe4mqR9Q==";
+        url = "https://registry.npmjs.org/roboto-fontface/-/roboto-fontface-0.10.0.tgz";
+        sha512 = "OlwfYEgA2RdboZohpldlvJ1xngOins5d7ejqnIBWr9KaMxsnBqotpptRXTyfNRLnFpqzX6sTDt+X+a+6udnU8g==";
       };
     };
-    "tabbable-1.1.3" = {
+    "tabbable-3.1.2" = {
       name = "tabbable";
       packageName = "tabbable";
-      version = "1.1.3";
+      version = "3.1.2";
       src = fetchurl {
-        url = "https://registry.npmjs.org/tabbable/-/tabbable-1.1.3.tgz";
-        sha512 = "nOWwx35/JuDI4ONuF0ZTo6lYvI0fY0tZCH1ErzY2EXfu4az50ZyiUX8X073FLiZtmWUVlkRnuXsehjJgCw9tYg==";
+        url = "https://registry.npmjs.org/tabbable/-/tabbable-3.1.2.tgz";
+        sha512 = "wjB6puVXTYO0BSFtCmWQubA/KIn7Xvajw0x0l6eJUudMG/EAiJvIUnyNX6xO4NpGrJ16lbD0eUseB9WxW0vlpQ==";
+      };
+    };
+    "tslib-1.9.3" = {
+      name = "tslib";
+      packageName = "tslib";
+      version = "1.9.3";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/tslib/-/tslib-1.9.3.tgz";
+        sha512 = "4krF8scpejhaOgqzBEcGM7yDIEfi0/8+8zDRZhNZZ2kjmHJ4hv3zCbQWxoJGz1iw5U0Jl0nma13xzHXcncMavQ==";
+      };
+    };
+    "xtend-4.0.1" = {
+      name = "xtend";
+      packageName = "xtend";
+      version = "4.0.1";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/xtend/-/xtend-4.0.1.tgz";
+        sha1 = "a5c6d532be656e23db820efb943a1f04998d63af";
       };
     };
   };
@@ -407,145 +452,55 @@ let
     version = "1.0.0";
     src = ./.;
     dependencies = [
-      sources."@material/animation-0.1.5"
-      sources."@material/auto-init-0.1.4"
-      sources."@material/base-0.1.3"
-      (sources."@material/button-0.3.11" // {
-        dependencies = [
-          sources."@material/base-0.2.6"
-          (sources."@material/ripple-0.8.8" // {
-            dependencies = [
-              sources."@material/theme-0.4.0"
-            ];
-          })
-          sources."@material/typography-0.3.0"
-        ];
-      })
-      sources."@material/card-0.1.8"
-      (sources."@material/checkbox-0.3.7" // {
-        dependencies = [
-          sources."@material/animation-0.2.3"
-          sources."@material/base-0.2.6"
-          sources."@material/ripple-0.7.0"
-        ];
-      })
-      (sources."@material/dialog-0.2.4" // {
-        dependencies = [
-          sources."@material/animation-0.2.3"
-          (sources."@material/ripple-0.6.2" // {
-            dependencies = [
-              sources."@material/base-0.2.6"
-            ];
-          })
-          sources."@material/typography-0.1.1"
-        ];
-      })
-      sources."@material/drawer-0.3.1"
-      (sources."@material/elevation-0.1.13" // {
-        dependencies = [
-          sources."@material/animation-0.4.1"
-        ];
-      })
-      (sources."@material/fab-0.3.16" // {
-        dependencies = [
-          sources."@material/animation-0.3.1"
-          sources."@material/base-0.2.6"
-          (sources."@material/ripple-0.8.8" // {
-            dependencies = [
-              sources."@material/theme-0.4.0"
-            ];
-          })
-          sources."@material/theme-0.2.0"
-        ];
-      })
-      (sources."@material/form-field-0.2.17" // {
-        dependencies = [
-          sources."@material/base-0.2.6"
-          sources."@material/theme-0.4.0"
-          sources."@material/typography-0.3.0"
-        ];
-      })
-      (sources."@material/grid-list-0.2.13" // {
-        dependencies = [
-          sources."@material/base-0.2.6"
-          sources."@material/theme-0.4.0"
-          sources."@material/typography-0.3.0"
-        ];
-      })
-      (sources."@material/icon-toggle-0.1.22" // {
-        dependencies = [
-          sources."@material/animation-0.4.1"
-          sources."@material/base-0.2.6"
-          sources."@material/ripple-0.8.8"
-          sources."@material/theme-0.4.0"
-        ];
-      })
-      sources."@material/layout-grid-0.1.2"
-      (sources."@material/list-0.2.20" // {
-        dependencies = [
-          sources."@material/base-0.2.6"
-          sources."@material/ripple-0.8.8"
-          sources."@material/theme-0.4.0"
-          sources."@material/typography-0.3.0"
-        ];
-      })
-      (sources."@material/menu-0.2.7" // {
-        dependencies = [
-          sources."@material/animation-0.2.3"
-          sources."@material/base-0.2.6"
-        ];
-      })
-      (sources."@material/radio-0.2.15" // {
-        dependencies = [
-          sources."@material/animation-0.4.1"
-          sources."@material/base-0.2.6"
-          sources."@material/ripple-0.8.8"
-          sources."@material/theme-0.4.0"
-        ];
-      })
-      sources."@material/ripple-0.5.1"
-      sources."@material/rtl-0.1.8"
-      (sources."@material/select-0.3.18" // {
-        dependencies = [
-          sources."@material/animation-0.4.1"
-          sources."@material/base-0.2.6"
-          sources."@material/menu-0.4.8"
-          sources."@material/theme-0.4.0"
-          sources."@material/typography-0.3.0"
-        ];
-      })
-      (sources."@material/selection-control-0.1.3" // {
-        dependencies = [
-          sources."@material/base-0.2.6"
-          sources."@material/ripple-0.8.8"
-          sources."@material/theme-0.4.0"
-        ];
-      })
-      (sources."@material/snackbar-0.1.11" // {
-        dependencies = [
-          sources."@material/animation-0.2.3"
-        ];
-      })
-      (sources."@material/switch-0.1.15" // {
-        dependencies = [
-          sources."@material/animation-0.4.1"
-          sources."@material/theme-0.4.0"
-        ];
-      })
-      (sources."@material/textfield-0.2.11" // {
-        dependencies = [
-          sources."@material/animation-0.2.3"
-          sources."@material/base-0.2.6"
-        ];
-      })
-      sources."@material/theme-0.1.7"
-      sources."@material/toolbar-0.2.2"
-      sources."@material/typography-0.2.3"
-      sources."focus-trap-2.4.6"
-      sources."material-components-web-0.9.1"
+      sources."@material/animation-1.0.0"
+      sources."@material/auto-init-1.0.0"
+      sources."@material/base-1.0.0"
+      sources."@material/button-1.1.0"
+      sources."@material/card-1.1.0"
+      sources."@material/checkbox-1.1.0"
+      sources."@material/chips-1.1.0"
+      sources."@material/dialog-1.1.0"
+      sources."@material/dom-1.1.0"
+      sources."@material/drawer-1.1.0"
+      sources."@material/elevation-1.1.0"
+      sources."@material/fab-1.1.0"
+      sources."@material/feature-targeting-0.44.1"
+      sources."@material/floating-label-1.1.0"
+      sources."@material/form-field-1.1.0"
+      sources."@material/grid-list-1.1.0"
+      sources."@material/icon-button-1.1.0"
+      sources."@material/image-list-1.1.0"
+      sources."@material/layout-grid-0.41.0"
+      sources."@material/line-ripple-1.1.0"
+      sources."@material/linear-progress-1.1.0"
+      sources."@material/list-1.1.0"
+      sources."@material/menu-1.1.0"
+      sources."@material/menu-surface-1.1.0"
+      sources."@material/notched-outline-1.1.0"
+      sources."@material/radio-1.1.0"
+      sources."@material/ripple-1.1.0"
+      sources."@material/rtl-0.42.0"
+      sources."@material/select-1.1.0"
+      sources."@material/shape-1.0.0"
+      sources."@material/slider-1.1.0"
+      sources."@material/snackbar-1.1.0"
+      sources."@material/switch-1.1.0"
+      sources."@material/tab-1.1.0"
+      sources."@material/tab-bar-1.1.0"
+      sources."@material/tab-indicator-1.1.0"
+      sources."@material/tab-scroller-1.1.0"
+      sources."@material/textfield-1.1.0"
+      sources."@material/theme-1.1.0"
+      sources."@material/toolbar-1.1.0"
+      sources."@material/top-app-bar-1.1.0"
+      sources."@material/typography-1.0.0"
+      sources."focus-trap-4.0.2"
+      sources."material-components-web-1.1.0"
       sources."material-design-icons-3.0.1"
-      sources."roboto-fontface-0.7.1"
-      sources."tabbable-1.1.3"
+      sources."roboto-fontface-0.10.0"
+      sources."tabbable-3.1.2"
+      sources."tslib-1.9.3"
+      sources."xtend-4.0.1"
     ];
     buildInputs = globalBuildInputs;
     meta = {
