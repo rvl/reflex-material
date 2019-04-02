@@ -76,7 +76,7 @@ executable reflex-material-example
                      , Radio
                      , Ripple
                      , Select
-                     , SimpleMenu
+                     , Menu
                      , Styles
                      , Textfield
                      , Toolbar

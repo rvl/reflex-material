@@ -10,7 +10,7 @@ module Reflex.Material.Framework
   , attachIconToggle
   , attachFormField
   , attachSelect
-  , attachSimpleMenu
+  , attachMenu
   , attachMenuSurface
   , attachFloatingLabel
   , attachLineRipple
@@ -162,10 +162,12 @@ attachCheckbox :: MaterialWidget t m
                -> m ()
 attachCheckbox eIndeterminate elm = do
   registerAttach (mdcAttach "checkbox" "MDCCheckbox") elm
+
   case eIndeterminate of
-    Just set -> performEvent_ $ liftJSM . setIndeterminate (_element_raw elm) <$> set
-    Nothing -> return ()
-  return ()
+    Just set -> do
+      set' <- delay 0 set -- ensure that the dom exists
+      performEvent_ (liftJSM . setIndeterminate (_element_raw elm) <$> set')
+    Nothing -> pure ()
 
 setIndeterminate :: DOM.Element -> Bool -> JSM ()
 setIndeterminate elm i = getComponent elm >>= \case
@@ -192,7 +194,9 @@ attachSelect mSetValue elm = do
   liftIO $ say "attachSelect 1"
 
   case mSetValue of
-    Just set -> performEvent_ $ liftJSM . setValueMdSelect elm' <$> set
+    Just set -> do
+      set' <- delay 0 set  -- ensure that the dom exists
+      performEvent_ $ liftJSM . setValueMdSelect elm' <$> set'
     Nothing -> return ()
 
   liftIO $ say "attachSelect 2"
@@ -249,10 +253,11 @@ js_setupSelectChangeListener elm cb = do
 
 ----------------------------------------------------------------------------
 
-attachSimpleMenu :: MaterialWidget t m => Event t Bool -> Element EventResult (DomBuilderSpace m) t -> m (Event t Int)
-attachSimpleMenu eShow elm = do
+attachMenu :: MaterialWidget t m => Event t Bool -> Element EventResult (DomBuilderSpace m) t -> m (Event t Int)
+attachMenu eShow elm = do
   let elm' = _element_raw elm
 
+  -- fixme: might crash if dom isn't created yet
   performEvent_ $ liftJSM . setMenuOpen elm' . const True <$> eShow
 
   mdcInit <- getMdcLoad
@@ -261,7 +266,7 @@ attachSimpleMenu eShow elm = do
   (eCancel, onCancel) <- newTriggerEvent
 
   let setup mdc = do
-        void $ mdcAttach "menu" "MDCSimpleMenu" elm' mdc
+        void $ mdcAttach "menu" "MDCMenu" elm' mdc
         js_setupMenuCancelListener elm' (fun $ \_ _ _ -> liftIO $ onCancel ())
 
         let selected = fun $ \_ _ [index] -> do
@@ -284,11 +289,11 @@ js_setupMenuSelectedListener elm cb = do
         detail <- getProp "detail" =<< valToObject evt
         index <- detail ! ("index" :: Text)
         cb jsUndefined this [index]
-  void $ elm ^. js2 ("addEventListener" :: Text) ("MDCSimpleMenu:selected" :: Text) listener
+  void $ elm ^. js2 ("addEventListener" :: Text) ("MDCMenu:selected" :: Text) listener
 
 js_setupMenuCancelListener :: DOM.Element -> JSCallAsFunction -> DOM.JSM ()
 js_setupMenuCancelListener elm cb =
-  addEventListener ("MDCSimpleMenu:cancel" :: Text) listener
+  addEventListener ("MDCMenu:cancel" :: Text) listener
   where
     listener = fun $ \_ this [] -> cb jsUndefined this []
     addEventListener name l = void $ elm ^. js2 ("addEventListener" :: Text) name l

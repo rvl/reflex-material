@@ -9,6 +9,7 @@ module Reflex.Material.Checkbox
   , Checkbox(..)
   ) where
 
+import Control.Lens ((^.))
 import Data.Monoid ((<>))
 import Data.Text (Text)
 import qualified Data.Text as T
@@ -60,7 +61,7 @@ mdCheckbox' checked config = do
 -- this converts the presence of indeterminate attribute into event
 -- which runs javascript to update checkbox.
 isIndeterminate :: Reflex t => CheckboxConfig t -> Event t Bool
-isIndeterminate config = fmap isind (updated (_checkboxConfig_attributes config))
+isIndeterminate config = fmap isind (updated (config ^. attributes))
   where isind = M.member "indeterminate"
 
 mdCheckboxConfig :: Reflex t => CheckboxConfig t -> CheckboxConfig t

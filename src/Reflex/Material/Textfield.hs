@@ -205,7 +205,7 @@ mdTextFieldMulti
 mdTextFieldMulti md config label = do
   (el, i) <- mdTextFieldContainer True md $ do
     i <- textArea (mdTextAreaConfig config)
-    mdFloatingLabel label (config ^. attributes(
+    mdFloatingLabel label (config ^. attributes)
     mdLineRipple
     return i
   attachTextfield el

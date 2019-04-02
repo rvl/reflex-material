@@ -32,8 +32,8 @@ import Reflex.Material.Framework (attachSelect, attachMenuSurface)
 import Reflex.Material.Types
 import Reflex.Material.Util
 
-mdSimpleMenu :: MaterialWidget t m => m a -> m a
-mdSimpleMenu items = do
+mdMenu :: MaterialWidget t m => m a -> m a
+mdMenu items = do
   (elm, a) <- elClass' "div" "mdc-select__menu mdc-menu mdc-menu-surface" $
     elClass "ul" "mdc-list" items
   attachMenuSurface elm
@@ -73,7 +73,7 @@ mdSelectElem indexedOptions setValue = do
     elAttr "input" ("type" =: "hidden" <> "name" =: "enhanced-select") $ blank
     elClass "i" "mdc-select__dropdown-icon" blank
     elClass "div" "mdc-select__selected-text" blank
-    mdSimpleMenu $ listWithKey indexedOptions $ \(ix, k) v ->
+    mdMenu $ listWithKey indexedOptions $ \(ix, k) v ->
       let attrs = "class" =: "mdc-list-item" <> "data-value" =: tshow ix <>
                   "role" =: "option" <> "tabindex" =: "0"
       in void $ elAttr "li" attrs $ dynText v

@@ -2,7 +2,7 @@
 {-# LANGUAGE FlexibleContexts #-}
 
 module Reflex.Material.Menu
-  ( mdSimpleMenu
+  ( mdMenu
   , mdMenuItem
   , mdMenuDivider
   ) where
@@ -16,26 +16,26 @@ import qualified Data.Map as M
 import Reflex.Dom
 
 import Reflex.Material.Common (MaterialWidget)
-import Reflex.Material.Framework (attachSimpleMenu)
+import Reflex.Material.Framework (attachMenu)
 
 
-data MdSimpleMenu t k = MdSimpleMenu
-  { _mdSimpleMenu_isOpen :: Dynamic t Bool
-  , _mdSimpleMenu_change :: Event t Bool
-  , _mdSimpleMenu_select :: Event t k
+data MdMenu t k = MdMenu
+  { _mdMenu_isOpen :: Dynamic t Bool
+  , _mdMenu_change :: Event t Bool
+  , _mdMenu_select :: Event t k
   }
 
-data MdSimpleMenuConfig t k = MdSimpleMenuConfig
-  { _mdSimpleMenuConfig_show :: Event t k
-  , _mdSimpleMenuConfig_attributes :: Dynamic t (Map Text Text)
+data MdMenuConfig t k = MdMenuConfig
+  { _mdMenuConfig_show :: Event t k
+  , _mdMenuConfig_attributes :: Dynamic t (Map Text Text)
   }
 
-mdSimpleMenu :: MaterialWidget t m => Event t Bool -> m a -> m (Event t Int)
-mdSimpleMenu eOpen items = do
+mdMenu :: MaterialWidget t m => Event t Bool -> m a -> m (Event t Int)
+mdMenu eOpen items = do
   (el, _) <- elAttr' "div" attrs items
-  attachSimpleMenu eOpen el
+  attachMenu eOpen el
   where
-    attrs = "class" =: "mdc-simple-menu" <>
+    attrs = "class" =: "mdc-menu mdc-menu-surface" <>
             "tabindex" =: "-1" <>
             "style" =: "position: absolute;"
 

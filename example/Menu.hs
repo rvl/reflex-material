@@ -1,7 +1,7 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE FlexibleContexts #-}
 
-module SimpleMenu (simpleMenuEx) where
+module Menu (menuEx) where
 
 import Data.Monoid ((<>), mempty)
 import Reflex.Dom
@@ -23,8 +23,8 @@ left = ("left" =: "0")
 bottom = ("bottom" =: "0")
 right = ("right" =: "0")
 
-simpleMenuEx :: (MaterialWidget t m, PostBuild t m, MonadFix m, MonadHold t m) => m ()
-simpleMenuEx = do
+menuEx :: (MaterialWidget t m, PostBuild t m, MonadFix m, MonadHold t m) => m ()
+menuEx = do
   elAttr "main" ("class" =: "simple-menu") $ do
     title_ "MDC Simple Menu"
     alignStyle <- el "div" $ do
@@ -46,7 +46,7 @@ simpleMenuEx = do
          mdMenuAnchor alignStyle $ do
            eToggle <- mdButton def (text "Toggle")
 
-           eMenu <- mdSimpleMenu (True <$ eToggle) $
+           eMenu <- mdMenu (True <$ eToggle) $
              elAttr "ul" ("class" =: "mdc-simple-menu__items mdc-list" <>
                           "role" =: "menu" <>
                           "aria-hidden" =: "true") $ do
