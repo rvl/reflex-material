@@ -70,15 +70,16 @@ mdSelectElem
   -> m (El t, Event t Int)
 mdSelectElem indexedOptions setValue = do
   (eRaw, _) <- elDynAttr' "div" (constDyn ("class" =: "mdc-select" <> "role" =: "listbox" <> "tabindex" =: "0")) $ do
-    elAttr "input" ("type" =: "hidden" <> "name" =: "enhanced-select") $ blank
+    elAttr "input" ("type" =: "hidden" <> "name" =: "enhanced-select") blank
     elClass "i" "mdc-select__dropdown-icon" blank
     elClass "div" "mdc-select__selected-text" blank
-    mdMenu $ listWithKey indexedOptions $ \(ix, k) v ->
+    list <- mdMenu $ listWithKey indexedOptions $ \(ix, k) v ->
       let attrs = "class" =: "mdc-list-item" <> "data-value" =: tshow ix <>
                   "role" =: "option" <> "tabindex" =: "0"
       in void $ elAttr "li" attrs $ dynText v
-  elClass "span" "mdc-floating-label" $ text "the label goes here"
-  elClass "div" "mdc-line-ripple" blank
+    elClass "span" "mdc-floating-label" $ text "the label goes here"
+    elClass "div" "mdc-line-ripple" blank
+    pure list
   eSelectChange <- attachSelect (Just setValue) eRaw
   return (eRaw, eSelectChange)
 
