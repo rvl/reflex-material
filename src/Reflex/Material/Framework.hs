@@ -23,7 +23,6 @@ import Control.Lens ((^.))
 import Data.Text (Text)
 import Control.Monad (void, when)
 import Control.Monad.IO.Class (liftIO)
-import Say
 
 import qualified Data.JSString as JSString
 import Language.Javascript.JSaddle (JSVal, js, js0, js1, js2, js3, jss, jsg, fun, function, JSCallAsFunction, isTruthy, jsUndefined, ghcjsPure, strictEqual, setProp, toJSBool, valToObject, Object, toJSVal, getProp, fromJSValUnchecked, (!), (!!), MakeArgs, jsf, jsNull)
@@ -38,6 +37,7 @@ import Reflex.Material.Common (MaterialWidget)
 ----------------------------------------------------------------------------
 -- Notes on framework integration are here:
 --   https://github.com/material-components/material-components-web/blob/master/docs/integrating-into-frameworks.md
+--
 -- This module uses the simple method of integration. Writing an
 -- adapter doesn't seem to be necessary.
 ----------------------------------------------------------------------------
@@ -95,9 +95,6 @@ registerAttach'
   :: (MaterialWidget t m, MonadJSM (Performable m), PostBuild t m)
   => (DOM.Element -> MdcRef -> JSM a) -> DOM.Element -> m ()
 registerAttach' attachJS elm = do
-  liftJSM $ do
-    w <- jsg ("console" :: Text)
-    w ^. js2 ("log" :: Text) ("registerAttach" :: Text) elm
   mdc <- getMdcLoad
   performEvent_ ((liftJSM . void . attachJS elm) <$> mdc)
   pure ()
@@ -109,6 +106,7 @@ registerAttach' attachJS elm = do
 -- | Event which occurs after postBuild and once mdc javascript is loaded.
 getMdcLoad :: MaterialWidget t m => m (Event t MdcRef)
 getMdcLoad = do
+  -- Delay after postBuild is to ensure that dom elements exist.
   pb <- delay 0 =<< getPostBuild
   (eLoadMdc, onLoadMdc) <- newTriggerEvent
 
@@ -164,9 +162,8 @@ attachCheckbox eIndeterminate elm = do
   registerAttach (mdcAttach "checkbox" "MDCCheckbox") elm
 
   case eIndeterminate of
-    Just set -> do
-      set' <- delay 0 set -- ensure that the dom exists
-      performEvent_ (liftJSM . setIndeterminate (_element_raw elm) <$> set')
+    Just set ->
+      performEvent_ (liftJSM . setIndeterminate (_element_raw elm) <$> set)
     Nothing -> pure ()
 
 setIndeterminate :: DOM.Element -> Bool -> JSM ()
@@ -191,49 +188,35 @@ attachSelect :: forall t m. MaterialWidget t m
 attachSelect mSetValue elm = do
   let elm' = _element_raw elm
 
-  liftIO $ say "attachSelect 1"
-
   case mSetValue of
-    Just set -> do
-      set' <- delay 0 set  -- ensure that the dom exists
-      performEvent_ $ liftJSM . setValueMdSelect elm' <$> set'
+    Just set ->
+      performEvent_ $ liftJSM . setValueMdSelect elm' <$> set
     Nothing -> return ()
-
-  liftIO $ say "attachSelect 2"
 
   mdcInit <- getMdcLoad
   (eChange, onChange) <- newTriggerEvent
 
   let
     setup mdc = do
-      liftIO $ say "setup"
       component <- mdcAttach "select" "MDCSelect" elm' mdc
-      liftIO $ say "got mdc"
       js_setupSelectChangeListener elm' $ fun $ \_ _ _args -> do
-        liftIO $ say "select change listener fired"
         v <- getValueMdSelect component
         liftIO $ onChange v
       pure ()
 
-  liftIO $ say "attachSelect 3"
-
   performEvent_ (liftJSM . setup <$> mdcInit)
-  liftIO $ say "attachSelect 4"
   pure eChange
 
 setValueMdSelect :: DOM.Element -> Int -> JSM ()
 setValueMdSelect elm i = do
-  liftIO $ sayString $ "setValueMdSelect " ++ show i
   getComponent elm >>= \case
     Just comp -> do
-      liftIO $ say "got a component"
       i' <- toJSVal i
       setProp "selectedIndex" i' comp
     Nothing -> pure ()
 
 getValueMdSelect :: ComponentRef -> JSM Int
-getValueMdSelect (ComponentRef val) = do
-  liftIO $ say "getValueMdSelect"
+getValueMdSelect (ComponentRef val) =
   valToObject val >>= getProp "selectedIndex" >>= fromJSValUnchecked
 
 
@@ -247,7 +230,6 @@ js_setupSelectChangeListener elm cb = do
         comp <- getProp "component" elm'
         cb jsUndefined this [comp]
 
-  liftIO $ say "adding listener"
   void $ elm ^. js2 ("addEventListener" :: Text) ("MDCSelect:change" :: Text) listener
   pure () -- fixme: return a function to clean up listener
 

@@ -44,8 +44,7 @@ mdCheckbox checked config = snd <$> mdCheckbox' checked config
 mdCheckbox' :: (MaterialWidget t m, SvgWidget t m) => Bool -> CheckboxConfig t -> m (El t, Checkbox t)
 mdCheckbox' checked config = do
   (elm, cb) <- elAttr' "div" ("class" =: cbClass []) $ do
-    let config' = mdCheckboxConfig config
-    cb <- checkbox checked config'
+    cb <- checkboxInput checked config
     divClass (cbClass ["background"]) $ do
       svgAttr "svg" ("class" =: cbClass ["checkmark"] <> "viewBox" =: "0 0 24 24") $
         svgAttr "path" ("class" =: cbClass ["checkmark-path"] <>
@@ -57,17 +56,31 @@ mdCheckbox' checked config = do
   attachCheckbox (Just $ isIndeterminate config) elm
   return (elm, cb)
 
+-- This is copied from reflex-dom with the class mdc-checkbox__native-control added.
+-- MDCCheckbox.init() needs the css class.
+{-# INLINABLE checkboxInput #-}
+checkboxInput :: (DomBuilder t m, PostBuild t m) => Bool -> CheckboxConfig t -> m (Checkbox t)
+checkboxInput checked config = do
+  let permanentAttrs = "type" =: "checkbox" <> "class" =: cbClass ["native-control"]
+      dAttrs = M.delete "checked" . M.union permanentAttrs <$> _checkboxConfig_attributes config
+
+  modifyAttrs <- dynamicAttributesToModifyAttributes dAttrs
+  i <- inputElement $ def
+    & inputElementConfig_initialChecked .~ checked
+    & inputElementConfig_setChecked .~ _checkboxConfig_setValue config
+    & inputElementConfig_elementConfig . elementConfig_initialAttributes .~ M.mapKeys (AttributeName Nothing) permanentAttrs
+    & inputElementConfig_elementConfig . elementConfig_modifyAttributes .~ fmap mapKeysToAttributeName modifyAttrs
+  return $ Checkbox
+    { _checkbox_value = _inputElement_checked i
+    , _checkbox_change = _inputElement_checkedChange i
+    }
+
 -- Reflex-dom CheckboxConfig doesn't have "indeterminate" properly, so
 -- this converts the presence of indeterminate attribute into event
 -- which runs javascript to update checkbox.
 isIndeterminate :: Reflex t => CheckboxConfig t -> Event t Bool
 isIndeterminate config = fmap isind (updated (config ^. attributes))
   where isind = M.member "indeterminate"
-
-mdCheckboxConfig :: Reflex t => CheckboxConfig t -> CheckboxConfig t
-mdCheckboxConfig c@CheckboxConfig{..} = c { _checkboxConfig_attributes = attrs' }
-  where
-    attrs' = addClass [cbClass ["native-control"]] <$> _checkboxConfig_attributes
 
 mdCheckboxLabelFor :: Reflex t => CheckboxConfig t ->  Dynamic t (Map Text Text)
 mdCheckboxLabelFor CheckboxConfig{..} = forId <$> _checkboxConfig_attributes
