@@ -1,4 +1,4 @@
 let
-  proj = import ./. {};
+  proj = import ./default.nix {};
 in
   proj.shells.ghc

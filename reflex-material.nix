@@ -2,12 +2,12 @@
 , data-default, ghcjs-dom, jsaddle, jsaddle-dom, jsaddle-warp, lens
 , reflex, reflex-dom, reflex-dom-core, say, stdenv, text, wai
 , wai-app-static, warp, websockets
-, ghc, lib
+, ghc, lib, src
 }:
 mkDerivation {
   pname = "reflex-material";
   version = "0.0.1.0";
-  src = ./.;
+  inherit src;
   isLibrary = true;
   isExecutable = true;
   libraryHaskellDepends = [

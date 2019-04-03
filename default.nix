@@ -6,7 +6,9 @@
 let
   # Add this project to the haskell package set
   project = self: super: {
-    reflex-material = self.callPackage ./reflex-material.nix {};
+    reflex-material = self.callPackage ./reflex-material.nix {
+      src = pkgs.lib.cleanSource ./.;
+    };
   };
 
   # GHCJS compile fixes
