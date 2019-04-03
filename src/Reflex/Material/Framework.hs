@@ -10,11 +10,14 @@ module Reflex.Material.Framework
   , attachIconToggle
   , attachFormField
   , attachSelect
+  , attachList
   , attachMenu
   , attachMenuSurface
   , attachFloatingLabel
   , attachLineRipple
-  , MaterialWidget
+  , mdcAttach
+  , mdcAttachInit
+  , ComponentRef
   ) where
 
 import Prelude hiding ((!!))
@@ -48,60 +51,67 @@ newtype MdcRef = MdcRef { unMdcRef :: JSVal }
 ----------------------------------------------------------------------------
 
 attachRipple :: MaterialWidget t m => Element EventResult (DomBuilderSpace m) t -> m ()
-attachRipple = registerAttach (mdcAttach "ripple" "MDCRipple")
+attachRipple = mdcAttach "ripple" "MDCRipple"
 
 attachLineRipple :: MaterialWidget t m => Element EventResult (DomBuilderSpace m) t -> m ()
-attachLineRipple = registerAttach (mdcAttach "lineRipple" "MDCLineRipple")
+attachLineRipple = mdcAttach "lineRipple" "MDCLineRipple"
 
 attachFloatingLabel :: MaterialWidget t m => Element EventResult (DomBuilderSpace m) t -> m ()
-attachFloatingLabel = registerAttach (mdcAttach "floatingLabel" "MDCFloatingLabel")
+attachFloatingLabel = mdcAttach "floatingLabel" "MDCFloatingLabel"
 
 attachTextfield :: MaterialWidget t m => Element EventResult (DomBuilderSpace m) t -> m ()
-attachTextfield = registerAttach (mdcAttach "textField" "MDCTextField")
+attachTextfield = mdcAttach "textField" "MDCTextField"
 
 attachIconToggle :: MaterialWidget t m => Element EventResult (DomBuilderSpace m) t -> m ()
-attachIconToggle = registerAttach (mdcAttach "iconToggle" "MDCIconToggle")
+attachIconToggle = mdcAttach "iconToggle" "MDCIconToggle"
 
 attachFormField
   :: MaterialWidget t m
   => Element EventResult (DomBuilderSpace m) t -- ^ The form field element
   -> Maybe (Element EventResult (DomBuilderSpace m) t) -- ^ The embedded input element
   -> m ()
-attachFormField formField input = do
-  let setup elm mdc = do
-        component <- mdcAttach "formField" "MDCFormField" elm mdc
-        maybe (pure ()) (setFormFieldInput component . _element_raw) input
-  registerAttach' setup (_element_raw formField)
+attachFormField formField input =
+  mdcAttachInit "formField" "MDCFormField" formField $ \_ component ->
+    maybe (pure ()) (setFormFieldInput component . _element_raw) input
+
+attachList :: MaterialWidget t m => Element EventResult (DomBuilderSpace m) t -> m ()
+attachList = mdcAttach "list" "MDCList"
 
 attachMenuSurface :: MaterialWidget t m => Element EventResult (DomBuilderSpace m) t -> m ()
-attachMenuSurface = registerAttach (mdcAttach "menuSurface" "MDCMenuSurface")
+attachMenuSurface = mdcAttach "menuSurface" "MDCMenuSurface"
 
 ----------------------------------------------------------------------------
 
-registerAttach
+mdcAttach
   :: (MaterialWidget t m)
-  => (DOM.Element -> MdcRef -> DOM.JSM a)
+  => Text -> Text
   -> Element EventResult (DomBuilderSpace m) t
   -> m ()
-registerAttach attachJS = registerAttach' attachJS . _element_raw
+mdcAttach mod com = flip registerAttach' (js_attachTo mod com) . _element_raw
 
-consoleLog :: (MakeArgs args) => args -> JSM ()
-consoleLog args = do
-  w <- jsg ("console" :: Text)
-  w ^. jsf ("log" :: Text) args
-  pure ()
+mdcAttachInit
+  :: (MaterialWidget t m)
+  => Text -> Text
+  -> Element EventResult (DomBuilderSpace m) t
+  -> (DOM.Element -> ComponentRef -> DOM.JSM ())
+  -> m ()
+mdcAttachInit mod com elm setup =
+  registerAttach' (_element_raw elm) $ \dom mdc -> do
+    component <- js_attachTo mod com dom mdc
+    setup dom component
 
 registerAttach'
   :: (MaterialWidget t m, MonadJSM (Performable m), PostBuild t m)
-  => (DOM.Element -> MdcRef -> JSM a) -> DOM.Element -> m ()
-registerAttach' attachJS elm = do
+  => DOM.Element
+  -> (DOM.Element -> MdcRef -> JSM a)
+  -> m ()
+registerAttach' elm attachJS = do
   mdc <- getMdcLoad
-  performEvent_ ((liftJSM . void . attachJS elm) <$> mdc)
+  performEvent_ (liftJSM . void . attachJS elm <$> mdc)
   pure ()
   -- fixme: how to clean up?
   -- pd <- getPreDestroy
   -- performEvent_ $ (liftJSM . js_mdcDetach $ el) <$ pd
-
 
 -- | Event which occurs after postBuild and once mdc javascript is loaded.
 getMdcLoad :: MaterialWidget t m => m (Event t MdcRef)
@@ -142,15 +152,32 @@ js_onLoadMdc cb = getMdc >>= \case
 
     void $ document ^. js3 ("addEventListener" :: Text) ("load" :: Text) listener True
 
-
-mdcAttach :: Text -> Text -> DOM.Element -> MdcRef -> DOM.JSM ComponentRef
-mdcAttach mod com e (MdcRef mdc) = do
+js_attachTo :: Text -> Text -> DOM.Element -> MdcRef -> DOM.JSM ComponentRef
+js_attachTo mod com e (MdcRef mdc) = do
   r <- mdc ^. js mod . js com . js1 ("attachTo" :: Text) e
   e ^. jss ("mdcComponent" :: Text) r
   pure $ ComponentRef r
 
 js_mdcDetach :: DOM.Element -> DOM.JSM ()
 js_mdcDetach e = void (e ^. js ("mdcComponent" :: Text) . js0 ("destroy" :: Text))
+
+-- Extract the component ref from a DOM element. The ref is set by
+-- 'js_attachTo'.
+getComponent :: DOM.Element -> JSM (Maybe Object)
+getComponent elm = do
+  component <- elm ^. js ("mdcComponent" :: Text)
+  isComponent <- ghcjsPure $ isTruthy component
+  if isComponent
+    then Just <$> valToObject component
+    else pure Nothing
+
+----------------------------------------------------------------------------
+
+consoleLog :: (MakeArgs args) => args -> JSM ()
+consoleLog args = do
+  w <- jsg ("console" :: Text)
+  w ^. jsf ("log" :: Text) args
+  pure ()
 
 ----------------------------------------------------------------------------
 
@@ -159,7 +186,7 @@ attachCheckbox :: MaterialWidget t m
                -> Element EventResult (DomBuilderSpace m) t
                -> m ()
 attachCheckbox eIndeterminate elm = do
-  registerAttach (mdcAttach "checkbox" "MDCCheckbox") elm
+  mdcAttach "checkbox" "MDCCheckbox" elm
 
   case eIndeterminate of
     Just set ->
@@ -170,14 +197,6 @@ setIndeterminate :: DOM.Element -> Bool -> JSM ()
 setIndeterminate elm i = getComponent elm >>= \case
   Just c -> setProp "indeterminate" (toJSBool i) c
   Nothing -> pure ()
-
-getComponent :: DOM.Element -> JSM (Maybe Object)
-getComponent elm = do
-  component <- elm ^. js ("mdcComponent" :: Text)
-  isComponent <- ghcjsPure $ isTruthy component
-  if isComponent
-    then Just <$> valToObject component
-    else pure Nothing
 
 ----------------------------------------------------------------------------
 
@@ -193,18 +212,13 @@ attachSelect mSetValue elm = do
       performEvent_ $ liftJSM . setValueMdSelect elm' <$> set
     Nothing -> return ()
 
-  mdcInit <- getMdcLoad
   (eChange, onChange) <- newTriggerEvent
 
-  let
-    setup mdc = do
-      component <- mdcAttach "select" "MDCSelect" elm' mdc
-      js_setupSelectChangeListener elm' $ fun $ \_ _ _args -> do
-        v <- getValueMdSelect component
-        liftIO $ onChange v
-      pure ()
+  mdcAttachInit "select" "MDCSelect" elm $ \elm' component -> do
+    js_setupSelectChangeListener elm' $ fun $ \_ _ _args -> do
+      v <- getValueMdSelect component
+      liftIO $ onChange v
 
-  performEvent_ (liftJSM . setup <$> mdcInit)
   pure eChange
 
 setValueMdSelect :: DOM.Element -> Int -> JSM ()
@@ -219,10 +233,6 @@ getValueMdSelect :: ComponentRef -> JSM Int
 getValueMdSelect (ComponentRef val) =
   valToObject val >>= getProp "selectedIndex" >>= fromJSValUnchecked
 
-
--- foreign import javascript unsafe
---  "(function(){ $1['addEventListener']('MDCSelect:change', function() { $2($1['mdcComponent']); }); })()"
--- js_setupSelectChangeListener :: DOM.Element -> Callback (JSVal -> DOM.JSM ()) -> DOM.JSM ()
 js_setupSelectChangeListener :: DOM.Element -> JSCallAsFunction -> DOM.JSM ()
 js_setupSelectChangeListener elm cb = do
   let listener = fun $ \_ this _ -> do
@@ -237,28 +247,21 @@ js_setupSelectChangeListener elm cb = do
 
 attachMenu :: MaterialWidget t m => Event t Bool -> Element EventResult (DomBuilderSpace m) t -> m (Event t Int)
 attachMenu eShow elm = do
-  let elm' = _element_raw elm
-
-  -- fixme: might crash if dom isn't created yet
-  performEvent_ $ liftJSM . setMenuOpen elm' . const True <$> eShow
-
-  mdcInit <- getMdcLoad
-
   (eSelected, onSelected) <- newTriggerEvent
   (eCancel, onCancel) <- newTriggerEvent
 
-  let setup mdc = do
-        void $ mdcAttach "menu" "MDCMenu" elm' mdc
-        js_setupMenuCancelListener elm' (fun $ \_ _ _ -> liftIO $ onCancel ())
+  mdcAttachInit "menu" "MDCMenu" elm $ \elm' _ -> do
+    js_setupMenuCancelListener elm' (fun $ \_ _ _ -> liftIO $ onCancel ())
 
-        let selected = fun $ \_ _ [index] -> do
+    let selected = fun $ \_ _ [index] -> do
               index' <- fromJSValUnchecked index
               liftIO $ onSelected index'
-        js_setupMenuSelectedListener elm' selected
+    js_setupMenuSelectedListener elm' selected
 
-  performEvent_ (liftJSM . setup <$> mdcInit)
+  -- fixme: might crash if dom isn't created yet
+  performEvent_ $ liftJSM . setMenuOpen (_element_raw elm) . const True <$> eShow
+
   pure eSelected
-
 
 setMenuOpen :: DOM.Element -> Bool -> JSM ()
 setMenuOpen el i = getComponent el >>= \case
