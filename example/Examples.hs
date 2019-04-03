@@ -101,7 +101,7 @@ exampleBtn
   => Text -> Text -> Text -> Bool -> m (Event t ())
 exampleBtn title desc icon todo = do
   (e, _) <- elClass' "li" (unCssClass mdcListItem_ <> (if todo then " demo-todo" else "")) $ do
-    elClass "span" ("catalog-list-icon " <> unCssClass mdcListItemStartDetail_) (iconEx icon)
+    elClass "span" ("catalog-list-icon " <> unCssClass mdcListItemGraphic_) (iconEx icon)
     elAttr "a" ("class" =: (unCssClass mdcListItemText_) <> "href" =: "") $ do
       elClass "span" (unCssClass mdcListItemTextPrimary_) (text title)
       elClass "span" (unCssClass mdcListItemTextSecondary_) (text desc)

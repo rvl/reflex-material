@@ -4,8 +4,8 @@ module Reflex.Material.List
   ( Img(..)
   , mdcList_
   , mdcListDense_
-  , mdcListItemStartDetail_
-  , mdcListItemEndDetail_
+  , mdcListItemGraphic_
+  , mdcListItemMeta_
   , mdcListAvatarList_
   , mdcListItem_
   , mdcListItemText_
@@ -32,11 +32,17 @@ mdcListItem_ = CssClass "mdc-list-item"
 mdcListDense_ :: CssClass
 mdcListDense_ = CssClass "mdc-list--dense"
 
-mdcListItemStartDetail_ :: CssClass
-mdcListItemStartDetail_ = CssClass "mdc-list-item__start-detail"
+-- The first tile in the row (in LTR languages, the first column of
+-- the list item). Typically an icon or image.
+-- Was previously start-detail.
+mdcListItemGraphic_ :: CssClass
+mdcListItemGraphic_ = CssClass "mdc-list-item__graphic"
 
-mdcListItemEndDetail_ :: CssClass
-mdcListItemEndDetail_ = CssClass "mdc-list-item__end-detail"
+-- The last tile in the row (in LTR languages, the last column of the
+-- list item). Typically small text, icon. or image.
+-- Was previously end-detail.
+mdcListItemMeta_ :: CssClass
+mdcListItemMeta_ = CssClass "mdc-list-item__end-detail"
 
 mdcListAvatarList_ :: CssClass
 mdcListAvatarList_ = CssClass "mdc-list--avatar-list"
