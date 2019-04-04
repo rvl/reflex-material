@@ -1,4 +1,4 @@
-module Textfield (textfieldEx) where
+module TextField (textFieldEx) where
 
 import Data.Monoid ((<>), mempty)
 import Data.Text (Text)
@@ -10,12 +10,12 @@ import Control.Monad.Fix (MonadFix)
 import Reflex.Dom
 
 import Reflex.Material.Checkbox
-import Reflex.Material.Textfield
+import Reflex.Material.TextField
 import Reflex.Material.Typography
 import Reflex.Material.Common
 
-textfieldEx :: (MaterialWidget t m, MonadFix m, MonadHold t m, PostBuild t m) => m ()
-textfieldEx = do
+textFieldEx :: (MaterialWidget t m, MonadFix m, MonadHold t m, PostBuild t m) => m ()
+textFieldEx = do
   title_ "TextFields"
   display1_ "Full Functionality JS Component (Floating Label, Validation, Autocomplete)"
 
@@ -23,7 +23,7 @@ textfieldEx = do
   rec
     divTheme dark rtl $ do
       let config = def & attributes .~ attrs
-      mdTextfield tf config "Email Address"
+      mdTextField tf config "Email Address"
       mdTextFieldHelperText config helper $
         text "Help Text (possibly validation message)"
 
@@ -47,12 +47,12 @@ textfieldEx = do
           "type" =: "password" <>
           "required" =: "" <>
           "pattern" =: ".{8,}" )
-    ti <- mdTextfield def pwConfig "Choose password"
+    ti <- mdTextField def pwConfig "Choose password"
     let err = ffor (_textInput_value ti) $ \v ->
           if T.length v < 8 then "Must be at least 8 characters long" else ""
     mdTextFieldHelperText pwConfig (constDyn (def & helpTextValidationMsg)) $ dynText err
 
-  display1_ "Multi-line Textfields"
+  display1_ "Multi-line TextFields"
   rec
     divTheme dark rtl $ do
       let cfg = textAreaConfig Nothing (Just 8) (Just 40) & over attributes (<> attrs)
@@ -65,11 +65,11 @@ textfieldEx = do
       required <- cbex 13 always "Required"
       return (dark, rtl, tfAttrs "multi-line" <$> disabled <*> required)
 
-  display1_ "Full-Width Textfields"
+  display1_ "Full-Width TextFields"
   rec
     divTheme dark (constDyn False) $ do
       let cfg1 = def & attributes .~ attrs & placeholder "Subject"
-      mdTextfield tf cfg1 ""
+      mdTextField tf cfg1 ""
       let cfg2 = textAreaConfig (Just "Message") (Just 8) (Just 40) & over attributes (<> attrs)
       mdTextFieldMulti tf cfg2 ""
       return ()
@@ -97,7 +97,7 @@ cbex i e t = _checkbox_value <$> el "div" field
     field = mdCheckboxField False (def & attributes .~ (attrs <$> e)) (text t)
     attrs e = "id" =: ("cb" <> tshow i) <> if e then mempty else "disabled" =: ""
 
-tfConfig :: Bool -> MdTextfield
+tfConfig :: Bool -> MdTextField
 tfConfig d = def & (if d then dense else id)
 
 tfAttrs :: Text -> Bool -> Bool -> Map Text Text

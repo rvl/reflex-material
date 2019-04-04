@@ -6,7 +6,7 @@ import Data.Monoid ((<>))
 import Reflex.Dom
 
 import Reflex.Material.Checkbox
-import Reflex.Material.Textfield
+import Reflex.Material.TextField
 import Reflex.Material.Radio
 import Reflex.Material.FormField
 import Reflex.Material.Select

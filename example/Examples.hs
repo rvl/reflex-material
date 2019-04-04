@@ -16,7 +16,7 @@ import Reflex.Material.Card
 import Reflex.Material.Common (MaterialWidget)
 import Reflex.Material.Drawer
 import Reflex.Material.List
-import Reflex.Material.Toolbar
+import Reflex.Material.TopAppBar
 import Reflex.Material.Types
 
 import Buttons
@@ -29,8 +29,8 @@ import Lists
 import Menu
 import Ripple
 import Select
-import Textfield
-import Toolbar
+import TextField
+import TopAppBar
 import Typography
 import Styles
 
@@ -72,9 +72,9 @@ examples = [ ("Button", "Raised and flat buttons", "button", Just buttonEx)
            , ("Snackbar", "Transient messages", "toast", Nothing)
            , ("Switch", "On off switches", "switch", Nothing)
            , ("Tabs", "Tabs with support for icon and text labels", "tabs", Nothing)
-           , ("Text field", "Single and multiline text fields", "text_field", Just textfieldEx)
+           , ("Text field", "Single and multiline text fields", "text_field", Just textFieldEx)
            , ("Theme", "Using primary and accent colors", "theme", Nothing)
-           , ("Toolbar", "Header and footers", "toolbar", Nothing)
+           , ("Top App Bar", "Header and footers", "toolbar", Nothing)
            , ("Typography", "Type hierarchy", "typography", Just typographyEx)
           ]
 
@@ -116,8 +116,8 @@ body_ :: forall t m.
   => m ()
 body_ = mdo
   titleDyn <- holdDyn Nothing titleEv
-  backEv <- toolbar titleDyn
-  titleEv <- elClass "div" (unCssClass $ CssClass "demo-content" <> mdcToolbarFixedAdjust_) $ do
+  backEv <- topAppBar titleDyn
+  titleEv <- elClass "div" (unCssClass $ CssClass "demo-content" <> mdcTopAppBarFixedAdjust_) $ do
     -- v <- drawer_ mdcPermanentDrawer_ $ drawerContent_ $ list_ "nav" mdcListTwoLine_ nav
     menuEv <- exampleMenu
     let menuEv' = leftmost [menuEv, (Nothing, blank) <$ backEv]

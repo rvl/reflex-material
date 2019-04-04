@@ -5,7 +5,7 @@
 
 module Reflex.Material.Framework
   ( attachRipple
-  , attachTextfield
+  , attachTextField
   , attachCheckbox
   , attachIconToggle
   , attachFormField
@@ -15,6 +15,7 @@ module Reflex.Material.Framework
   , attachMenuSurface
   , attachFloatingLabel
   , attachLineRipple
+  , attachTopAppBar
   , mdcAttach
   , mdcAttachInit
   , ComponentRef
@@ -59,8 +60,8 @@ attachLineRipple = mdcAttach "lineRipple" "MDCLineRipple"
 attachFloatingLabel :: MaterialWidget t m => Element EventResult (DomBuilderSpace m) t -> m ()
 attachFloatingLabel = mdcAttach "floatingLabel" "MDCFloatingLabel"
 
-attachTextfield :: MaterialWidget t m => Element EventResult (DomBuilderSpace m) t -> m ()
-attachTextfield = mdcAttach "textField" "MDCTextField"
+attachTextField :: MaterialWidget t m => Element EventResult (DomBuilderSpace m) t -> m ()
+attachTextField = mdcAttach "textField" "MDCTextField"
 
 attachIconToggle :: MaterialWidget t m => Element EventResult (DomBuilderSpace m) t -> m ()
 attachIconToggle = mdcAttach "iconToggle" "MDCIconToggle"
@@ -79,6 +80,9 @@ attachList = mdcAttach "list" "MDCList"
 
 attachMenuSurface :: MaterialWidget t m => Element EventResult (DomBuilderSpace m) t -> m ()
 attachMenuSurface = mdcAttach "menuSurface" "MDCMenuSurface"
+
+attachTopAppBar :: MaterialWidget t m => Element EventResult (DomBuilderSpace m) t -> m ()
+attachTopAppBar = mdcAttach "topAppBar" "MDCTopAppBar"
 
 ----------------------------------------------------------------------------
 

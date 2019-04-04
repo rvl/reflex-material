@@ -32,8 +32,8 @@ library
                      , Reflex.Material.Radio
                      , Reflex.Material.Select
                      , Reflex.Material.Svg
-                     , Reflex.Material.Textfield
-                     , Reflex.Material.Toolbar
+                     , Reflex.Material.TextField
+                     , Reflex.Material.TopAppBar
                      , Reflex.Material.Types
                      , Reflex.Material.Typography
   other-modules:       Reflex.Material.Util
@@ -78,8 +78,8 @@ executable reflex-material-example
                      , Select
                      , Menu
                      , Styles
-                     , Textfield
-                     , Toolbar
+                     , TextField
+                     , TopAppBar
                      , Typography
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   build-depends:       base >= 4.8 && < 5

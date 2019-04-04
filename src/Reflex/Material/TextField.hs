@@ -1,11 +1,11 @@
 {-# LANGUAGE RecordWildCards, ScopedTypeVariables, TupleSections #-}
 {-# LANGUAGE TypeFamilies #-}
 
-module Reflex.Material.Textfield
-  ( mdTextfield
+module Reflex.Material.TextField
+  ( mdTextField
   , mdTextFieldMulti
   , mdTextFieldHelperText
-  , MdTextfield(..)
+  , MdTextField(..)
   , MdFullwidth(..)
   , MdHasFullwidth(..)
   , MdHelperTextConfig(..)
@@ -26,7 +26,7 @@ import Control.Lens ((%~), (^.), over)
 import Reflex.Dom
 
 import Reflex.Material.Common
-import Reflex.Material.Framework (attachTextfield, attachLineRipple, attachFloatingLabel)
+import Reflex.Material.Framework (attachTextField, attachLineRipple, attachFloatingLabel)
 import Reflex.Material.Types
 import Reflex.Material.Util
 
@@ -46,62 +46,62 @@ instance (Reflex t, MdHasFullwidth a) => MdHasFullwidth (Dynamic t a) where
 
 ----------------------------------------------------------------------------
 
-data MdTextfield = MdTextfield
-    { _mdTextfield_size        :: Maybe MdSize
-    , _mdTextfield_disabled    :: Maybe MdDisabled
-    , _mdTextfield_density     :: Maybe MdDensity
-    -- , _mdTextfield_error       :: Maybe MdError
-    , _mdTextfield_dark        :: Maybe MdDark
-    , _mdTextfield_fullwidth   :: Maybe MdFullwidth
-    , _mdTextfield_custom      :: Maybe Text
+data MdTextField = MdTextField
+    { _mdTextField_size        :: Maybe MdSize
+    , _mdTextField_disabled    :: Maybe MdDisabled
+    , _mdTextField_density     :: Maybe MdDensity
+    -- , _mdTextField_error       :: Maybe MdError
+    , _mdTextField_dark        :: Maybe MdDark
+    , _mdTextField_fullwidth   :: Maybe MdFullwidth
+    , _mdTextField_custom      :: Maybe Text
     } deriving (Eq,Show)
 
-instance Default MdTextfield where
-  def = MdTextfield def def def def def def
+instance Default MdTextField where
+  def = MdTextField def def def def def def
 
-instance MdHasSize MdTextfield where
-  mdSetSize s i = i { _mdTextfield_size = Just s }
+instance MdHasSize MdTextField where
+  mdSetSize s i = i { _mdTextField_size = Just s }
 
-instance MdHasDisabled MdTextfield where
-  disabled i = i { _mdTextfield_disabled = Just MdDisabled }
+instance MdHasDisabled MdTextField where
+  disabled i = i { _mdTextField_disabled = Just MdDisabled }
 
-instance MdHasDensity MdTextfield where
-  mdSetDensity s i = i { _mdTextfield_density = Just s }
+instance MdHasDensity MdTextField where
+  mdSetDensity s i = i { _mdTextField_density = Just s }
 
-instance MdHasDark MdTextfield where
-  dark i = i { _mdTextfield_dark = Just MdDark }
+instance MdHasDark MdTextField where
+  dark i = i { _mdTextField_dark = Just MdDark }
 
-instance MdHasFullwidth MdTextfield where
-  fullwidth i = i { _mdTextfield_fullwidth = Just MdFullwidth }
+instance MdHasFullwidth MdTextField where
+  fullwidth i = i { _mdTextField_fullwidth = Just MdFullwidth }
 
-instance MdHasCustom MdTextfield where
-  custom s i = i { _mdTextfield_custom = addCustom s (_mdTextfield_custom i) }
+instance MdHasCustom MdTextField where
+  custom s i = i { _mdTextField_custom = addCustom s (_mdTextField_custom i) }
 
-mdTextfieldAttrs :: MdTextfield -> Text
-mdTextfieldAttrs MdTextfield{..} = T.unwords $ catMaybes
-    [ mdText <$> _mdTextfield_size
-    , mdText <$> _mdTextfield_disabled
-    , mdText <$> _mdTextfield_density
-    , mdText <$> _mdTextfield_dark
-    , _mdTextfield_custom
+mdTextFieldAttrs :: MdTextField -> Text
+mdTextFieldAttrs MdTextField{..} = T.unwords $ catMaybes
+    [ mdText <$> _mdTextField_size
+    , mdText <$> _mdTextField_disabled
+    , mdText <$> _mdTextField_density
+    , mdText <$> _mdTextField_dark
+    , _mdTextField_custom
     ]
 
 
 ----------------------------------------------------------------------------
 
-mdTextfieldClass :: Text
-mdTextfieldClass = "mdc-text-field"
+mdTextFieldClass :: Text
+mdTextFieldClass = "mdc-text-field"
 
 -- | Internal parts of the component are usually labeled with these
 -- css classes, but it doesn't seem to be consistent.
 tfPart :: [Text] -> Text
-tfPart ts = T.intercalate "__" (mdTextfieldClass:ts)
+tfPart ts = T.intercalate "__" (mdTextFieldClass:ts)
 
 -- | The component container element can receive special style
 -- classes.
 tfClass :: Text -> Text
-tfClass "" = mdTextfieldClass
-tfClass name = mdTextfieldClass <> "--" <> name
+tfClass "" = mdTextFieldClass
+tfClass name = mdTextFieldClass <> "--" <> name
 
 ----------------------------------------------------------------------------
 
@@ -116,31 +116,31 @@ mdFloatingLabel label attr = do
   (elm, _) <- elDynAttr' "label" labelAttr $ text label
   attachFloatingLabel elm
 
-mdTextfield :: (MaterialWidget t m, PostBuild t m)
-            => Dynamic t MdTextfield
+mdTextField :: (MaterialWidget t m, PostBuild t m)
+            => Dynamic t MdTextField
             -> TextInputConfig t
             -> Text
             -> m (TextInput t)
-mdTextfield md config label = do
+mdTextField md config label = do
   (el, i) <- mdTextFieldContainer False md $ do
     i <- textInput (mdTextInputConfig config)
     mdFloatingLabel label (config ^. attributes)
     mdLineRipple
     return i
-  attachTextfield el
+  attachTextField el
   return i
 
 mdTextFieldContainer
   :: (DomBuilder t m, DomBuilderSpace m ~ GhcjsDomSpace, PostBuild t m)
-  => Bool -> Dynamic t MdTextfield -> m a -> m (El t, a)
+  => Bool -> Dynamic t MdTextField -> m a -> m (El t, a)
 mdTextFieldContainer multi dynConfig = elDynAttr' "div" (clsAttr <$> dynConfig)
   where
     -- note that the mdc --upgraded style needs to be preserved
-    clsAttr MdTextfield{..} = "class" =: cls [ Just ""
+    clsAttr MdTextField{..} = "class" =: cls [ Just ""
                                              , Just "upgraded"
                                              , optional multi (Just "textarea")
-                                             , mdText <$> _mdTextfield_density
-                                             , mdText <$> _mdTextfield_fullwidth
+                                             , mdText <$> _mdTextField_density
+                                             , mdText <$> _mdTextField_fullwidth
                                              ]
     cls = T.unwords . map tfClass . catMaybes
 
@@ -161,7 +161,7 @@ helpTextValidationMsg :: MdHelperTextConfig -> MdHelperTextConfig
 helpTextValidationMsg c = c { _mdHelperText_validationMsg = True }
 
 mdTextFieldHelperLine :: DomBuilder t m => m a -> m a
-mdTextFieldHelperLine = elClass "div" (mdTextfieldClass <> "-helper-line")
+mdTextFieldHelperLine = elClass "div" (mdTextFieldClass <> "-helper-line")
 mdTextFieldHelperText
   :: (DomBuilder t m, DomBuilderSpace m ~ GhcjsDomSpace, PostBuild t m)
   => TextInputConfig t
@@ -175,7 +175,7 @@ mdTextFieldHelperText input config = mdTextFieldHelperLine .
       "class" =: T.unwords (cls _mdHelperText_persistent _mdHelperText_validationMsg) <>
       optional (not _mdHelperText_shown) ("style" =: "display: none;" <> "aria-hidden" =: "true")
     cls p v = map htClass ("" : optional p ["persistent"] ++ optional v ["validation-msg"])
-    htClass "" = mdTextfieldClass <> "-helper-text"
+    htClass "" = mdTextFieldClass <> "-helper-text"
     htClass s = htClass "" <> "--" <> s
     -- fixme: need to instantiate javascript?
 
@@ -198,7 +198,7 @@ tfPlaceholder = M.findWithDefault "" "placeholder"
 
 mdTextFieldMulti
   :: (MaterialWidget t m, PostBuild t m)
-  => Dynamic t MdTextfield
+  => Dynamic t MdTextField
   -> TextAreaConfig t
   -> Text
   -> m (TextArea t)
@@ -208,7 +208,7 @@ mdTextFieldMulti md config label = do
     mdFloatingLabel label (config ^. attributes)
     mdLineRipple
     return i
-  attachTextfield el
+  attachTextField el
   return i
 
 -- placeholder :: (Reflex t, HasAttributes (cfg t)) => Text -> cfg t -> cfg t
