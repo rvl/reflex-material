@@ -1,6 +1,7 @@
 {-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE LambdaCase #-}
 
 module Reflex.Material.Fab
   ( mdFab
@@ -8,6 +9,8 @@ module Reflex.Material.Fab
   , MdFab(..)
   , MdBackground
   , MdHasBackground(..)
+  , MdExtended(..)
+  , MdHasExtended(..)
   ) where
 
 import Data.Monoid ((<>))
@@ -38,10 +41,25 @@ class MdHasBackground a where
 instance (Reflex t, MdHasBackground a) => MdHasBackground (Dynamic t a) where
   plain = fmap plain
 
+----------------------------------------------------------------------------
+
+data MdExtended = MdExtended
+  deriving (Eq,Ord,Read,Show,Enum,Bounded)
+
+instance MdClassText MdExtended where
+  mdText MdExtended = "extended"
+
+class MdHasExtended a where
+  mdExtended :: a -> a
+
+instance (Reflex t, MdHasExtended a) => MdHasExtended (Dynamic t a) where
+  mdExtended = fmap mdExtended
+
 ------------------------------------------------------------------------------
 data MdFab = MdFab
     { _mdFab_background :: Maybe MdBackground
     , _mdFab_size       :: Maybe MdSize
+    , _mdFab_extended   :: Maybe MdExtended
     , _mdFab_custom     :: Maybe Text
     , _mdFab_attributes :: Map Text Text
     }
@@ -49,10 +67,13 @@ data MdFab = MdFab
 makeLenses ''MdFab
 
 instance Default MdFab where
-  def = MdFab def def def def
+  def = MdFab def def def def def
 
 instance MdHasSize MdFab where
   mdSetSize c b = b { _mdFab_size = Just c }
+
+instance MdHasExtended MdFab where
+  mdExtended b = b { _mdFab_extended = Just MdExtended }
 
 instance MdHasBackground MdFab where
   plain b = b { _mdFab_background = Just MdPlain }
@@ -73,6 +94,7 @@ mdFabClass MdFab{..} = T.unwords ("mdc-fab":cs) <> custom
     cs = map ("mdc-fab--" <>) $ catMaybes
          [ mdText <$> _mdFab_background
          , mdText <$> _mdFab_size
+         , mdText <$> _mdFab_extended
          ]
     custom = fromMaybe "" _mdFab_custom
 
@@ -92,8 +114,11 @@ mdFabIcon :: MaterialWidget t m
           -> Text
           -> m (Event t ())
 mdFabIcon fabDyn icon label = do
-  (e, _) <- elDynAttr' "button" (mdFabAttrs " material-icons" label <$> fabDyn) $
-            elAttr "span" ("class" =: "mdc-fab__icon") $ text icon
+  (e, _) <- elDynAttr' "button" (mdFabAttrs "" label <$> fabDyn) $ do
+    elClass "span" "material-icons mdc-fab__icon" $ text icon
+    dyn $ ffor (_mdFab_extended <$> fabDyn) $ \case
+      Just MdExtended -> elClass "span" "mdc-fab__label" $ text label
+      Nothing -> pure ()
   attachRipple e
   return $ domEvent Click e
 

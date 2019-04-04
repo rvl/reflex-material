@@ -33,6 +33,7 @@ fabs = do
   mdFabIcon (def & mini) "favorite_border" "Favorite"
   mdFabIcon (def & plain) "favorite_border" "Favorite"
   mdFabIcon (def & mini & plain) "favorite_border" "Favorite"
+  mdFabIcon (def & mdExtended) "favorite_border" "Favorite"
   return ()
 
 pencilSvg :: SvgWidget t m => m ()
