@@ -30,9 +30,9 @@ data Style
 
 defaultStyle :: Style
 defaultStyle =
-  Style [ "css/icons.css" ]
-        [ "css/fonts.css" ]
-        [ "css/material-components-web.min.css" ]
+  Style [ "static/css/icons.css" ]
+        [ "static/css/fonts.css" ]
+        [ "static/css/material-components-web.min.css" ]
 
 
 mobile_ :: DomBuilder t m => m ()
@@ -82,4 +82,4 @@ main_ t child =
     pure r
 
 mdcScript :: DomBuilder t m => m ()
-mdcScript = script_ "js/material-components-web.min.js"
+mdcScript = script_ "static/js/material-components-web.min.js"

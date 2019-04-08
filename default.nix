@@ -1,26 +1,28 @@
 { system ? builtins.currentSystem # TODO: Get rid of this system cruft
 , iosSdkVersion ? "10.2"
 }:
-with import ./.obelisk/impl { inherit system iosSdkVersion; };
+# with import ./.obelisk/impl {
+with import /home/rodney/src/obsidiansystems/obelisk {
+  inherit system iosSdkVersion;
+  # You must accept the Android Software Development Kit License Agreement at
+  # https://developer.android.com/studio/terms in order to build Android apps.
+  # Uncomment and set this to `true` to indicate your acceptance:
+  config.android_sdk.accept_license = true;
+};
 let
   pkgs = reflex-platform.nixpkgs;
 
   ob = project ./. ({ ... }: {
-    android.applicationId = "rvl.reflexmaterial.examples";
-    android.displayName = "Reflex Material Catalogue";
-    ios.bundleIdentifier = "rvl.reflexmaterial.examples";
-    ios.bundleName = "Reflex Material Catalogue";
+    android.applicationId = "rvl.reflexmaterial.example";
+    android.displayName = "Reflex Material";
+    ios.bundleIdentifier = "rvl.reflexmaterial.example";
+    ios.bundleName = "Reflex Material";
 
-    withHoogle = true;
+    # withHoogle = true;
 
     packages = {
-      reflex-material = pkgs.lib.cleanSource ./reflex-material;
+      reflex-material = ./reflex-material;
     };
-
-    # overrides = self: super: with pkgs.haskell.lib; {
-    # };
-
-    # shellToolOverrides = ghc: super: { };
 
     staticFiles = pkgs.runCommand "static" {} ''
       mkdir -p $out/{js,css,fonts,images}
@@ -39,12 +41,18 @@ let
       cp -Rv ${./static/images}/* $out/images
       cp -Rv ${./static/css}/* $out/css
     '';
+
   });
 
-  mkShell = haskellPackages: addNodeModules (haskellPackages.shellFor {
-    packages = p: [ p.reflex-material ];
-    withHoogle = true;
-  });
+  # GHCJS compile fixes
+  ghcjsBuildFixes = self: super: with pkgs.haskell.lib; {
+    Glob = dontCheck super.Glob; # tests failing on ghcjs
+    SHA1 = dontCheck super.SHA1; # tests failing on ghcjs
+    http-date = doJailbreak (dontCheck super.http-date); # doctest
+    iproute = doJailbreak (dontCheck super.iproute); # doctest
+    unix-time = doJailbreak (dontCheck super.unix-time); # doctest
+    bsb-http-chunked = doJailbreak (dontCheck super.unix-time); # doctest
+  };
 
   nodePackages = (import ./mdc.nix { inherit pkgs; }).package.override {
     src = pkgs.lib.cleanSourceWith {
@@ -58,14 +66,6 @@ let
           --composition mdc.nix --node-env node-env.nix
     '';
   };
-
-  addNodeModules = shellDrv: shellDrv.overrideAttrs (oldAttrs: {
-    # Provide NODE_MODULES in the nix-shell.
-    # This will be used by the shake build script.
-    shellHook = (oldAttrs.shellHook or "") + ''
-      export NODE_MODULES=${nodePackages}/lib/node_modules/reflex-material/node_modules
-    '';
-  });
 
 in
   ob // {

@@ -48,10 +48,10 @@ listEx = do
   title_ "List Avatar"
   el "div" $ list_ "ul" mdcListAvatarList_ $ do
     item_ "li" mempty $ do
-      img_ (Img "images/Brian.png" 56 56 "Brian") mdcListItemGraphic_
+      img_ (Img "static/imagesBrian.png" 56 56 "Brian") mdcListItemGraphic_
       text "Brian"
     item_ "li" mempty $ do
-      img_ (Img "images/Chris.png" 56 56 "Chris") mdcListItemGraphic_
+      img_ (Img "static/imagesChris.png" 56 56 "Chris") mdcListItemGraphic_
       text "Chris"
 
   display3_ "List End Detail"
@@ -68,11 +68,11 @@ listEx = do
   title_ "End Detail Avatar"
   el "div" $ list_ "ul" mdcListAvatarList_ $ do
     item_ "li" mempty $ do
-      img_ (Img "images/Brian.png" 56 56 "Brian") mdcListItemGraphic_
+      img_ (Img "static/imagesBrian.png" 56 56 "Brian") mdcListItemGraphic_
       text "Brian"
       elClass "span" (unCssClass $ CssClass "grey-bg" <> mdcListItemMeta_) $ pure ()
     item_ "li" mempty $ do
-      img_ (Img "images/Chris.png" 56 56 "Chris") mdcListItemGraphic_
+      img_ (Img "static/imagesChris.png" 56 56 "Chris") mdcListItemGraphic_
       text "Chris"
       elClass "span" (unCssClass $ CssClass "grey-bg" <> mdcListItemMeta_) $ pure ()
 

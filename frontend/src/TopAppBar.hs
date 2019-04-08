@@ -15,7 +15,7 @@ topAppBar = topAppBar_ Fixed AlignStart Nothing . (>>= switchHoldPromptly never)
 topAppBarContent :: DomBuilder t m => Maybe Text -> m (Event t ())
 topAppBarContent Nothing = do
   elClass "span" "catalog-logo mdc-top-app-bar__icon--menu" $
-    elAttr "img" ("src" =: "images/ic_component_24px_white.svg") blank
+    elAttr "img" ("src" =: "static/images/ic_component_24px_white.svg") blank
   topAppBarTitle_ "Reflex-Material Catalog"
   pure never
 topAppBarContent (Just text) = do

@@ -52,7 +52,7 @@ frontend = Frontend
       styles_ defaultStyle
       mdcScript
       el "style" (text exampleCss)
-      stylesheet_ "css/example.css"
+      stylesheet_ (static @"css/example.css")
 
   , _frontend_body = prerender_ (text "Loading...") $ mdo
       titleDyn <- holdDyn Nothing titleEv
@@ -133,7 +133,8 @@ exampleBtn title desc icon todo = do
   mdLinkClickEvent e
 
 iconEx name = elAttr "img" ("class" =: "catalog-component-icon" <> "src" =: src) blank
-  where src = "images/ic_" <> name <> "_24px.svg"
+  where src = "static/images/ic_" <> name <> "_24px.svg"
 
 todoEx :: DomBuilder t m => m ()
 todoEx = text "Not implemented yet!"
+

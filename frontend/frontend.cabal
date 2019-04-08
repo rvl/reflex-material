@@ -9,18 +9,17 @@ library
                , common
                , obelisk-frontend
                , obelisk-route
+               , reflex-dom
                , obelisk-generated-static
                , text
-               , bytestring
-               , containers
-               , lens
-               , clay
-               , reflex
-               , reflex-dom
-               , reflex-dom-core
+
                , reflex-material
+               , clay
+               , lens
+               , containers
                , jsaddle
                , jsaddle-dom
+               , reflex-dom-core
   exposed-modules:
     Frontend
   other-modules:
@@ -56,11 +55,7 @@ executable frontend
                , reflex-dom
                , obelisk-generated-static
                , frontend
-               , reflex-material
   --TODO: Make these ghc-options optional
   ghc-options: -threaded
   if os(darwin)
      ghc-options: -dynamic
-  if impl(ghcjs)
-    ghc-options:       -dedupe
-    cpp-options:       -DGHCJS_BROWSER
