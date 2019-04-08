@@ -15,8 +15,8 @@ import Data.Map (Map)
 import Control.Monad (void)
 
 import Reflex.Dom
-import qualified GHCJS.DOM.EventM as DOM
-import           GHCJS.DOM.Types (MonadJSM(..))
+import qualified JSDOM.EventM as DOM
+import           JSDOM.Types (MonadJSM(..))
 
 import Reflex.Material.Common
 import Reflex.Material.Framework (attachRipple)

@@ -1,14 +1,23 @@
-{-# LANGUAGE OverloadedStrings, GADTs, ExistentialQuantification #-}
-
-module Examples (head_, body_) where
+{-# LANGUAGE DataKinds #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TypeApplications #-}
+module Frontend where
 
 import Data.Monoid ((<>))
 import Data.Text (Text)
+import qualified Data.Text as T
 import Control.Monad (forM, join)
 import Data.Maybe (fromMaybe, isNothing)
 import Control.Monad.Fix (MonadFix)
 
-import Reflex.Dom
+import Obelisk.Frontend
+import Obelisk.Route
+import Reflex.Dom.Core
+
+
+import Common.Api
+import Common.Route
+import Obelisk.Generated.Static
 
 import Reflex.Material.Basic
 import Reflex.Material.Button
@@ -34,14 +43,29 @@ import TopAppBar
 import Typography
 import Styles
 
-head_ :: DomBuilder t m => m ()
-head_ = do
-  el "title" $ text "Reflex-Material Catalog"
-  mobile_
-  styles_ defaultStyle
-  mdcScript
-  el "style" (text exampleCss)
-  stylesheet_ "css/example.css"
+
+frontend :: Frontend (R FrontendRoute)
+frontend = Frontend
+  { _frontend_head = do
+      el "title" $ text "Reflex-Material Catalog"
+      mobile_
+      styles_ defaultStyle
+      mdcScript
+      el "style" (text exampleCss)
+      stylesheet_ "css/example.css"
+
+  , _frontend_body = prerender_ (text "Loading...") $ mdo
+      titleDyn <- holdDyn Nothing titleEv
+      backEv <- topAppBar titleDyn
+      titleEv <- elClass "div" (unCssClass $ CssClass "demo-content" <> mdcTopAppBarFixedAdjust_) $ do
+        -- v <- drawer_ mdcPermanentDrawer_ $ drawerContent_ $ list_ "nav" mdcListTwoLine_ nav
+        menuEv <- exampleMenu
+        let menuEv' = leftmost [menuEv, (Nothing, blank) <$ backEv]
+        main_ (CssClass "demo-main") $ do
+          widgetHold blank (snd <$> menuEv')
+        pure (fst <$> menuEv')
+      pure ()
+  }
 
 examples :: forall t m.
   (MaterialWidget t m
@@ -110,21 +134,6 @@ exampleBtn title desc icon todo = do
 
 iconEx name = elAttr "img" ("class" =: "catalog-component-icon" <> "src" =: src) blank
   where src = "images/ic_" <> name <> "_24px.svg"
-
-body_ :: forall t m.
-  (MaterialWidget t m, MonadHold t m, MonadFix m, PostBuild t m, TriggerEvent t m)
-  => m ()
-body_ = mdo
-  titleDyn <- holdDyn Nothing titleEv
-  backEv <- topAppBar titleDyn
-  titleEv <- elClass "div" (unCssClass $ CssClass "demo-content" <> mdcTopAppBarFixedAdjust_) $ do
-    -- v <- drawer_ mdcPermanentDrawer_ $ drawerContent_ $ list_ "nav" mdcListTwoLine_ nav
-    menuEv <- exampleMenu
-    let menuEv' = leftmost [menuEv, (Nothing, blank) <$ backEv]
-    main_ (CssClass "demo-main") $ do
-      widgetHold blank (snd <$> menuEv')
-    pure (fst <$> menuEv')
-  pure ()
 
 todoEx :: DomBuilder t m => m ()
 todoEx = text "Not implemented yet!"

@@ -30,9 +30,9 @@ import Control.Monad.IO.Class (liftIO)
 
 import qualified Data.JSString as JSString
 import Language.Javascript.JSaddle (JSVal, js, js0, js1, js2, js3, jss, jsg, fun, function, JSCallAsFunction, isTruthy, jsUndefined, ghcjsPure, strictEqual, setProp, toJSBool, valToObject, Object, toJSVal, getProp, fromJSValUnchecked, (!), (!!), MakeArgs, jsf, jsNull)
-import qualified GHCJS.DOM.Types as DOM
-import GHCJS.DOM.Types (JSM, MonadJSM(..), liftJSM)
-import GHCJS.DOM.Element as DOM (getElementsByTagName)
+import qualified JSDOM.Types as DOM
+import JSDOM.Types (JSM, MonadJSM(..), liftJSM)
+import JSDOM.Element as DOM (getElementsByTagName)
 
 import Reflex.Dom.Core
 

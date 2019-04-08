@@ -13,7 +13,7 @@ import Data.Text (Text)
 import qualified Data.Text as T
 
 import Reflex.Dom
-import GHCJS.DOM.Types (MonadJSM)
+import JSDOM.Types (MonadJSM)
 
 -- | Type constraints for adding material elements.
 type MaterialWidget t m =

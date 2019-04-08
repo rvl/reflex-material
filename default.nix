@@ -1,28 +1,45 @@
-{ pkgs ? reflex-platform.nixpkgs
-, reflex-platform ? import reflex-platform-src {}
-, reflex-platform-src ? ./reflex-platform
+{ system ? builtins.currentSystem # TODO: Get rid of this system cruft
+, iosSdkVersion ? "10.2"
 }:
-
+with import ./.obelisk/impl { inherit system iosSdkVersion; };
 let
-  # Add this project to the haskell package set
-  project = self: super: {
-    reflex-material = self.callPackage ./reflex-material.nix {
-      src = pkgs.lib.cleanSource ./.;
+  pkgs = reflex-platform.nixpkgs;
+
+  ob = project ./. ({ ... }: {
+    android.applicationId = "rvl.reflexmaterial.examples";
+    android.displayName = "Reflex Material Catalogue";
+    ios.bundleIdentifier = "rvl.reflexmaterial.examples";
+    ios.bundleName = "Reflex Material Catalogue";
+
+    withHoogle = true;
+
+    packages = {
+      reflex-material = pkgs.lib.cleanSource ./reflex-material;
     };
-  };
 
-  # GHCJS compile fixes
-  buildFixes = self: super: with pkgs.haskell.lib; {
-    Glob = dontCheck super.Glob; # tests failing on ghcjs
-    SHA1 = dontCheck super.SHA1; # tests failing on ghcjs
-    http-date = doJailbreak (dontCheck super.http-date); # doctest
-    iproute = doJailbreak (dontCheck super.iproute); # doctest
-    unix-time = doJailbreak (dontCheck super.unix-time); # doctest
-    bsb-http-chunked = doJailbreak (dontCheck super.unix-time); # doctest
-  };
+    # overrides = self: super: with pkgs.haskell.lib; {
+    # };
 
-  ghc = reflex-platform.ghc.extend project;
-  ghcjs = (reflex-platform.ghcjs.extend project).extend buildFixes;
+    # shellToolOverrides = ghc: super: { };
+
+    staticFiles = pkgs.runCommand "static" {} ''
+      mkdir -p $out/{js,css,fonts,images}
+      cd ${nodePackages}/lib/node_modules/reflex-material/node_modules
+
+      cd material-components-web/dist
+      cp material-components-web.min.js* $out/js
+      cp material-components-web.min.css* $out/css
+      cd ../..
+
+      cp material-design-icons/iconfont/material-icons.css $out/css
+      cp roboto-fontface/css/roboto/roboto-fontface.css $out/css
+      cp roboto-fontface/fonts/{roboto,roboto-condensed,roboto-slab}/* $out/fonts
+      cp material-design-icons/iconfont/MaterialIcons-Regular.* $out/fonts
+
+      cp -Rv ${./static/images}/* $out/images
+      cp -Rv ${./static/css}/* $out/css
+    '';
+  });
 
   mkShell = haskellPackages: addNodeModules (haskellPackages.shellFor {
     packages = p: [ p.reflex-material ];
@@ -50,14 +67,7 @@ let
     '';
   });
 
-in {
-  inherit ghc ghcjs;
-
-  shells = {
-    ghc = mkShell ghc;
-    ghcjs = mkShell ghcjs;
-  };
-
-  inherit reflex-platform pkgs;
-  inherit nodePackages;
-}
+in
+  ob // {
+    inherit nodePackages;
+  }
