@@ -1,12 +1,13 @@
+{-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TypeApplications #-}
+{-# LANGUAGE RecursiveDo #-}
 module Frontend where
 
 import Data.Monoid ((<>))
 import Data.Text (Text)
-import qualified Data.Text as T
-import Control.Monad (forM, join)
+import Control.Monad (forM, void)
 import Data.Maybe (fromMaybe, isNothing)
 import Control.Monad.Fix (MonadFix)
 
@@ -14,8 +15,6 @@ import Obelisk.Frontend
 import Obelisk.Route
 import Reflex.Dom.Core
 
-
-import Common.Api
 import Common.Route
 import Obelisk.Generated.Static
 
@@ -55,13 +54,16 @@ frontend = Frontend
       stylesheet_ (static @"css/example.css")
 
   , _frontend_body = prerender_ (text "Loading...") $ mdo
+       -- fixme: works around a prerender bug
+      styles_ defaultStyle
+
       titleDyn <- holdDyn Nothing titleEv
       backEv <- topAppBar titleDyn
       titleEv <- elClass "div" (unCssClass $ CssClass "demo-content" <> mdcTopAppBarFixedAdjust_) $ do
         -- v <- drawer_ mdcPermanentDrawer_ $ drawerContent_ $ list_ "nav" mdcListTwoLine_ nav
         menuEv <- exampleMenu
         let menuEv' = leftmost [menuEv, (Nothing, blank) <$ backEv]
-        main_ (CssClass "demo-main") $ do
+        void $ main_ (CssClass "demo-main") $
           widgetHold blank (snd <$> menuEv')
         pure (fst <$> menuEv')
       pure ()
@@ -137,4 +139,3 @@ iconEx name = elAttr "img" ("class" =: "catalog-component-icon" <> "src" =: src)
 
 todoEx :: DomBuilder t m => m ()
 todoEx = text "Not implemented yet!"
-
